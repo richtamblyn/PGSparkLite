@@ -59,13 +59,16 @@ def callback():
     if 'ConnectionLost' in data:
         amp.connected = False
         socketio.emit('connection-lost', {'url': url_for('connect')})
+        return 'ok'
     
     if 'Connected' in data:
         if data['Connected']:            
             socketio.emit('connection-message', {'message':'Retrieving Amp configuration...'})
             amp.initialise()
+            return 'ok'
         else:
             socketio.emit('connection-message', {'message':'Connection failed.'})
+            return 'ok'
 
     if 'PresetOneCorrupt' in data:
         amp.connected = False
@@ -73,12 +76,14 @@ def callback():
         'To resolve this, manually change to preset one on the amp, set all dials to zero and store the preset.'
         'Power cycle the amp, restart PGSparkLite server and try again.')
         socketio.emit('connection-message', {'message': message })
+        return 'ok'
 
     # Preset button changed
     if 'NewPreset' in data:    
         preset = data['NewPreset']
         socketio.emit('update-preset', {'value': preset})                
         amp.request_preset(preset)
+        return 'ok'
 
     # Parse inbound preset changes
     if 'PresetNumber' in data:                    
@@ -95,6 +100,7 @@ def callback():
             # Load the preset configuration into memory and reload the UI
             config = SparkDevices(data)
             socketio.emit('connection-success', {'url': url_for('index')})
+            return 'ok'
     
     # Change of amp
     if 'OldEffect' in data:  
@@ -106,7 +112,8 @@ def callback():
         new_effect = get_js_effect_name(data['NewEffect'])
 
         socketio.emit('update-effect',{'old_effect': old_effect, 'effect_type': 'AMP', 'new_effect': new_effect})    
-        config.update_config(old_effect, 'change_effect', new_effect)    
+        config.update_config(old_effect, 'change_effect', new_effect)  
+        return 'ok'  
 
     # Effect / Amp changes
     if 'Effect' in data:        
