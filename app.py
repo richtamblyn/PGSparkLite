@@ -67,6 +67,13 @@ def callback():
         else:
             socketio.emit('connection-message', {'message':'Connection failed.'})
 
+    if 'PresetOneCorrupt' in data:
+        amp.connected = False
+        message = ('Preset one cannot be read correctly. ' 
+        'To resolve this, manually change to preset one on the amp, set all dials to zero and store the preset.'
+        'Power cycle the amp, restart PGSparkLite server and try again.')
+        socketio.emit('connection-message', {'message': message })
+
     # Preset button changed
     if 'NewPreset' in data:    
         preset = data['NewPreset']

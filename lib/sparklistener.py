@@ -20,7 +20,12 @@ def listen(reader, comms, url):
                 continue
 
             requests.post(url, json = reader.python)
-        except:
+        except AttributeError as att_err:
+            print(att_err)
+            requests.post(url, json = '{"PresetOneCorrupt": True}')
+            break
+        except Exception as err:
+            print(err)
             requests.post(url, json = '{"ConnectionLost": True}')
             break
         
