@@ -9,14 +9,13 @@ Written using the Flask framework and SocketIO, the intended target for this cod
 This project was developed on a Raspberry Pi 4 (4GB RAM version) using the awesome Microsoft Code IDE. Launch configuration is included within the repository to allow you to run and debug the project locally. 
 
 ### Dependencies
-
 - Python 3.7.3 32-Bit
 - Flask 1.0.2 
+- Flask-SocketIO 5.0.1
 - PySerial 3.4
 - Python3-bluez
 
 ### External Dependencies
-
 This project uses CDN servers to retrieve JQuery 3.5.1 and SocketIO 3.0.4 JavaScript libraries. If you wish to download the libraries separately to remove the requirement for an external internet connection, the references can then be modified in the /templates/layout.html file.
 
 ## Future Development Ideas
