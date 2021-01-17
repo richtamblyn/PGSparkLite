@@ -35,16 +35,14 @@
 {% endfor %}
 {% endmacro %}
 
-{% macro effect_container(type, effect, effect_list, onoff, selector) %}
+{% macro effect_container(type, effect, effect_list, selector) %}
 <div class="effect_header">
     <div class="effect_title">
         {{ type }}
-    </div>
-    {% if onoff %}
+    </div>    
     <div class="effect_onoff">
         {{ onoff_buttons(effect["Name"], effect["OnOff"]) }}
-    </div>
-    {% endif %}
+    </div>    
 </div>
 <div class="effect_content">
     {% if selector %}

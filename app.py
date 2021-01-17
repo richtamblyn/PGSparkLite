@@ -145,8 +145,7 @@ def change_effect():
     config.update_config(old_effect, 'change_effect', new_effect)
     
     current_effect = None
-    effect_list = None
-    on_off = True
+    effect_list = None    
     
     if effect_type == 'COMP':
         current_effect = config.comp
@@ -156,8 +155,7 @@ def change_effect():
         effect_list = config.drives
     elif effect_type == 'AMP':
         current_effect = config.amp
-        effect_list = config.amps
-        on_off = False
+        effect_list = config.amps        
     elif effect_type == 'MODULATION':
         current_effect = config.modulation
         effect_list = config.modulations
@@ -174,8 +172,7 @@ def change_effect():
     return render_template('effect.html', 
                             effect_type = effect_type, 
                             effect = current_effect, 
-                            effect_list = effect_list, 
-                            on_off = on_off, 
+                            effect_list = effect_list,                             
                             selector = True)
 
 @app.route('/changeeffectparameter', methods=['POST'])
