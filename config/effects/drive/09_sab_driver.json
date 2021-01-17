@@ -1,0 +1,12 @@
+{
+    "SABdriver":{
+        "name":"SAB Driver",    
+        "effect": "drive",
+        "parameters": [
+            {"name":"Volume", "id":0},
+            {"name":"Tone", "id": 1},
+            {"name":"HP/LP", "id": 2, "switch": "true"},
+            {"name":"Drive", "id": 3}
+        ]
+    }    
+}

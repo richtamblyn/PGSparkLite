@@ -1,0 +1,10 @@
+{
+    "Compressor":{
+        "name":"Red Comp",    
+        "effect": "comp",
+        "parameters": [
+            {"name":"Output", "id": 0},
+            {"name":"Sensitivity", "id": 1}       
+        ]
+    }    
+}

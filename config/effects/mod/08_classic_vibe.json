@@ -1,0 +1,10 @@
+{
+    "MiniVibe":{
+        "name":"Mini Vibe",    
+        "effect": "modulation",
+        "parameters": [
+            {"name":"Speed", "id": 0},
+            {"name":"Intensity", "id": 1}        
+        ]
+    }    
+}

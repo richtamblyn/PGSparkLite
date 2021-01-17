@@ -1,0 +1,11 @@
+{
+    "Flanger":{
+        "name":"Flanger",    
+        "effect": "modulation",
+        "parameters": [
+            {"name":"Rate", "id": 0},
+            {"name":"Mix", "id": 1},
+            {"name":"Depth", "id": 2}        
+        ]
+    }    
+}

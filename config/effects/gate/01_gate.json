@@ -1,0 +1,10 @@
+{
+    "bias_noisegate" : {
+        "name":"Gate",    
+        "effect": "gate",
+        "parameters": [
+            {"name":"Threshold", "id": 0},
+            {"name":"Decay", "id": 1}        
+        ]
+    }    
+}

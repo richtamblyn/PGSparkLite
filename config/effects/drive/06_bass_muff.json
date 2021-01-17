@@ -1,0 +1,11 @@
+{
+    "BassBigMuff":{
+        "name":"Bass Muff",    
+        "effect": "drive",    
+        "parameters": [
+            {"name":"Sustain", "id":0},
+            {"name":"Tone", "id": 1},
+            {"name":"Volume", "id": 2}        
+        ]
+    }    
+}

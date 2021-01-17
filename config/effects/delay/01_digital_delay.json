@@ -1,0 +1,13 @@
+{
+    "DelayMono":{
+        "name":"Digital Delay",    
+        "effect": "delay",
+        "parameters": [
+            {"name":"E.Level", "id": 0},
+            {"name":"F.Back", "id": 1},
+            {"name":"D.Time", "id": 2},
+            {"name":"Mode", "id": 3},
+            {"name":"BPM", "id": 4, "switch": "true"}
+        ]
+    }    
+}

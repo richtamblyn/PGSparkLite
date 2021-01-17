@@ -1,0 +1,11 @@
+{
+    "MaestroBassmaster":{
+        "name":"Bassmaster",    
+        "effect": "drive",    
+        "parameters": [
+            {"name":"Brass Vol", "id":0},
+            {"name":"Sensitivty", "id": 1},
+            {"name":"Bass Vol", "id": 2}        
+        ]
+    }    
+}

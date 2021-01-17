@@ -1,0 +1,10 @@
+{
+    "Cloner":{
+        "name":"Cloner Chorus",    
+        "effect": "modulation",
+        "parameters": [
+            {"name":"Rate", "id": 0},
+            {"name":"Depth", "id": 1, "switch": "true"}
+        ]
+    }    
+}

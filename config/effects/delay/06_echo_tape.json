@@ -1,0 +1,13 @@
+{
+    "DelayRe201":{
+        "name":"Echo Tape",    
+        "effect": "delay",
+        "parameters": [
+            {"name":"Sustain", "id": 0},
+            {"name":"Volume", "id": 1},
+            {"name":"Tone", "id": 2},
+            {"name":"Short -> Long", "id": 3},
+            {"name":"BPM", "id": 4, "switch": "true"}
+        ]
+    }    
+}

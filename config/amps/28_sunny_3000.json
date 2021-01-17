@@ -1,0 +1,13 @@
+{
+    "Sunny3000":{
+        "name":"Sunny 3000",    
+        "effect": "amp",
+        "parameters": [
+            {"name":"Gain", "id": 0},
+            {"name":"Bass", "id": 3},
+            {"name":"Middle", "id": 2},
+            {"name":"Treble", "id": 1},
+            {"name":"Master", "id": 4}
+        ]
+    }    
+}

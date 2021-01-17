@@ -1,0 +1,10 @@
+{
+    "Vibrato01":{
+        "name":"Vibrato",    
+        "effect": "modulation",
+        "parameters": [
+            {"name":"Speed", "id": 0},
+            {"name":"Depth", "id": 1}        
+        ]
+    }    
+}

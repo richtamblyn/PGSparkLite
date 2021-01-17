@@ -1,0 +1,11 @@
+{
+    "ProCoRat":{
+        "name":"Black Op",    
+        "effect": "drive",
+        "parameters": [
+            {"name":"Distortion", "id":0},
+            {"name":"Filter", "id": 1},
+            {"name":"Volume", "id": 2}        
+        ]
+    }    
+}

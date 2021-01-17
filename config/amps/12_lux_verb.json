@@ -1,0 +1,13 @@
+{
+    "OverDrivenLuxVerb":{
+        "name":"Lux Verb",
+        "effect": "amp",
+        "parameters": [
+            {"name":"Gain", "id": 0},
+            {"name":"Bass", "id": 3},
+            {"name":"Middle", "id": 2},
+            {"name":"Treble", "id": 1},
+            {"name":"Master", "id": 4}
+        ]
+    }    
+}

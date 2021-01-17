@@ -1,0 +1,12 @@
+{
+    "ChorusAnalog":{
+        "name":"Digital Chorus",    
+        "effect": "modulation",
+        "parameters": [
+            {"name":"E.Level", "id": 0},
+            {"name":"Rate", "id": 1},
+            {"name":"Depth", "id": 2},
+            {"name":"Tone", "id": 3}
+        ]
+    }    
+}

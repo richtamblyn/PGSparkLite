@@ -1,0 +1,13 @@
+{
+    "DelayMultiHead":{
+        "name":"Multi Head",    
+        "effect": "delay",
+        "parameters": [
+            {"name":"Repeat Rate", "id": 0},
+            {"name":"Intensity", "id": 1},
+            {"name":"Echo Vol", "id": 2},
+            {"name":"Mode Selector", "id": 3},
+            {"name":"BPM", "id": 4, "switch": "true"}
+        ]
+    }    
+}

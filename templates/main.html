@@ -1,0 +1,37 @@
+{% extends 'layout.html' %}
+{% from 'macros.html' import effect_container %}
+{% block content %}
+
+<div class="preset_container">    
+    <button id="preset_0" class="preset_button {% if config.preset == 0 %} selected {% endif %}" name="preset" value="0">1</button>
+    <button id="preset_1" class="preset_button {% if config.preset == 1 %} selected {% endif %}" name="preset" value="1">2</button>
+    <button id="preset_2" class="preset_button {% if config.preset == 2 %} selected {% endif %}" name="preset" value="2">3</button>
+    <button id="preset_3" class="preset_button {% if config.preset == 3 %} selected {% endif %}" name="preset" value="3">4</button>
+</div>
+    
+<div id="GATE_container" class="effect_container">
+    {{ effect_container("GATE", config.gate, config.gates, True, False) }}
+</div>
+<div id="COMP_container" class="effect_container">
+    {{ effect_container("COMP", config.comp, config.comps, True, True) }}
+</div>
+<div id="DRIVE_container" class="effect_container">
+    {{ effect_container("DRIVE", config.drive, config.drives, True, True) }}
+</div>
+<div id="AMP_container" class="effect_container">
+    {{ effect_container("AMP", config.amp, config.amps, False, True) }}
+</div>
+<div id="MODULATION_container" class="effect_container">
+    {{ effect_container("MODULATION", config.modulation, config.modulations, True, True) }}
+</div>
+<div id="DELAY_container" class="effect_container">
+    {{ effect_container("DELAY", config.delay, config.delays, True, True) }}
+</div>
+<div id="REVERB_container" class="effect_container">
+    {{ effect_container("REVERB", config.reverb, config.reverbs, True, True) }}
+</div>
+<div class="eject">
+    <button class="connect_button" id="eject">Eject</button>
+</div>
+
+{% endblock %}

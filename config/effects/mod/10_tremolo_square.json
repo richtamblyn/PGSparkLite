@@ -1,0 +1,11 @@
+{
+    "TremoloSquare":{
+        "name":"Tremolo Square",    
+        "effect": "modulation",
+        "parameters": [
+            {"name":"Speed", "id": 0},
+            {"name":"Level", "id": 1},
+            {"name":"Depth", "id": 2}
+        ]
+    }    
+}

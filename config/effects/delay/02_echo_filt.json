@@ -1,0 +1,13 @@
+{
+    "DelayEchoFilt":{
+        "name":"Delay/Echo",    
+        "effect": "delay",
+        "parameters": [
+            {"name":"Delay", "id": 0},
+            {"name":"Feedback", "id": 1},
+            {"name":"Level", "id": 2},
+            {"name":"Tone", "id": 3},
+            {"name":"BPM", "id": 4, "switch": "true"}
+        ]
+    }    
+}

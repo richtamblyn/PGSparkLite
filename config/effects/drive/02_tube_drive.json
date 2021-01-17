@@ -1,0 +1,11 @@
+{
+    "DistortionTS9":{
+        "name":"Tube Drive",    
+        "effect": "drive",    
+        "parameters": [
+            {"name":"Overdrive", "id":0},
+            {"name":"Tone", "id": 1},
+            {"name":"Level", "id": 2}        
+        ]
+    }    
+}

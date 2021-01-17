@@ -1,0 +1,11 @@
+{
+    "UniVibe":{
+        "name":"Vibe",    
+        "effect": "modulation",
+        "parameters": [
+            {"name":"Speed", "id": 0},
+            {"name":"Chorus/Vibrato", "id": 1, "switch": "true"},
+            {"name":"Intensity", "id": 2}
+        ]
+    }    
+}

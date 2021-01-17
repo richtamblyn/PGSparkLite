@@ -1,0 +1,10 @@
+{
+    "Phaser":{
+        "name":"Phaser",    
+        "effect": "modulation",
+        "parameters": [
+            {"name":"Intensity", "id": 0},
+            {"name":"Speed", "id": 1}        
+        ]
+    }    
+}

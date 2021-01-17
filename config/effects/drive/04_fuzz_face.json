@@ -1,0 +1,10 @@
+{
+    "Fuzz":{
+        "name":"Fuzz Face",    
+        "effect": "drive",    
+        "parameters": [
+            {"name":"Volume", "id":0},
+            {"name":"Fuzz", "id": 1}        
+        ]
+    }    
+}

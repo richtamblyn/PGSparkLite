@@ -1,0 +1,9 @@
+{
+    "Booster":{
+        "name":"Booster",    
+        "effect": "drive",    
+        "parameters": [
+            {"name":"Gain", "id":0}        
+        ]
+    }    
+}

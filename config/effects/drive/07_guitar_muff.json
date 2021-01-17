@@ -1,0 +1,11 @@
+{
+    "GuitarMuff":{
+        "name":"Guitar Muff",    
+        "effect": "drive",    
+        "parameters": [
+            {"name":"Volume", "id":0},
+            {"name":"Tone", "id": 1},
+            {"name":"Sustain", "id": 2}        
+        ]
+    }    
+}

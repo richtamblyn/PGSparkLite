@@ -1,0 +1,13 @@
+{
+    "DelayReverse":{
+        "name":"Reverse Delay",    
+        "effect": "delay",
+        "parameters": [
+            {"name":"Mix", "id": 0},
+            {"name":"Decay", "id": 1},
+            {"name":"Filter", "id": 2},
+            {"name":"Time", "id": 3},
+            {"name":"BPM", "id": 4, "switch": "true"}
+        ]
+    }    
+}

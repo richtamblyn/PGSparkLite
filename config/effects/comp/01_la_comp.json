@@ -1,0 +1,11 @@
+{
+    "LA2AComp": {
+        "name":"LA Comp",    
+        "effect": "comp",
+        "parameters": [
+            {"name":"Gain", "id":1},
+            {"name":"Peak Reduction", "id": 2},
+            {"name":"Limit/Compress", "id": 0, "switch": "true"}        
+        ]
+    }    
+}

@@ -1,0 +1,11 @@
+{
+    "Overdrive":{
+        "name":"Over Drive",    
+        "effect": "drive",    
+        "parameters": [
+            {"name":"Level", "id":0},
+            {"name":"Tone", "id": 1},
+            {"name":"Drive", "id": 2}        
+        ]
+    }    
+}

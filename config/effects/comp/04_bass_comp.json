@@ -1,0 +1,10 @@
+{
+    "BassComp":{
+        "name":"Bass Comp",    
+        "effect": "comp",
+        "parameters": [
+            {"name":"Comp", "id":0},
+            {"name":"Gain", "id": 1}        
+        ]
+    }    
+}

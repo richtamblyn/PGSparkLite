@@ -1,0 +1,14 @@
+{
+    "8":{
+        "name":"Reflection",    
+        "effect": "reverb",
+        "parameters": [
+            {"name":"Level", "id": 0},
+            {"name":"Damping", "id": 1},
+            {"name":"Low Cut", "id": 2},
+            {"name":"High Cut", "id": 3},
+            {"name":"Dwell", "id": 4},
+            {"name":"Time", "id": 5}
+        ]
+    }    
+}
