@@ -3,8 +3,8 @@
         "name":"Phaser",    
         "effect": "modulation",
         "parameters": [
-            {"name":"Intensity", "id": 0},
-            {"name":"Speed", "id": 1}        
+            {"name":"Intensity", "id": 1},
+            {"name":"Speed", "id": 0}        
         ]
     }    
 }

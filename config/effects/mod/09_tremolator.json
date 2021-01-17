@@ -3,9 +3,9 @@
         "name":"Tremolator",    
         "effect": "modulation",
         "parameters": [
-            {"name":"Depth", "id": 0},
-            {"name":"BPM", "id": 1, "switch": "true"},
-            {"name":"Speed", "id": 2}        
+            {"name":"Depth", "id": 0},            
+            {"name":"Speed", "id": 1},
+            {"name":"BPM", "id": 2, "switch": "true"}       
         ]
     }    
 }

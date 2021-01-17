@@ -4,8 +4,8 @@
         "effect": "delay",
         "parameters": [
             {"name":"Repeat Rate", "id": 0},
-            {"name":"Echo", "id": 1},
-            {"name":"Intensity", "id": 2},        
+            {"name":"Intensity", "id": 1},        
+            {"name":"Echo", "id": 2},            
             {"name":"BPM", "id": 3, "switch": "true"}
         ]
     }    

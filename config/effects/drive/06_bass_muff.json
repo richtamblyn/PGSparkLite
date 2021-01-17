@@ -3,9 +3,9 @@
         "name":"Bass Muff",    
         "effect": "drive",    
         "parameters": [
-            {"name":"Sustain", "id":0},
+            {"name":"Sustain", "id":2},
             {"name":"Tone", "id": 1},
-            {"name":"Volume", "id": 2}        
+            {"name":"Volume", "id": 0}        
         ]
     }    
 }

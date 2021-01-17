@@ -3,9 +3,9 @@
         "name":"Optical Comp",    
         "effect": "comp",
         "parameters": [
-            {"name":"Volume", "id":0},
-            {"name":"Pad", "id": 1, "switch": "true"},
-            {"name":"Comp", "id": 2, "switch": "true"}        
+            {"name":"Volume", "id":0},            
+            {"name":"Comp", "id": 1 },
+            {"name":"Pad", "id": 2, "switch": "true"}       
         ]
     }    
 }

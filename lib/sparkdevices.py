@@ -137,6 +137,8 @@ class SparkDevices:
                 self.comp[self.OnOff] = value
             elif effect == self.drive[self.Name]:
                 self.drive[self.OnOff] = value
+            elif effect == self.amp[self.Amp]:
+                self.amp[self.OnOff] = value
             elif effect == self.modulation[self.Name]:
                 self.modulation[self.OnOff] = value
             elif effect == self.delay[self.Name]:

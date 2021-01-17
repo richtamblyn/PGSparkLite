@@ -4,8 +4,8 @@
         "effect": "modulation",
         "parameters": [
             {"name":"Speed", "id": 0},
-            {"name":"Level", "id": 1},
-            {"name":"Depth", "id": 2}
+            {"name":"Depth", "id": 1},
+            {"name":"Level", "id": 2}            
         ]
     }    
 }
