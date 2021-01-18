@@ -3,7 +3,7 @@
 
 Utilising the amazing work of Paul Hamshere https://github.com/paulhamsh/Spark-Parser, Justin Nelson https://github.com/jrnelson90/tinderboxpedal and Yuriy Tsibizov https://github.com/ytsibizov/midibox, this is a Python based project that allows the user to send and receive configuration changes to and from a Positive Grid Spark 40 Amp (https://www.positivegrid.com/spark/) via a web browser.
 
-Written using the Flask framework and SocketIO, the intended target for this code could be a cheap Raspberry Pi Zero W that can host the interface, allowing other networked computers remote control of the connected Spark. It could also easily be setup on a PC running locally (though this has not yet been tested).
+Written using the Flask framework and SocketIO, the intended target for this code could be a cheap Raspberry Pi Zero W that can host the interface, allowing other networked computers remote control of the connected Spark. In the future it is hoped it could also be setup on a PC running locally.
 
 ## User Instructions
 A guide to setting up PGSparkLite on a Raspberry Pi Zero W can be found in the Wiki here: https://github.com/richtamblyn/PGSparkLite/wiki/How-to-setup-a-Raspberry-Pi-Zero-W-and-PGSparkLite-from-scratch
