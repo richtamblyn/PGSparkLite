@@ -2,6 +2,7 @@
     "TremoloSquare":{
         "name":"Tremolo Square",    
         "effect": "modulation",
+        "switch_parameter": 2,
         "parameters": [
             {"name":"Speed", "id": 0},
             {"name":"Depth", "id": 1},

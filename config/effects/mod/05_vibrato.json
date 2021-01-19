@@ -2,6 +2,7 @@
     "Vibrato01":{
         "name":"Vibrato",    
         "effect": "modulation",
+        "switch_parameter": 1,
         "parameters": [
             {"name":"Speed", "id": 0},
             {"name":"Depth", "id": 1}        

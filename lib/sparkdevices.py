@@ -23,12 +23,39 @@ class SparkDevices:
         self.OnOff = 'OnOff'  
         self.Parameters = 'Parameters'
         self.parameters = 'parameters'
+        self.switch_parameter = 'switch_parameter'
 
         self.last_call = ''
 
         self.reset()
         self.load()        
         self.parse_preset(preset)
+
+    def switch_onoff_parameter(self, effect, parameter, value):
+        if effect in self.amps:
+            return None
+        elif effect in self.comps:
+            return None
+        elif effect in self.drives:
+            return None
+        elif effect in self.modulations:
+            config_effect = self.modulation
+            switch_parameter = self.modulations[effect][self.switch_parameter]                        
+        elif effect in self.delays:
+            config_effect = self.delay
+            switch_parameter = self.delays[effect][self.switch_parameter]
+        elif effect in self.reverbs:
+            config_effect = self.reverb
+            switch_parameter = self.reverbs[effect][self.switch_parameter]
+
+        if switch_parameter != parameter:
+            return None
+
+        if config_effect[self.OnOff] == 'On' and value == 0.0000:
+            return 'Off'
+
+        if config_effect[self.OnOff] == 'Off' and value > 0.0000:
+            return 'On'
 
     def get_parameters(self, effect):
         if effect in self.amps:
@@ -40,7 +67,9 @@ class SparkDevices:
         elif effect in self.modulations:
             return self.modulations[effect][self.parameters]
         elif effect in self.delays:
-            return self.delays[effect][self.parameters]        
+            return self.delays[effect][self.parameters]
+        elif effect in self.reverbs:
+            return self.reverbs[effect][self.parameters]
 
     def reset(self):
         self.amps = {}

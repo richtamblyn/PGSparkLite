@@ -2,6 +2,7 @@
     "DelayMultiHead":{
         "name":"Multi Head",    
         "effect": "delay",
+        "switch_parameter": 2,
         "parameters": [
             {"name":"Repeat Rate", "id": 0},
             {"name":"Intensity", "id": 1},

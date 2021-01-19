@@ -35,4 +35,15 @@ $(document).ready(function(){
     socket.on('update-parameter', function(data){
         $('#' + data.effect + '_' + data.parameter).val(data.value);
     });
+
+    // Change OnOff status
+    socket.on('update-onoff', function(data){
+        if (data.state === 'Off'){
+            $('#' + data.effect + '_off').addClass('selected');
+            $('#' + data.effect + '_on').removeClass('selected');
+        } else{
+            $('#' + data.effect + '_on').addClass('selected');
+            $('#' + data.effect + '_off').removeClass('selected');
+        }
+    })
 });

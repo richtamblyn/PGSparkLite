@@ -2,6 +2,7 @@
     "DelayRe201":{
         "name":"Echo Tape",    
         "effect": "delay",
+        "switch_parameter": 1,
         "parameters": [
             {"name":"Sustain", "id": 0},
             {"name":"Volume", "id": 1},
