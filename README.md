@@ -1,6 +1,7 @@
 # PGSparkLite - Web Interface for the Spark 40 Amp
 
 ![PGSparkLite Interface](https://richtamblyn.co.uk/wp-content/uploads/2021/01/PGSparkLite_Interface-e1611060681325.png)
+![PGSparkLite Interface 2](https://richtamblyn.co.uk/wp-content/uploads/2021/01/Bottom_interface-e1611060985838.png)
 
 ## Overview
 
