@@ -1,11 +1,11 @@
 # PGSparkLite - Web Interface for the Spark 40 Amp
 
-![PGSparkLite Interface](https://richtamblyn.co.uk/wp-content/uploads/2021/01/PGSparkLite_Interface-e1611060681325.png)
-![PGSparkLite Interface 2](https://richtamblyn.co.uk/wp-content/uploads/2021/01/Bottom_interface-e1611060985838.png)
-
 ## Overview
 
 Utilising the amazing work of Paul Hamshere https://github.com/paulhamsh/Spark-Parser, Justin Nelson https://github.com/jrnelson90/tinderboxpedal and Yuriy Tsibizov https://github.com/ytsibizov/midibox, this is a Python based project that allows the user to send and receive configuration changes to and from a Positive Grid Spark 40 Amp (https://www.positivegrid.com/spark/) via a web browser.
+
+![PGSparkLite Interface](https://richtamblyn.co.uk/wp-content/uploads/2021/01/PGSparkLite_Interface-e1611060681325.png)
+![PGSparkLite Interface 2](https://richtamblyn.co.uk/wp-content/uploads/2021/01/Bottom_interface-e1611060985838.png)
 
 Written using the Flask framework and SocketIO, the intended target for this code could be a cheap Raspberry Pi Zero W that can host the interface, allowing other networked computers remote control of the connected Spark. In the future it is hoped it could also be setup on a PC running locally.
 
