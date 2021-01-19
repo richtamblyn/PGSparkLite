@@ -117,12 +117,27 @@ def callback():
 
     # Effect / Amp changes
     if 'Effect' in data:        
-        effect = data['Effect']     
 
-        # TODO: Is this parameter one that can enable/disable an effect?
+        # Ignore call back after effect is turned off        
+        if config.last_call == 'turn_on_off':
+            config.last_call = ''
+            return 'ok'
 
+        effect = get_js_effect_name(data['Effect'])
+        parameter = data['Parameter']
+        value = data['Value']               
 
-        socketio.emit('update-parameter',{'effect': get_js_effect_name(effect), 'parameter': data['Parameter'], 'value': data['Value']})
+        config.update_config(effect,'change_parameter', value, parameter)
+        socketio.emit('update-parameter',{'effect': effect, 'parameter': parameter, 'value': value})
+
+        # Check if physical knob turn has activated/deactivated this effect                
+        state = config.switch_onoff_parameter(effect, parameter, value)
+
+        if state == None:
+            return 'ok'
+        
+        socketio.emit('update-onoff', {'effect': effect, 'state':state})
+        config.update_config(effect, 'turn_on_off', state)    
 
     return 'ok'
 
@@ -251,6 +266,8 @@ def turn_effect_onoff():
     amp.turn_effect_onoff(get_amp_effect_name(effect), state)
 
     config.update_config(effect, 'turn_on_off', state)    
+
+    config.last_call = 'turn_on_off'
 
     return 'ok'
 
