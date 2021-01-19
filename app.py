@@ -117,7 +117,11 @@ def callback():
 
     # Effect / Amp changes
     if 'Effect' in data:        
-        effect = data['Effect']        
+        effect = data['Effect']     
+
+        # TODO: Is this parameter one that can enable/disable an effect?
+
+
         socketio.emit('update-parameter',{'effect': get_js_effect_name(effect), 'parameter': data['Parameter'], 'value': data['Value']})
 
     return 'ok'

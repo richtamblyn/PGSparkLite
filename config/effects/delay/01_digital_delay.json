@@ -2,6 +2,7 @@
     "DelayMono":{
         "name":"Digital Delay",    
         "effect": "delay",
+        "switch_parameter": 0,
         "parameters": [
             {"name":"E.Level", "id": 0},
             {"name":"F.Back", "id": 1},

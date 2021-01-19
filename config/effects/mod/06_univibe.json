@@ -2,6 +2,7 @@
     "UniVibe":{
         "name":"Vibe",    
         "effect": "modulation",
+        "switch_parameter": 2,
         "parameters": [
             {"name":"Speed", "id": 0},            
             {"name":"Intensity", "id": 2},

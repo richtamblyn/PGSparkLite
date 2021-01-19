@@ -2,6 +2,7 @@
     "DelayEchoFilt":{
         "name":"Delay/Echo",    
         "effect": "delay",
+        "switch_parameter": 2,
         "parameters": [
             {"name":"Delay", "id": 0},
             {"name":"Feedback", "id": 1},

@@ -2,6 +2,7 @@
     "Flanger":{
         "name":"Flanger",    
         "effect": "modulation",
+        "switch_parameter": 1,
         "parameters": [
             {"name":"Rate", "id": 0},
             {"name":"Mix", "id": 1},

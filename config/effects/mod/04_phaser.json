@@ -2,6 +2,7 @@
     "Phaser":{
         "name":"Phaser",    
         "effect": "modulation",
+        "switch_parameter": 1,
         "parameters": [
             {"name":"Intensity", "id": 1},
             {"name":"Speed", "id": 0}        

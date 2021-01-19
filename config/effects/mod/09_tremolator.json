@@ -2,6 +2,7 @@
     "Tremolator":{
         "name":"Tremolator",    
         "effect": "modulation",
+        "switch_parameter": 0,
         "parameters": [
             {"name":"Depth", "id": 0},            
             {"name":"Speed", "id": 1},
