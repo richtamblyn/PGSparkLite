@@ -221,8 +221,12 @@ def index():
     
 @app.route('/eject', methods=['POST'])
 def eject():
+
+    global config
+
     eject = request.form['eject']
     if eject == 'true':
+        config = None
         amp.eject()
         socketio.emit('connection-lost', {'url': url_for('connect')})
 

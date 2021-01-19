@@ -15,7 +15,7 @@ import bluetooth
 from lib.external.SparkReaderClass import SparkReadMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkClass import SparkMessage
-from lib.sparklistener import listen
+from lib.sparklistener import SparkListener
 from lib.sparkdevices import SparkDevices
 
 class SparkAmpServer:    
@@ -55,9 +55,11 @@ class SparkAmpServer:
             self.reader = SparkReadMessage()
             self.comms = SparkComms(self.bt_sock)
 
-            # Start a separate thread to listen for control changes from the amp
-            self.listener = threading.Thread(target=listen, args=(self.reader, self.comms, self.callback_url), daemon=True)
-            self.listener.start()                  
+            # Start a separate thread to listen for control changes from the amp            
+            self.listener = SparkListener(self.reader, self.comms, self.callback_url)
+
+            t = threading.Thread(target=self.listener.start, args=(), daemon=True)
+            t.start()
 
             self.connected = True      
 
@@ -69,9 +71,15 @@ class SparkAmpServer:
     def initialise(self):                        
         return self.change_to_preset(0)
 
-    def eject(self):
-        # Listener will resolve itself once it realises underlying connection has gone
+    def eject(self):        
+        self.listener.stop()
+
+        # Send a final request to the amp for the Listener thread to realise it has to stop listening
+        self.request_preset(0)
+
+        # Now close the Bluetooth connection and release the amp into the wild.
         self.bt_sock.close()        
+        
         self.connected = False
 
     def turn_effect_onoff(self, effect, state):

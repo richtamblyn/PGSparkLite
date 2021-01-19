@@ -9,23 +9,37 @@
 
 import requests
 
-def listen(reader, comms, url):            
-    while True:
-        try:
-            dat = comms.get_data()            
-            reader.set_message(dat)
-            reader.read_message()                       
-            
-            if reader.python is None:
-                continue
+class SparkListener:
 
-            requests.post(url, json = reader.python)
-        except AttributeError as att_err:
-            print(att_err)
-            requests.post(url, json = '{"PresetOneCorrupt": True}')
-            break
-        except Exception as err:
-            print(err)
-            requests.post(url, json = '{"ConnectionLost": True}')
-            break
+    def __init__(self, reader, comms, url):
+        self._listening = True
+        self._reader = reader
+        self._comms = comms
+        self._url = url
+
+    def start(self):          
+
+        self._listening = True
+
+        while self._listening:
+            try:
+                dat = self._comms.get_data()            
+                self._reader.set_message(dat)
+                self._reader.read_message()                       
+            
+                if self._reader.python is None:
+                    continue
+
+                requests.post(self._url, json = self._reader.python)
+            except AttributeError as att_err:
+                print(att_err)
+                requests.post(self._url, json = '{"PresetOneCorrupt": True}')
+                break
+            except Exception as err:
+                print(err)
+                requests.post(self._url, json = '{"ConnectionLost": True}')
+                break        
+
+    def stop(self):
+        self._listening = False
         
