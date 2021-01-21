@@ -6,10 +6,13 @@ Utilising the amazing work of Paul Hamshere https://github.com/paulhamsh/Spark-P
 
 ![PGSparkLite Interface](https://richtamblyn.co.uk/wp-content/uploads/2021/01/PGSparkLite-e1611061621156.png)
 
-Written using the Flask framework and SocketIO, the intended target for this code could be a cheap Raspberry Pi Zero W that can host the interface, allowing other networked computers remote control of the connected Spark. In the future it is hoped it could also be setup on a PC running locally.
+Written using the Flask framework and SocketIO, the intended target for this code could be a cheap Raspberry Pi Zero W that can host the interface, allowing other networked computers remote control of the connected Spark. It can also be setup on a Windows PC and accessed locally.
 
 ## User Instructions
-A guide to setting up PGSparkLite on a Raspberry Pi Zero W can be found in the Wiki here: https://github.com/richtamblyn/PGSparkLite/wiki/How-to-setup-a-Raspberry-Pi-Zero-W-and-PGSparkLite-from-scratch
+Guides to setting up PGSparkLite can be found in the Wiki: 
+
+* Raspberry Pi - https://github.com/richtamblyn/PGSparkLite/wiki/How-to-setup-a-Raspberry-Pi-Zero-W-and-PGSparkLite-from-scratch
+* Windows 10 - https://github.com/richtamblyn/PGSparkLite/wiki/How-to-setup-PGSparkLite-on-Windows-10
 
 ## Development Environment
 This project was developed on a Raspberry Pi 4 (4GB RAM version) using the awesome Microsoft Visual Studio Code IDE. Launch configuration is included within the repository to allow you to run and debug the project locally. 
