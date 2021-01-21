@@ -186,11 +186,9 @@ class SparkDevices:
             elif value in self.modulations:
                 self.modulation = self.initialise_effect(value, self.modulations[value], self.modulation[self.OnOff])                
             elif value in self.delays:
-                self.delay = self.initialise_effect(value, self.delays[value], self.delay[self.OnOff])
-                effect = self.delay
+                self.delay = self.initialise_effect(value, self.delays[value], self.delay[self.OnOff])                
             elif value in self.reverbs:
-                self.reverb = self.initialise_effect(value, self.reverbs[value], self.reverb[self.OnOff], self.reverb[self.Parameters])
-                effect = self.reverb            
+                self.reverb = self.initialise_effect(value, self.reverbs[value], self.reverb[self.OnOff], self.reverb[self.Parameters])                
             return
 
         if action == 'change_parameter':
