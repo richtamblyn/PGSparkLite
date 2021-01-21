@@ -8,3 +8,11 @@ lib/__pycache__/sparklistener.cpython-37.pyc
 lib/__pycache__/sparklistener.cpython-37.pyc
 lib/__pycache__/__init__.cpython-37.pyc
 lib/external/__pycache__/SparkClass.cpython-37.pyc
+lib/__pycache__/__init__.cpython-39.pyc
+lib/__pycache__/sparkampserver.cpython-39.pyc
+lib/__pycache__/sparkdevices.cpython-39.pyc
+lib/__pycache__/sparklistener.cpython-39.pyc
+lib/external/__pycache__/__init__.cpython-39.pyc
+lib/external/__pycache__/SparkClass.cpython-39.pyc
+lib/external/__pycache__/SparkCommsClass.cpython-39.pyc
+lib/external/__pycache__/SparkReaderClass.cpython-39.pyc
