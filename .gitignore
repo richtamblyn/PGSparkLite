@@ -16,3 +16,4 @@ lib/external/__pycache__/__init__.cpython-39.pyc
 lib/external/__pycache__/SparkClass.cpython-39.pyc
 lib/external/__pycache__/SparkCommsClass.cpython-39.pyc
 lib/external/__pycache__/SparkReaderClass.cpython-39.pyc
+.vscode/settings.json
