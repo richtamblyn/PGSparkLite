@@ -2,7 +2,7 @@ body {
     background-color: black;
     color: white;
     font-family: 'Courier New', Courier, monospace;
-    max-width: 600px;   
+    max-width: 520px;   
     margin-left: auto;  
     margin-right: auto;    
 }
@@ -37,7 +37,7 @@ a, a:visited {
 .effect_content {
     padding:15px;
     font-family:Arial, Helvetica, sans-serif;
-    font-size: smaller;
+    font-size: x-small;
 }
 
 .effect_header {
@@ -58,7 +58,7 @@ a, a:visited {
 }
 
 .effect_selector{
-  width:40%;
+  width:39%;
   display:inline-block;
 }
 
@@ -85,7 +85,7 @@ input[type="range"] {
 
 .onoff_button {
     padding:10px;
-    width: 22%;
+    width: 43%;
     border:none;
     border-radius:8px;
 }
@@ -97,6 +97,7 @@ input[type="range"] {
 .parameter {
   width:18%;
   display:inline-block;
+  vertical-align:top;
 }
 
 .parameter_label {
@@ -123,7 +124,9 @@ input[type="range"] {
 
 select {    
     padding:10px;
-    width: 40%;    
+    width: 39%;    
+    background: #302f2f;
+    color: #cc9e3b;
 }
 
 .selected {

@@ -15,15 +15,14 @@
  <div id="COMP_container" class="effect_container">
     {{ effect_container("COMP", config.comp, config.comps, True) }}
 </div>
-<!--<div id="DRIVE_container" class="effect_container">
+<div id="DRIVE_container" class="effect_container">
     {{ effect_container("DRIVE", config.drive, config.drives, True) }}
-</div>-->
+</div>
 <div id="AMP_container" class="effect_container">
     {{ effect_container("AMP", config.amp, config.amps, True) }}
 </div>
-<!--
-<div id="MODULATION_container" class="effect_container">
-    {{ effect_container("MODULATION", config.modulation, config.modulations, True) }}
+<div id="MOD_container" class="effect_container">
+    {{ effect_container("MOD", config.modulation, config.modulations, True) }}
 </div>
 <div id="DELAY_container" class="effect_container">
     {{ effect_container("DELAY", config.delay, config.delays, True) }}
@@ -33,6 +32,5 @@
 </div>
 <div class="eject">
     <button class="eject_button" id="eject">Eject</button>
-</div> -->
-
+</div>
 {% endblock %}

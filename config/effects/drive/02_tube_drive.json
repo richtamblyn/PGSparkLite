@@ -1,11 +1,14 @@
 {
     "DistortionTS9":{
         "name":"Tube Drive",    
-        "effect": "drive",    
+        "effect": "drive",
+        "background": "linear-gradient(0deg, rgba(24,163,49,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "black",        
+        "knob": "foc_green",          
         "parameters": [
-            {"name":"Overdrive", "id":0},
-            {"name":"Tone", "id": 1},
-            {"name":"Level", "id": 2}        
+            {"name":"OVERDRIVE", "id":0, "width": 32, "diameter":89},
+            {"name":"TONE", "id": 1, "width": 33, "diameter":69, "margin":"60px"},
+            {"name":"LEVEL", "id": 2, "width": 33, "diameter":89}        
         ]
     }    
 }

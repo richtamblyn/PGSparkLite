@@ -2,16 +2,15 @@
     "EVH":{
         "name":"Insane",    
         "effect": "amp",
-        "background-color":"#363533",
+        "background":"#363533",
         "color":"#cc9e3b",
-        "knob":"amp_knob",
-        "knob-diameter": 60,
+        "knob":"amp_knob",        
         "parameters": [
-            {"name":"GAIN", "id": 0},
-            {"name":"BASS", "id": 3},
-            {"name":"MIDDLE", "id": 2},
-            {"name":"TREBLE", "id": 1},
-            {"name":"MASTER", "id": 4}
+            {"name":"GAIN", "id": 0, "width":19},
+            {"name":"BASS", "id": 3, "width":19},
+            {"name":"MIDDLE", "id": 2, "width":19},
+            {"name":"TREBLE", "id": 1, "width":19},
+            {"name":"MASTER", "id": 4, "width":19}
         ]
     }    
 }

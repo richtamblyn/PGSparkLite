@@ -2,13 +2,13 @@
     "bias_noisegate" : {
         "name":"Gate",    
         "effect": "gate",        
-        "background-color": "#e0d7d7",
+        "background": "linear-gradient(0deg, rgba(212,212,212,1) 89%, rgba(255,255,255,1) 100%)",
         "color": "red",        
-        "knob": "red_knob",  
+        "knob": "neve_red_knob",  
         "knob-diameter": 50,
         "parameters": [
-            {"name":"THRESHOLD", "id": 0, "width": 49},
-            {"name":"DECAY", "id": 1, "width": 49}        
+            {"name":"THRESHOLD", "id": 0, "width": 49, "diameter":70},
+            {"name":"DECAY", "id": 1, "width": 49, "diameter":70}        
         ]
     }    
 }

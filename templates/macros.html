@@ -16,9 +16,9 @@
 </select>
 {% endmacro %}
 
-{% macro effect_parameters(effect_id, parameters, parameter_values, knob, knob_diameter) %}
+{% macro effect_parameters(effect_id, parameters, parameter_values, knob) %}
 {% for parameter in parameters %}
-<div class="parameter" style="width:{{ parameter.width }}%;">    
+<div class="parameter" style="width:{{ parameter.width }}%; {% if parameter.margin %} margin-top:{{ parameter.margin }};{% endif %}">    
     {% if parameter.switch == "true" %}
     <div class="parameter_value">      
         {% if parameter.name %}
@@ -30,7 +30,7 @@
     </div>
     {% else %}
     <div class="parameter_value">        
-        <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="{{ knob_diameter }}" data-src="./img/knobs/{{ knob }}.png" data-sprites="100"
+        <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="{{ parameter.diameter }}" data-src="./img/knobs/{{ knob }}.png" data-sprites="100"
             id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001"
             value="{{ parameter_values[parameter.id] }}" />        
     </div>
@@ -44,10 +44,9 @@
 
 {% macro effect_container(type, effect, effect_list, selector) %}
 {% set effect_config = effect_list[effect["Name"]] %}
-{% set background_color = effect_config["background-color"] %}
+{% set background = effect_config["background"] %}
 {% set color = effect_config["color"] %}
 {% set knob = effect_config["knob"] %}
-{% set knob_diameter = effect_config["knob-diameter"] %}
 <div class="effect_header">
     <div class="effect_title">
         {{ type }}
@@ -61,9 +60,9 @@
         {{ onoff_buttons(effect["Name"], effect["OnOff"]) }}
     </div>    
 </div>
-<div id="{{ effect_id }}_content" class="effect_content" style="background-color:{{ background_color }}; color:{{ color }};">
+<div id="{{ effect_id }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
     <div class="effect_parameters">
-        {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob, knob_diameter)}}
+        {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}
     </div>
 </div>
 {% endmacro %}

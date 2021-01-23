@@ -1,10 +1,13 @@
 {
     "Fuzz":{
         "name":"Fuzz Face",    
-        "effect": "drive",    
+        "effect": "drive",
+        "background": "linear-gradient(0deg, rgba(255,17,65,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "white",        
+        "knob": "hexagon",        
         "parameters": [
-            {"name":"Volume", "id":0},
-            {"name":"Fuzz", "id": 1}        
+            {"name":"VOLUME", "id":0, "width": 49, "diameter":89},
+            {"name":"FUZZ", "id": 1, "width": 49, "diameter":89}        
         ]
     }    
 }

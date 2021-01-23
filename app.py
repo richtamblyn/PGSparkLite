@@ -187,7 +187,7 @@ def change_effect():
     elif effect_type == 'AMP':
         current_effect = config.amp
         effect_list = config.amps
-    elif effect_type == 'MODULATION':
+    elif effect_type == 'MOD':
         current_effect = config.modulation
         effect_list = config.modulations
     elif effect_type == 'DELAY':
