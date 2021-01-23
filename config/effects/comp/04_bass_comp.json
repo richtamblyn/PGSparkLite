@@ -1,0 +1,14 @@
+{
+    "BassComp":{
+        "name":"Bass Comp",    
+        "effect": "comp",
+        "background-color": "#1f262e",
+        "color": "white",        
+        "knob": "blue_knob",  
+        "knob-diameter": 60,
+        "parameters": [
+            {"name":"COMP", "id":0, "width":49},
+            {"name":"GAIN", "id": 1, "width":49}        
+        ]
+    }    
+}

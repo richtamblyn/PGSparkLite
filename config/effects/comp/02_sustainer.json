@@ -1,0 +1,15 @@
+{
+    "BlueComp":{
+        "name":"Sustainer",    
+        "effect": "comp",
+        "background-color": "#33ccff",
+        "color": "darkblue",        
+        "knob": "chicken_head_white",
+        "parameters": [
+            {"name":"LEVEL", "id": 0, "width": 23},
+            {"name":"TONE", "id": 1, "width": 23},
+            {"name":"ATTACK", "id": 2, "width": 23},
+            {"name":"SUSTAIN", "id": 3, "width": 23}        
+        ]
+    }    
+}

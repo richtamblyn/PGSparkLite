@@ -1,0 +1,14 @@
+{
+    "Compressor":{
+        "name":"Red Comp",    
+        "effect": "comp",
+        "background-color": "#ff3300",
+        "color": "black",        
+        "knob": "hexagon",
+        "knob-diameter": 89,
+        "parameters": [
+            {"name":"OUTPUT", "id": 0, "width": 48},
+            {"name":"SENSITIVITY", "id": 1, "width": 48}       
+        ]
+    }    
+}

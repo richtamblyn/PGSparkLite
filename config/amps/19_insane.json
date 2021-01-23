@@ -5,12 +5,13 @@
         "background-color":"#363533",
         "color":"#cc9e3b",
         "knob":"amp_knob",
+        "knob-diameter": 60,
         "parameters": [
-            {"name":"Gain", "id": 0},
-            {"name":"Bass", "id": 3},
-            {"name":"Middle", "id": 2},
-            {"name":"Treble", "id": 1},
-            {"name":"Master", "id": 4}
+            {"name":"GAIN", "id": 0},
+            {"name":"BASS", "id": 3},
+            {"name":"MIDDLE", "id": 2},
+            {"name":"TREBLE", "id": 1},
+            {"name":"MASTER", "id": 4}
         ]
     }    
 }

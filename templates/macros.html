@@ -16,21 +16,28 @@
 </select>
 {% endmacro %}
 
-{% macro effect_parameters(effect_id, parameters, parameter_values, knob) %}
+{% macro effect_parameters(effect_id, parameters, parameter_values, knob, knob_diameter) %}
 {% for parameter in parameters %}
 <div class="parameter" style="width:{{ parameter.width }}%;">    
-    <div class="parameter_value">
-        {% if parameter.switch == "true" %}
-        <input data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" type="checkbox" {% if parameter_values[parameter.id] == 1.0000 %} checked {% endif %}/>
-        {% else %}
-        <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="60" data-src="./img/knobs/{{ knob }}.png" data-sprites="100"
-            id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001"
-            value="{{ parameter_values[parameter.id] }}" />
+    {% if parameter.switch == "true" %}
+    <div class="parameter_value">      
+        {% if parameter.name %}
+        <span>{{ parameter.name }}</span><br/>
         {% endif %}
+        <span>{{ parameter.on }}</span><br/>
+        <input data-parameter="{{ parameter.id }}" class="input-switch" data-src="./img/knobs/switch_offon.png" data-diameter="50" data-id="{{ effect_id }}" type="checkbox" {% if parameter_values[parameter.id] == 1.0000 %} checked {% endif %}/><br/>
+        <span>{{ parameter.off }}</span>
+    </div>
+    {% else %}
+    <div class="parameter_value">        
+        <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="{{ knob_diameter }}" data-src="./img/knobs/{{ knob }}.png" data-sprites="100"
+            id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001"
+            value="{{ parameter_values[parameter.id] }}" />        
     </div>
     <div class="parameter_label">
         {{ parameter.name }}
-    </div>
+    </div>    
+    {% endif %}
 </div>
 {% endfor %}
 {% endmacro %}
@@ -40,20 +47,23 @@
 {% set background_color = effect_config["background-color"] %}
 {% set color = effect_config["color"] %}
 {% set knob = effect_config["knob"] %}
+{% set knob_diameter = effect_config["knob-diameter"] %}
 <div class="effect_header">
     <div class="effect_title">
         {{ type }}
     </div>    
+    {% if selector %}
+        {{ effect_selector(type, effect_list, effect["Name"]) }}
+    {% else %}
+    <div class="effect_selector"></div>
+    {% endif %}
     <div class="effect_onoff">
         {{ onoff_buttons(effect["Name"], effect["OnOff"]) }}
     </div>    
 </div>
 <div id="{{ effect_id }}_content" class="effect_content" style="background-color:{{ background_color }}; color:{{ color }};">
-    {% if selector %}
-    {{ effect_selector(type, effect_list, effect["Name"]) }}
-    {% endif %}
     <div class="effect_parameters">
-        {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}
+        {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob, knob_diameter)}}
     </div>
 </div>
 {% endmacro %}

@@ -1,0 +1,15 @@
+{
+    "BBEOpticalComp":{
+        "name":"Optical Comp",    
+        "effect": "comp",
+        "background-color": "#e0d7d7",
+        "color": "black",        
+        "knob": "chicken_head_black",
+        "knob-diameter": 70,
+        "parameters": [
+            {"name":"VOLUME", "id":0, "width":32},                        
+            {"name":"PAD", "on":"-15dB", "off":"0db", "id": 2, "switch": "true", "width":33},
+            {"name":"COMP", "id": 1, "width": 33 }
+        ]
+    }    
+}

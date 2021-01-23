@@ -3,11 +3,12 @@
         "name":"Gate",    
         "effect": "gate",        
         "background-color": "#e0d7d7",
-        "color": "red",
-        "knob": "red_knob",        
+        "color": "red",        
+        "knob": "red_knob",  
+        "knob-diameter": 50,
         "parameters": [
-            {"name":"Threshold", "id": 0, "width": 49},
-            {"name":"Decay", "id": 1, "width": 49}        
+            {"name":"THRESHOLD", "id": 0, "width": 49},
+            {"name":"DECAY", "id": 1, "width": 49}        
         ]
     }    
 }

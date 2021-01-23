@@ -3,12 +3,13 @@
         "name":"LA Comp",    
         "effect": "comp",
         "background-color": "#e0d7d7",
-        "color": "black",
+        "color": "black",        
         "knob": "chicken_head_black",
+        "knob-diameter": 70,
         "parameters": [
-            {"name":"Gain", "id":1, "width": 49},
-            {"name":"Peak Reduction", "id": 2, "width": 49},
-            {"name":"Limit/Compress", "id": 0, "switch": "true", "width": 99}        
+            {"name":"GAIN", "id":1, "width": 32},
+            {"on":"LIMIT", "off":"COMPRESS", "id": 0, "switch": "true", "width": 33},
+            {"name":"PEAK REDUCTION", "id": 2, "width": 33}
         ]
     }    
 }
