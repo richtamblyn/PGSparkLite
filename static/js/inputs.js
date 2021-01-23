@@ -37,10 +37,10 @@ $( document ).ready(function() {
         
         if (state === 'Off'){
             $('#' + id + '_off').addClass('selected');
-            $('#' + id + '_on').removeClass('selected');
+            $('#' + id + '_on').removeClass('selected');            
         } else{
             $('#' + id + '_on').addClass('selected');
-            $('#' + id + '_off').removeClass('selected');
+            $('#' + id + '_off').removeClass('selected');            
         }        
     });
 

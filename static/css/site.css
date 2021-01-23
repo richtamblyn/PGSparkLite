@@ -87,14 +87,20 @@ input[type="range"] {
     padding-bottom:10px;
 }
 
+.parameter {
+  width:18%;
+  display:inline-block;
+}
+
 .parameter_label {
-    width:35%;
-    display:inline-block;    
+    width:100%;
+    text-align:center;
+    padding-top:8px;
 }
 
 .parameter_value {
-    width:60%;
-    display:inline-block;
+    width:100%;
+    text-align:center;
 }
 
 .preset_button {

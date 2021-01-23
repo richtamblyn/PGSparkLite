@@ -2,10 +2,13 @@
     "LA2AComp": {
         "name":"LA Comp",    
         "effect": "comp",
+        "background-color": "#e0d7d7",
+        "color": "black",
+        "knob": "chicken_head_black",
         "parameters": [
-            {"name":"Gain", "id":1},
-            {"name":"Peak Reduction", "id": 2},
-            {"name":"Limit/Compress", "id": 0, "switch": "true"}        
+            {"name":"Gain", "id":1, "width": 49},
+            {"name":"Peak Reduction", "id": 2, "width": 49},
+            {"name":"Limit/Compress", "id": 0, "switch": "true", "width": 99}        
         ]
     }    
 }

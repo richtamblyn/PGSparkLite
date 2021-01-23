@@ -1,10 +1,13 @@
 {
     "bias_noisegate" : {
         "name":"Gate",    
-        "effect": "gate",
+        "effect": "gate",        
+        "background-color": "#e0d7d7",
+        "color": "red",
+        "knob": "red_knob",        
         "parameters": [
-            {"name":"Threshold", "id": 0},
-            {"name":"Decay", "id": 1}        
+            {"name":"Threshold", "id": 0, "width": 49},
+            {"name":"Decay", "id": 1, "width": 49}        
         ]
     }    
 }

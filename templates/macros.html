@@ -16,26 +16,30 @@
 </select>
 {% endmacro %}
 
-{% macro effect_parameters(effect_id, parameters, parameter_values) %}
+{% macro effect_parameters(effect_id, parameters, parameter_values, knob) %}
 {% for parameter in parameters %}
-<div class="parameter">
-    <div class="parameter_label">
-        {{ parameter.name }}
-    </div>
+<div class="parameter" style="width:{{ parameter.width }}%;">    
     <div class="parameter_value">
         {% if parameter.switch == "true" %}
         <input data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" type="checkbox" {% if parameter_values[parameter.id] == 1.0000 %} checked {% endif %}/>
         {% else %}
-        <input type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}"
+        <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="60" data-src="./img/knobs/{{ knob }}.png" data-sprites="100"
             id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001"
             value="{{ parameter_values[parameter.id] }}" />
         {% endif %}
+    </div>
+    <div class="parameter_label">
+        {{ parameter.name }}
     </div>
 </div>
 {% endfor %}
 {% endmacro %}
 
 {% macro effect_container(type, effect, effect_list, selector) %}
+{% set effect_config = effect_list[effect["Name"]] %}
+{% set background_color = effect_config["background-color"] %}
+{% set color = effect_config["color"] %}
+{% set knob = effect_config["knob"] %}
 <div class="effect_header">
     <div class="effect_title">
         {{ type }}
@@ -44,12 +48,12 @@
         {{ onoff_buttons(effect["Name"], effect["OnOff"]) }}
     </div>    
 </div>
-<div class="effect_content">
+<div id="{{ effect_id }}_content" class="effect_content" style="background-color:{{ background_color }}; color:{{ color }};">
     {% if selector %}
     {{ effect_selector(type, effect_list, effect["Name"]) }}
     {% endif %}
     <div class="effect_parameters">
-        {{ effect_parameters(effect["Name"], effect_list[effect["Name"]]["parameters"], effect["Parameters"])}}
+        {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}
     </div>
 </div>
 {% endmacro %}

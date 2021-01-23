@@ -2,6 +2,9 @@
     "EVH":{
         "name":"Insane",    
         "effect": "amp",
+        "background-color":"#363533",
+        "color":"#cc9e3b",
+        "knob":"amp_knob",
         "parameters": [
             {"name":"Gain", "id": 0},
             {"name":"Bass", "id": 3},
