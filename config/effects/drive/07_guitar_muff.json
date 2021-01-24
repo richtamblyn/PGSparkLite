@@ -1,11 +1,14 @@
 {
     "GuitarMuff":{
         "name":"Guitar Muff",    
-        "effect": "drive",    
+        "effect": "drive",
+        "background": "linear-gradient(0deg, rgba(153,168,156,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "black",        
+        "knob": "plastic_knob",    
         "parameters": [
-            {"name":"Volume", "id":0},
-            {"name":"Tone", "id": 1},
-            {"name":"Sustain", "id": 2}        
+            {"name":"VOLUME", "id":0, "width": 32, "diameter": 75, "margin":"10px"},
+            {"name":"TONE", "id": 1, "width": 33, "diameter": 60, "margin":"60px"},
+            {"name":"SUSTAIN", "id": 2, "width": 33, "diameter": 75, "margin":"10px"}        
         ]
     }    
 }

@@ -1,11 +1,14 @@
 {
     "BassBigMuff":{
         "name":"Bass Muff",    
-        "effect": "drive",    
+        "effect": "drive",
+        "background": "linear-gradient(0deg, rgba(25,219,67,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "black",        
+        "knob": "big_black",    
         "parameters": [
-            {"name":"Sustain", "id":2},
-            {"name":"Tone", "id": 1},
-            {"name":"Volume", "id": 0}        
+            {"name":"SUSTAIN", "id":2, "width": 32, "diameter": 80, "margin":"10px"},
+            {"name":"TONE", "id": 1, "width": 33, "diameter": 65, "margin": "60px"},
+            {"name":"VOLUME", "id": 0, "width":33,"diameter":80, "margin":"10px"}        
         ]
     }    
 }

@@ -44,6 +44,8 @@
 
 {% macro effect_container(type, effect, effect_list, selector) %}
 {% set effect_config = effect_list[effect["Name"]] %}
+{% set topper = effect_config["topper"] %}
+{% set badge = effect_config["badge"] %}
 {% set background = effect_config["background"] %}
 {% set color = effect_config["color"] %}
 {% set knob = effect_config["knob"] %}
@@ -60,6 +62,13 @@
         {{ onoff_buttons(effect["Name"], effect["OnOff"]) }}
     </div>    
 </div>
+{% if topper|length %}
+<div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
+    <span class="{{ badge }}">
+        {{ effect_config["name"] }}
+    </span>
+</div>
+{% endif %}
 <div id="{{ effect_id }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
     <div class="effect_parameters">
         {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}

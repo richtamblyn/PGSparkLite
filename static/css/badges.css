@@ -1,0 +1,11 @@
+.insane {
+    background: white;
+    color: black;
+    text-align: center;
+    padding:20px;
+    border-radius:47px;
+    border-width:2px;
+    border-style:ridge;
+    font-size:large;
+    font-family:fantasy;
+}

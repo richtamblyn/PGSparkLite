@@ -51,6 +51,13 @@ a, a:visited {
     font-size:larger;    
 }
 
+.effect_topper {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .effect_onoff{
     width:33%;    
     display:inline-block;
