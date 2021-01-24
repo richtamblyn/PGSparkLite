@@ -2,7 +2,7 @@
     "SABdriver":{
         "name":"SAB Driver",    
         "effect": "drive",
-        "background": "linear-gradient(0deg, rgba(74,74,73,1) 89%, rgba(255,255,255,1) 100%)",
+        "background": "linear-gradient(0deg, rgba(74,74,73,1) 94%, rgba(255,255,255,1) 100%)",
         "color": "white",        
         "knob": "chicken_head_black",
         "parameters": [
