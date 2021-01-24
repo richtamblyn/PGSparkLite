@@ -1,3 +1,15 @@
+.adclean {
+    background: white;
+    border-width: 3px;
+    border-color: black;
+    border-style: inset;
+    padding: 5px 20px 5px 20px;    
+    text-transform: uppercase;        
+    color: black;
+    font-weight:900;
+    font-size: 50px;
+}
+
 .insane {
     background: white;
     color: black;
@@ -8,4 +20,22 @@
     border-style:ridge;
     font-size:large;
     font-family:fantasy;
+}
+
+.silver120 {
+    background: black;
+    color: white;
+    padding:20px;    
+    font-size:large;
+    font-family:arial;
+    text-transform: uppercase;
+}
+
+.duo {    
+    padding:20px;        
+    font-family:serif;    
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: white;
+    font-size: 40px;
+    font-style:italic;
 }

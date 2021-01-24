@@ -69,7 +69,7 @@
     </span>
 </div>
 {% endif %}
-<div id="{{ effect_id }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
+<div id="{{ effect["Name"] }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
     <div class="effect_parameters">
         {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}
     </div>
