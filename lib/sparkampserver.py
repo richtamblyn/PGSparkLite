@@ -53,6 +53,8 @@ class SparkAmpServer:
         try:
             bt_devices = bluetooth.discover_devices(lookup_names=True)
 
+            address = None
+
             for addr, bt_name in bt_devices:
                 print("  {} - {}".format(addr, bt_name))
                 if bt_name == "Spark 40 Audio":
@@ -79,7 +81,8 @@ class SparkAmpServer:
                                {'message': 'Retrieving Amp configuration...'})
             self.initialise()
 
-        except:
+        except Exception as e:
+            print(e)
             self.socketio.emit('connection-message',
                                {'message': 'Connection failed.'})
 
