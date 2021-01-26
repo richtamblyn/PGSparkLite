@@ -28,7 +28,7 @@ amp = SparkAmpServer(socketio)
 
 @app.route('/changeeffect', methods=['POST'])
 def change_effect():
-    
+
     old_effect = request.form['oldeffect']
     new_effect = request.form['neweffect']
     effect_type = request.form['effecttype']
@@ -87,7 +87,8 @@ def change_effect_parameter():
     parameter = int(request.form['parameter'])
     value = float(request.form['value'])
 
-    amp.change_effect_parameter(amp.get_amp_effect_name(effect), parameter, value)
+    amp.change_effect_parameter(amp.get_amp_effect_name(effect), parameter,
+                                value)
     amp.config.update_config(effect, 'change_parameter', value, parameter)
 
     return 'ok'
@@ -121,13 +122,13 @@ def connect():
 @app.route('/', methods=['GET'])
 def index():
     if amp.connected == False:
-        return redirect(url_for('connect'))    
+        return redirect(url_for('connect'))
 
     return render_template('main.html', config=amp.config)
 
 
 @app.route('/eject', methods=['POST'])
-def eject():    
+def eject():
     eject = request.form['eject']
     if eject == 'true':
         amp.config = None
@@ -143,14 +144,12 @@ def static_file(path):
 
 
 @app.route('/turneffectonoff', methods=['POST'])
-def turn_effect_onoff():    
+def turn_effect_onoff():
     effect = request.form['id']
     state = request.form['state']
 
     amp.turn_effect_onoff(amp.get_amp_effect_name(effect), state)
-
     amp.config.update_config(effect, 'turn_on_off', state)
-
     amp.config.last_call = 'turn_on_off'
 
     return 'ok'
