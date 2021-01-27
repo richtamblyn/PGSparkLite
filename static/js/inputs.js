@@ -1,85 +1,85 @@
-$( document ).ready(function() {
-    $('#connect').on('click',function(e){
+$(document).ready(function () {
+
+    var socket = io();
+
+    $('#connect').on('click', function (e) {
         e.preventDefault();
-        $('#connect').prop( 'disabled', true )
+        $('#connect').prop('disabled', true)
         $('#connection-log').html('');
         $.post('/connect');
-    });    
+    });
 
-    $('.preset_button').on('click', function(){        
-        if ($(this).hasClass('selected')){
+    $('.preset_button').on('click', function () {
+        if ($(this).hasClass('selected')) {
             return;
         }
 
         var preset = $(this).val();
 
-        $('.preset_button').removeClass('selected');                
+        $('.preset_button').removeClass('selected');
         $('#preset_' + preset).addClass('selected');
 
-        var data = {'preset': preset};
-        
-        $.post('/changepreset', data);
+        var data = { 'preset': preset };
+
+        socket.emit('change_preset', data);
 
         $('.loading').show();
     })
 
-    $(document).on('click', '.onoff_button', function(){
-        
-        if ($(this).hasClass('selected')){
+    $(document).on('click', '.onoff_button', function () {
+        if ($(this).hasClass('selected')) {
             return;
         }
 
-        var id = $(this).data('id');
+        var effect = $(this).data('id');
         var state = $(this).val();
-        var data = {'id': id, 'state': state};
 
-        $.post('/turneffectonoff', data);
-        
-        if (state === 'Off'){
-            $('#' + id + '_off').addClass('selected');
-            $('#' + id + '_on').removeClass('selected');            
-        } else{
-            $('#' + id + '_on').addClass('selected');
-            $('#' + id + '_off').removeClass('selected');            
-        }        
+        var data = { 'effect': effect, 'state': state };        
+
+        if (state === 'Off') {
+            $('#' + effect + '_off').addClass('selected');
+            $('#' + effect + '_on').removeClass('selected');
+        } else {
+            $('#' + effect + '_on').addClass('selected');
+            $('#' + effect + '_off').removeClass('selected');
+        }
+
+        socket.emit('turn_effect_onoff', data);
     });
 
-    $(document).on('change','[type=range]', function(){
-        var id = $(this).data('id');
+    $(document).on('change', '[type=range]', function () {
+        var effect = $(this).data('id');
         var param = $(this).data('parameter');
         var value = $(this).val();
+        var data = { 'effect': effect, 'parameter': param, 'value': value };
+        socket.emit('change_effect_parameter', data)
+    });
 
-        var data = {'id': id, 'parameter': param, 'value': value };
-
-        $.post('/changeeffectparameter', data);
-      });
-
-    $(document).on('change', '[type=checkbox]', function(){
-        var id = $(this).data('id');
+    $(document).on('change', '[type=checkbox]', function () {
+        var effect = $(this).data('id');
         var param = $(this).data('parameter');
         var value = 0.0000
 
-        if ($(this).is(":checked")){
+        if ($(this).is(":checked")) {
             value = 1.0000
         }
 
-        var data = {'id': id, 'parameter': param, 'value': value };
+        var data = { 'effect': effect, 'parameter': param, 'value': value };
 
-        $.post('/changeeffectparameter', data);
+        socket.emit('change_effect_parameter', data);        
     });
 
-    $(document).on('change', '.effect-selector', function(){
+    $(document).on('change', '.effect-selector', function () {
         var effecttype = $(this).data('type');
         var oldeffect = $(this).data('selected');
         var neweffect = $(this).val()
 
-        var data = {'oldeffect': oldeffect, 'neweffect': neweffect, 'effecttype': effecttype, 'logchangeonly': false};        
+        var data = { 'oldeffect': oldeffect, 'neweffect': neweffect, 'effecttype': effecttype, 'logchangeonly': false };
 
-        $('#' + effecttype + '_container').load('/changeeffect', data);        
+        $('#' + effecttype + '_container').load('/changeeffect', data);
     });
 
-    $('#eject').on('click', function(){
-        var data = {'eject': true}
-        $.post('/eject', data);        
+    $('#eject').on('click', function () {
+        socket.emit('eject')
     })
-  });
+});
