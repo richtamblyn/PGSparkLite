@@ -116,7 +116,7 @@ def static_file(path):
 
 @socketio.event
 def change_effect_parameter(data):
-    effect = data['effect']
+    effect = str(data['effect'])
     parameter = int(data['parameter'])
     value = float(data['value'])
 
@@ -140,7 +140,7 @@ def eject():
 
 @socketio.event
 def turn_effect_onoff(data):
-    effect = data['effect']
+    effect = str(data['effect'])
     state = data['state']
 
     amp.turn_effect_onoff(amp.get_amp_effect_name(effect), state)
