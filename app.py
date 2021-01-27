@@ -26,6 +26,7 @@ amp = SparkAmpServer(socketio)
 # Flask Routes
 ##################
 
+
 @app.route('/changeeffect', methods=['POST'])
 def change_effect():
 
@@ -80,30 +81,6 @@ def change_effect():
                            selector=True)
 
 
-@app.route('/changeeffectparameter', methods=['POST'])
-def change_effect_parameter():
-
-    effect = request.form['id']
-    parameter = int(request.form['parameter'])
-    value = float(request.form['value'])
-
-    amp.change_effect_parameter(amp.get_amp_effect_name(effect), parameter,
-                                value)
-    amp.config.update_config(effect, 'change_parameter', value, parameter)
-
-    return 'ok'
-
-
-@app.route('/changepreset', methods=['POST'])
-def change_preset():
-
-    preset = request.form['preset']
-
-    amp.change_to_preset(int(preset))
-
-    return 'ok'
-
-
 @app.route('/connect', methods=['GET', 'POST'])
 def connect():
     if request.method == 'GET':
@@ -127,32 +104,48 @@ def index():
     return render_template('main.html', config=amp.config)
 
 
-@app.route('/eject', methods=['POST'])
-def eject():
-    eject = request.form['eject']
-    if eject == 'true':
-        amp.config = None
-        amp.eject()
-        socketio.emit('connection-lost', {'url': url_for('connect')})
-
-    return 'ok'
-
-
 @app.route('/<path:path>')
 def static_file(path):
     return app.send_static_file(path)
 
 
-@app.route('/turneffectonoff', methods=['POST'])
-def turn_effect_onoff():
-    effect = request.form['id']
-    state = request.form['state']
+###########################
+# SocketIO EventListeners
+###########################
+
+
+@socketio.event
+def change_effect_parameter(data):
+    effect = data['effect']
+    parameter = int(data['parameter'])
+    value = float(data['value'])
+
+    amp.change_effect_parameter(amp.get_amp_effect_name(effect),
+                                parameter, value)
+    amp.config.update_config(effect, 'change_parameter', value,
+                             parameter)
+
+
+@socketio.event
+def change_preset(data):
+    amp.change_to_preset(int(data['preset']))
+
+
+@socketio.event
+def eject():
+    amp.config = None
+    amp.eject()
+    socketio.emit('connection-lost', {'url': url_for('connect')})
+
+
+@socketio.on('turneffectonoff')
+def turn_effect_onoff(data):
+    effect = data['effect']
+    state = data['state']
 
     amp.turn_effect_onoff(amp.get_amp_effect_name(effect), state)
     amp.config.update_config(effect, 'turn_on_off', state)
     amp.config.last_call = 'turn_on_off'
-
-    return 'ok'
 
 
 if __name__ == '__main__':
