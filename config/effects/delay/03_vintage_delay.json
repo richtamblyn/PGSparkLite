@@ -3,6 +3,9 @@
         "name":"Vintage Delay",    
         "effect": "delay",
         "switch_parameter": 2,
+        "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "black",        
+        "knob": "chicken_head_black",
         "parameters": [
             {"name":"Repeat Rate", "id": 0},
             {"name":"Intensity", "id": 1},        

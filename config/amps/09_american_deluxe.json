@@ -2,12 +2,17 @@
     "Deluxe65":{
         "name":"American Deluxe",        
         "effect": "amp",
+        "background":"linear-gradient(0deg, rgba(29,136,83,1) 89%, rgba(255,255,255,1) 100%)",
+        "color":"white",
+        "knob":"five_step",        
+        "topper":"silver120",
+        "badge":"silver120",
         "parameters": [
-            {"name":"Gain", "id": 0},
-            {"name":"Bass", "id": 3},
-            {"name":"Middle", "id": 2},
-            {"name":"Treble", "id": 1},
-            {"name":"Master", "id": 4}
+            {"name":"GAIN", "id": 0, "width":19, "diameter":90},
+            {"name":"BASS", "id": 3, "width":19, "diameter":90},
+            {"name":"MIDDLE", "id": 2, "width":19, "diameter":90},
+            {"name":"TREBLE", "id": 1, "width":19, "diameter":90},
+            {"name":"MASTER", "id": 4, "width":19, "diameter":90}
         ]
     }    
 }
