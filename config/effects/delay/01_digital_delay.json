@@ -5,13 +5,13 @@
         "switch_parameter": 0,
         "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
         "color": "black",        
-        "knob": "chicken_head_black",
+        "knob": "blue_knob",
         "parameters": [
-            {"name":"E.Level", "id": 0},
-            {"name":"F.Back", "id": 1},
-            {"name":"D.Time", "id": 2},
-            {"name":"Mode", "id": 3},
-            {"name":"BPM", "id": 4, "switch": "true"}
+            {"name":"E.LEVEL", "id": 0, "width":19, "diameter":65},
+            {"name":"F.BACK", "id": 1, "width":20, "diameter":45, "margin":"40px"},
+            {"on":"BPM", "off":"", "id": 4, "switch": "true", "width":18, "margin":"10px"},
+            {"name":"D.TIME", "id": 2, "width":20, "diameter":45, "margin":"40px"},
+            {"name":"MODE", "id": 3, "width":20, "diameter":65}            
         ]
     }    
 }
