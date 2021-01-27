@@ -59,11 +59,11 @@ def change_effect():
         current_effect = amp.config.drive
         effect_list = amp.config.drives
     elif effect_type == 'AMP':
-        current_effect = config.amp
-        effect_list = config.amps
+        current_effect = amp.config.amp
+        effect_list = amp.config.amps
     elif effect_type == 'MOD':
-        current_effect = config.modulation
-        effect_list = config.modulations
+        current_effect = amp.config.modulation
+        effect_list = amp.config.modulations
     elif effect_type == 'DELAY':
         current_effect = amp.config.delay
         effect_list = amp.config.delays

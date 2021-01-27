@@ -31,7 +31,7 @@
     {% else %}
     <div class="parameter_value">        
         <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="{{ parameter.diameter }}" data-src="./img/knobs/{{ knob }}.png" data-sprites="100"
-            id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001"
+            id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001" onchange="knobChangeEventHandler(this)"
             value="{{ parameter_values[parameter.id] }}" />        
     </div>
     <div class="parameter_label">
