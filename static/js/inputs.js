@@ -34,17 +34,17 @@ $(document).ready(function () {
 
         var effect = $(this).data('id');
         var state = $(this).val();
-        var data = { 'effect': effect, 'state': state };
-
-        socket.emit('turn_effect_onoff', data);
+        var data = { 'effect': effect, 'state': state };        
 
         if (state === 'Off') {
-            $('#' + id + '_off').addClass('selected');
-            $('#' + id + '_on').removeClass('selected');
+            $('#' + effect + '_off').addClass('selected');
+            $('#' + effect + '_on').removeClass('selected');
         } else {
-            $('#' + id + '_on').addClass('selected');
-            $('#' + id + '_off').removeClass('selected');
+            $('#' + effect + '_on').addClass('selected');
+            $('#' + effect + '_off').removeClass('selected');
         }
+
+        socket.emit('turn_effect_onoff', data);
     });
 
     $(document).on('change', '[type=range]', function () {

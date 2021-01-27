@@ -138,7 +138,7 @@ def eject():
     socketio.emit('connection-lost', {'url': url_for('connect')})
 
 
-@socketio.on('turneffectonoff')
+@socketio.event
 def turn_effect_onoff(data):
     effect = data['effect']
     state = data['state']
