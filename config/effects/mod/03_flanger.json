@@ -3,13 +3,13 @@
         "name":"Flanger",    
         "effect": "modulation",
         "switch_parameter": 1,
-        "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
-        "knob": "chicken_head_black",
+        "background": "linear-gradient(0deg, rgba(67,77,83,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "white",        
+        "knob": "white_knob",
         "parameters": [
-            {"name":"Rate", "id": 0},
-            {"name":"Mix", "id": 1},
-            {"name":"Depth", "id": 2}        
+            {"name":"RATE", "id": 0, "width":32, "diameter": 89},
+            {"name":"MIX", "id": 1, "width":33, "diameter":69, "margin":"40px"}, 
+            {"name":"DEPTH", "id": 2, "width":33, "diameter":89}        
         ]
     }    
 }

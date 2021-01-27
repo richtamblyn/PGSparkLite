@@ -3,13 +3,13 @@
         "name":"Tremolo",    
         "effect": "modulation",
         "switch_parameter": 2,
-        "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
-        "knob": "chicken_head_black",        
+        "background": "linear-gradient(0deg, rgba(255,216,15,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "green",        
+        "knob": "white_knob",        
         "parameters": [
-            {"name":"Speed", "id": 0},
-            {"name":"Depth", "id": 1},
-            {"name":"Level", "id": 2}            
+            {"name":"SPEED", "id": 0, "width":32, "diameter": 89},
+            {"name":"LEVEL", "id": 2, "width":33, "diameter": 69, "margin":"60px"},
+            {"name":"DEPTH", "id": 1, "width":33, "diameter": 89}            
         ]
     }    
 }
