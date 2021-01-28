@@ -1,3 +1,11 @@
+.acboost {
+    padding:20px;        
+    font-family:'Times New Roman', Times, serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: gold;
+    font-size: 45px;  
+}
+
 .adclean {
     background: white;
     border-width: 3px;
@@ -8,6 +16,26 @@
     color: black;
     font-weight:900;
     font-size: 50px;
+}
+
+.americandeluxe {
+    background:rgb(95, 19, 19);
+    border-width:3px;
+    border-style:inset;
+    padding: 10px 20px 10px 20px;    
+    color: gold;    
+    font-size:28px;
+    font-family: 'Times New Roman', Times, serif;
+    font-style:italic;
+}
+
+.duo {    
+    padding:20px;        
+    font-family:serif;    
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: white;
+    font-size: 40px;
+    font-style:italic;
 }
 
 .insane {
@@ -22,6 +50,24 @@
     font-family:fantasy;
 }
 
+.matchdc {
+    background: black;
+    border-width:1px;
+    padding: 10px 20px 10px 20px;    
+    color: white;
+    text-transform: uppercase;
+    font-size:30px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.plexiglas {
+    color: rgb(207, 193, 114);
+    font-family:'Times New Roman', Times, serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    font-size:40px;
+    font-style:italic;
+}
+
 .silver120 {
     background: black;
     color: white;
@@ -31,11 +77,18 @@
     text-transform: uppercase;
 }
 
-.duo {    
+.tweedbass {
     padding:20px;        
     font-family:serif;    
-    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    text-shadow: 0 0 15px rgb(180, 173, 72), 0 0 15px rgb(180, 173, 72), 0 0 15px rgb(180, 173, 72), 0 0 15px rgb(180, 173, 72); 
     color: white;
-    font-size: 40px;
+    font-size: 50px;
     font-style:italic;
+}
+
+.twostone {
+    font-family:fantasy;
+    font-size:35px;
+    color:white;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
 }
