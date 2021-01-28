@@ -3,16 +3,16 @@
         "name":"Chamber",    
         "effect": "reverb",
         "switch_parameter": 0,
-        "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
+        "background": "linear-gradient(0deg, rgba(198,167,87,1) 93%, rgba(255,255,255,1) 100%)",
         "color": "black",        
-        "knob": "chicken_head_black",
+        "knob": "white_knob",
         "parameters": [
-            {"name":"Level", "id": 0},
-            {"name":"Damping", "id": 1},
-            {"name":"Low Cut", "id": 2},
-            {"name":"High Cut", "id": 3},
-            {"name":"Dwell", "id": 4},
-            {"name":"Time", "id": 5}
+            {"name":"LEVEL", "id": 0, "width":25, "diameter":80},
+            {"name":"LOW CUT", "id": 2, "width":25, "diameter":80},
+            {"name":"HIGH CUT", "id": 3, "width":24, "diameter":80},
+            {"name":"TIME", "id": 5, "width":24, "diameter":80},
+            {"name":"DAMPING", "id": 1, "width":52, "diameter":80, "margin":"-25px"},
+            {"name":"DWELL", "id": 4, "width":46, "diameter":80, "margin":"-25px"}            
         ]
     }    
 }

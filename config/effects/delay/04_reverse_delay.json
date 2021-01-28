@@ -7,11 +7,11 @@
         "color": "white",        
         "knob": "five_step",
         "parameters": [
-            {"name":"MIX", "id": 0, "width":20, "diameter":75},            
-            {"name":"DECAY", "id": 1, "width":20, "diameter":65, "margin":"40px"},
+            {"name":"MIX", "id": 0, "width":20, "diameter":85},            
+            {"name":"DECAY", "id": 1, "width":20, "diameter":75, "margin":"40px"},
             {"on":"BPM", "off":"", "id": 4, "switch": "true", "width":19, "margin":"20px"},
-            {"name":"FILTER", "id": 2, "width":19, "diameter":65, "margin":"40px"},
-            {"name":"TIME", "id": 3, "width":19, "diameter":75}                        
+            {"name":"FILTER", "id": 2, "width":19, "diameter":75, "margin":"40px"},
+            {"name":"TIME", "id": 3, "width":19, "diameter":85}                        
         ]
     }    
 }
