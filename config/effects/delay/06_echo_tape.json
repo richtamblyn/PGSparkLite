@@ -3,15 +3,15 @@
         "name":"Echo Tape",    
         "effect": "delay",
         "switch_parameter": 1,
-        "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
-        "knob": "chicken_head_black",
+        "background": "linear-gradient(0deg, rgba(42,47,41,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "white",        
+        "knob": "chicken_head_white",
         "parameters": [
-            {"name":"Sustain", "id": 0},
-            {"name":"Volume", "id": 1},
-            {"name":"Tone", "id": 2},
-            {"name":"Short -> Long", "id": 3},
-            {"name":"BPM", "id": 4, "switch": "true"}
+            {"name":"SUSTAIN", "id": 0, "width":19, "diameter":75, "margin":"5px"},
+            {"name":"VOLUME", "id": 1, "width":19, "diameter":55, "margin":"40px"},
+            {"on":"BPM", "off":"", "id": 4, "switch": "true", "width":19, "margin":"25px"},
+            {"name":"TONE", "id": 2, "width":19, "diameter":55, "margin":"40px"},
+            {"name":"SHORT --> LONG", "id": 3, "width":19, "diameter":75, "margin":"5px"}            
         ]
     }    
 }

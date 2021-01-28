@@ -82,4 +82,8 @@ $(document).ready(function () {
     $('#eject').on('click', function () {
         socket.emit('eject')
     })
+
+    $('#reset-config').on('click', function() {
+        socket.emit('reset_config');
+    })
 });

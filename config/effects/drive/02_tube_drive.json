@@ -6,9 +6,9 @@
         "color": "black",        
         "knob": "foc_green",          
         "parameters": [
-            {"name":"OVERDRIVE", "id":0, "width": 32, "diameter":89},
-            {"name":"TONE", "id": 1, "width": 33, "diameter":69, "margin":"60px"},
-            {"name":"LEVEL", "id": 2, "width": 33, "diameter":89}        
+            {"name":"OVERDRIVE", "id":0, "width": 33, "diameter":89},
+            {"name":"TONE", "id": 1, "width": 33, "diameter":69, "margin":"50px"},
+            {"name":"LEVEL", "id": 2, "width": 32, "diameter":89}        
         ]
     }    
 }

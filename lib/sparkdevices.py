@@ -27,11 +27,16 @@ class SparkDevices:
 
         self.last_call = ''
 
+        self.reset_static()
         self.reset()
         self.load()        
         self.parse_preset(preset)
 
     def switch_onoff_parameter(self, effect, parameter, value):
+        
+        switch_parameter = None
+        config_effect = None
+        
         if effect in self.amps:
             return None
         elif effect in self.comps:
@@ -71,7 +76,7 @@ class SparkDevices:
         elif effect in self.reverbs:
             return self.reverbs[effect][self.parameters]
 
-    def reset(self):
+    def reset_static(self):
         self.amps = {}
         self.gates = {}
         self.comps = {}
@@ -80,6 +85,7 @@ class SparkDevices:
         self.delays = {}
         self.reverbs = {}
 
+    def reset(self):
         self.preset = 0
         self.gate = ''
         self.comp = ''

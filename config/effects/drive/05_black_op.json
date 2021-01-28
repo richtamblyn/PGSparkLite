@@ -7,7 +7,7 @@
         "knob": "hexagon",        
         "parameters": [
             {"name":"DISTORTION", "id":0, "width": 32, "diameter": 89},            
-            {"name":"FILTER", "id": 1, "width": 33, "diameter": 60, "margin":"60px"},        
+            {"name":"FILTER", "id": 1, "width": 33, "diameter": 65, "margin":"55px"},        
             {"name":"VOLUME", "id": 2, "width": 33, "diameter": 89}            
         ]
     }    

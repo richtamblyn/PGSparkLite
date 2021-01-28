@@ -3,8 +3,8 @@
         "name":"Delay/Echo",    
         "effect": "delay",
         "switch_parameter": 2,
-        "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
+        "background": "linear-gradient(0deg, rgba(48,70,232,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "white",        
         "knob": "white_knob",
         "parameters": [
             {"name":"DELAY", "id": 0, "width":19, "diameter":70},
