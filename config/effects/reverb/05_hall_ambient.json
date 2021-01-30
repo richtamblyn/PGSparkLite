@@ -8,7 +8,7 @@
         "knob": "phatty",
         "parameters": [
             {"name":"LEVEL", "id": 0, "width":25, "diameter":65},
-            {"name":"LOW CUT", "id": 2, "width":25, "diameter":65},
+            {"name":"LOW CUT", "id": 2, "width":24, "diameter":65},
             {"name":"HIGH CUT", "id": 3, "width":24, "diameter":65},
             {"name":"TIME", "id": 5, "width":24, "diameter":65},
             {"name":"DAMPING", "id": 1, "width":52, "diameter":65},

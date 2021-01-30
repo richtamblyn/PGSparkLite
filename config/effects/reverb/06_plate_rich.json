@@ -8,7 +8,7 @@
         "knob": "chicken_head_black",
         "parameters": [
             {"name":"LEVEL", "id": 0, "width":25, "diameter":80},
-            {"name":"LOW CUT", "id": 2, "width":25, "diameter":80},
+            {"name":"LOW CUT", "id": 2, "width":24, "diameter":80},
             {"name":"HIGH CUT", "id": 3, "width":24, "diameter":80},
             {"name":"TIME", "id": 5, "width":24, "diameter":80},
             {"name":"DAMPING", "id": 1, "width":52, "diameter":80, "margin":"-25px"},

@@ -8,7 +8,7 @@
         "knob": "darkman",
         "parameters": [
             {"name":"E.LEVEL", "id": 0, "width":24, "diameter":80},
-            {"name":"RATE", "id": 1, "width":25, "diameter":60, "margin":"40px"},
+            {"name":"RATE", "id": 1, "width":24, "diameter":60, "margin":"40px"},
             {"name":"DEPTH", "id": 2, "width":25, "diameter":60, "margin": "40px"},
             {"name":"TONE", "id": 3, "width":24}
         ]
