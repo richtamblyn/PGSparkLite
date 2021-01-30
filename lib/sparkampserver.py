@@ -115,6 +115,8 @@ class SparkAmpServer:
         # Special cases to match internal amp ID
         if effect == 'bias_noisegate':
             effect = 'bias.noisegate'
+        elif effect == 'AC_Boost':
+            effect = 'AC Boost'
         elif effect.isdigit():
             effect = 'bias.reverb'
         return effect
