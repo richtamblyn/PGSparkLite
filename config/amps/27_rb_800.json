@@ -2,17 +2,17 @@
     "GK800":{
         "name":"RB-800",    
         "effect": "amp",
-        "background":"linear-gradient(0deg, rgba(29,136,83,1) 89%, rgba(255,255,255,1) 100%)",
+        "background":"linear-gradient(0deg, rgba(120,117,115,1) 93%, rgba(255,255,255,1) 100%)",
         "color":"white",
-        "knob":"five_step",        
-        "topper":"silver120",
-        "badge":"silver120",
+        "knob":"silver_knob",        
+        "topper":"rb800",
+        "badge":"rb800",
         "parameters": [
-            {"name":"GAIN", "id": 0, "width":19, "diameter":90},
-            {"name":"BASS", "id": 3, "width":19, "diameter":90},
-            {"name":"MIDDLE", "id": 2, "width":19, "diameter":90},
-            {"name":"TREBLE", "id": 1, "width":19, "diameter":90},
-            {"name":"MASTER", "id": 4, "width":19, "diameter":90}
+            {"name":"GAIN", "id": 0, "width":19, "diameter":50},
+            {"name":"BASS", "id": 3, "width":19, "diameter":50},
+            {"name":"MIDDLE", "id": 2, "width":19, "diameter":50},
+            {"name":"TREBLE", "id": 1, "width":19, "diameter":50},
+            {"name":"MASTER", "id": 4, "width":19, "diameter":50}
         ]      
     }    
 }

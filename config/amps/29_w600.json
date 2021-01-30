@@ -1,6 +1,6 @@
 {
     "W600":{
-        "name":"W600",    
+        "name":"W 600",    
         "effect": "amp",
         "background":"linear-gradient(0deg, rgba(29,136,83,1) 89%, rgba(255,255,255,1) 100%)",
         "color":"white",

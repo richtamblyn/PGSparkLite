@@ -126,6 +126,14 @@
     font-size:45px;
 }
 
+.rb800 {
+    font-family:monospace;
+    color:white;
+    font-size:40px;
+    margin-left:-350px;
+    margin-top:20px;
+}
+
 .rockerv {
     color:black;
     font-weight:900;
@@ -145,6 +153,16 @@
     font-size:50px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black;
+}
+
+.sunny3000 {
+    font-size:30px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black;
+    text-transform: uppercase;
+    background:black;
+    border-width:1px;
+    padding:10px 20px 10px 20px;
 }
 
 .switchaxe {
