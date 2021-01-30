@@ -2,7 +2,7 @@
     "Bassman":{
         "name":"Tweed Bass",    
         "effect": "amp",
-        "background":"linear-gradient(0deg, rgba(215,215,215,1) 93%, rgba(255,255,255,1) 100%)",
+        "background":"linear-gradient(0deg, rgba(231,142,52,1) 96%, rgba(255,255,255,1) 100%)",
         "color":"black",
         "knob":"chicken_head_black",        
         "topper":"tweedbass",
