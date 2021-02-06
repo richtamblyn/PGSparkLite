@@ -7,7 +7,7 @@
         "knob": "big_black",    
         "parameters": [
             {"name":"SUSTAIN", "id":2, "width": 32, "diameter": 80, "margin":"10px"},
-            {"name":"TONE", "id": 1, "width": 33, "diameter": 65, "margin": "60px"},
+            {"name":"TONE", "id": 1, "width": 33, "diameter": 65, "margin": "20px"},
             {"name":"VOLUME", "id": 0, "width":33,"diameter":80, "margin":"10px"}        
         ]
     }    

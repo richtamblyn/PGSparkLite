@@ -32,6 +32,7 @@ a, a:visited {
     margin:10px 0px 10px 0px;
     border:1px solid #302f2f;
     border-radius:3px;
+    width:100%;
 }
 
 .effect_content {
@@ -65,14 +66,17 @@ a, a:visited {
 }
 
 .effect_selector{
-  width:39%;
+  width:37%;
   display:inline-block;
 }
 
+.eject {
+  text-align: center;  
+}
+
 .eject_button{  
-  width: 98%;
-  padding: 10px;
-  margin-top:30px;
+  width: 100%;
+  padding: 10px;  
   margin-bottom:15px;    
   font-size: large;    
   background-color: red;
@@ -131,7 +135,7 @@ input[type="range"] {
 
 select {    
     padding:10px;
-    width: 39%;    
+    width: 37%;    
     background: #302f2f;
     color: white;
 }

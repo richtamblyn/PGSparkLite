@@ -8,7 +8,7 @@
         "knob": "white_knob",
         "parameters": [
             {"name":"SPEED", "id": 0, "width":32, "diameter":89},
-            {"name":"LEVEL", "id": 2, "width":33, "diameter":69, "margin":"60px"},
+            {"name":"LEVEL", "id": 2, "width":33, "diameter":69, "margin":"15px"},
             {"name":"DEPTH", "id": 1, "width":33, "diameter":89}                    
         ]
     }    

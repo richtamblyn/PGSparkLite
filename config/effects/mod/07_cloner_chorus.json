@@ -7,8 +7,8 @@
         "color": "white",        
         "knob": "oscar",
         "parameters": [
-            {"name":"RATE", "id": 0, "width":70, "diameter":89},
-            {"name":"DEPTH", "on":"HIGH", "off":"LOW", "id": 1, "switch": "true", "width":15, "margin":"10px"}
+            {"name":"RATE", "id": 0, "width":48, "diameter":65, "margin":"10px"},
+            {"name":"DEPTH", "on":"HIGH", "off":"LOW", "id": 1, "switch": "true", "width":48, "margin":"10px"}
         ]
     }    
 }

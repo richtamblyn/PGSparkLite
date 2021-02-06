@@ -8,7 +8,7 @@
         "knob": "plastic_knob",
         "parameters": [
             {"name":"Depth", "id": 0, "width":32, "diameter":70},            
-            {"name":"BPM", "on":"ON", "off":"OFF", "id": 2, "switch": "true", "width":33, "margin":"40px"},
+            {"name":"BPM", "on":"ON", "off":"OFF", "id": 2, "switch": "true", "width":33, "margin":"5px"},
             {"name":"Speed", "id": 1, "width":33, "diameter":70}            
         ]
     }    

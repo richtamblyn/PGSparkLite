@@ -7,7 +7,7 @@
         "knob": "oscar",  
         "parameters": [
             {"name":"BRASS VOL.", "id":0, "width": 32, "diameter": 80, "margin":"10px"},
-            {"name":"SENSITIVITY", "id": 1, "width": 33, "diameter": 60, "margin":"60px"},
+            {"name":"SENSITIVITY", "id": 1, "width": 33, "diameter": 60, "margin":"20px"},
             {"name":"BASS VOL.", "id": 2, "width": 33, "diameter": 80, "margin":"10px"}        
         ]
     }    

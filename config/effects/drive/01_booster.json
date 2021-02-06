@@ -6,7 +6,7 @@
         "color": "black",        
         "knob": "darkman",        
         "parameters": [
-            {"name":"GAIN", "id":0, "width": 99, "diameter":89}        
+            {"name":"GAIN", "id":0, "width": 99, "diameter":80}        
         ]
     }    
 }

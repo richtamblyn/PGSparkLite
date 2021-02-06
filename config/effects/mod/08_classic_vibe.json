@@ -7,8 +7,8 @@
         "color": "white",        
         "knob": "chicken_head_black",
         "parameters": [
-            {"name":"SPEED", "id": 0, "width":48, "diameter":89},
-            {"name":"INTENSITY", "id": 1, "width":48, "diameter":89}        
+            {"name":"SPEED", "id": 0, "width":48, "diameter":80},
+            {"name":"INTENSITY", "id": 1, "width":48, "diameter":80}        
         ]
     }    
 }

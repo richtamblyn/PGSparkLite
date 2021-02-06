@@ -7,9 +7,9 @@
         "color": "lightgrey",        
         "knob": "chicken_head_black",
         "parameters": [
-            {"name":"SPEED", "id": 0, "width":32, "diameter":89, "margin":"10px"},                        
-            {"on":"CHORUS", "off":"VIBRATO", "id": 1, "switch": "true", "width":33, "margin":"60px"},
-            {"name":"INTENSITY", "id": 2, "width":33, "diameter":89, "margin":"10px"}
+            {"name":"SPEED", "id": 0, "width":32, "diameter":80, "margin":"10px"},                        
+            {"on":"CHORUS", "off":"VIBRATO", "id": 1, "switch": "true", "width":33, "margin":"22px"},
+            {"name":"INTENSITY", "id": 2, "width":33, "diameter":80, "margin":"10px"}
         ]
     }    
 }
