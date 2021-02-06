@@ -2,17 +2,17 @@
     "W600":{
         "name":"W 600",    
         "effect": "amp",
-        "background":"linear-gradient(0deg, rgba(29,136,83,1) 89%, rgba(255,255,255,1) 100%)",
-        "color":"white",
-        "knob":"five_step",        
+        "background":"linear-gradient(0deg, rgba(235,210,108,1) 93%, rgba(255,255,255,1) 100%)",
+        "color":"black",
+        "knob":"white_knob",        
         "topper":"silver120",
-        "badge":"silver120",
+        "badge":"w600",
         "parameters": [
-            {"name":"GAIN", "id": 0, "width":19, "diameter":90},
-            {"name":"BASS", "id": 3, "width":19, "diameter":90},
-            {"name":"MIDDLE", "id": 2, "width":19, "diameter":90},
-            {"name":"TREBLE", "id": 1, "width":19, "diameter":90},
-            {"name":"MASTER", "id": 4, "width":19, "diameter":90}
+            {"name":"GAIN", "id": 0, "width":19, "diameter":75},
+            {"name":"BASS", "id": 3, "width":19, "diameter":75},
+            {"name":"MIDDLE", "id": 2, "width":19, "diameter":75},
+            {"name":"TREBLE", "id": 1, "width":19, "diameter":75},
+            {"name":"MASTER", "id": 4, "width":19, "diameter":75}
         ]
     }    
 }

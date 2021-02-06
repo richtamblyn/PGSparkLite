@@ -75,6 +75,15 @@
     color:rgb(213,203,111);
 }
 
+.hammer500 {
+    padding:20px;        
+    font-family:fantasy;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: white;
+    font-size: 40px;
+    font-style:italic;
+}
+
 .insane {
     background: white;
     color: black;
@@ -198,4 +207,15 @@
     font-size:35px;
     color:white;
     text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+}
+
+.w600 {
+    font-family:'Times New Roman', Times, serif;
+    font-size:35px;
+    font-weight:900;
+    color: red;
+    padding: 10px;
+    border-style:solid;
+    border-width:1px;
+    background:rgb(233, 214, 108);
 }
