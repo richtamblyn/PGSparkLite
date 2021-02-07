@@ -99,6 +99,8 @@ input[type="range"] {
     width: 43%;
     border:none;
     border-radius:8px;
+    color:black;
+    background-color: white;
 }
 
 .onoff_buttons {
@@ -127,6 +129,8 @@ input[type="range"] {
     width: 23%;
     border: none;
     border-radius: 8px;
+    color:black;
+    background-color: white;
 }
 
 .preset_container {
