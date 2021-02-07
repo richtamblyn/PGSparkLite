@@ -3,13 +3,16 @@
         "name":"Holy Grail",    
         "effect": "reverb",
         "switch_parameter": 0,
+        "background": "linear-gradient(0deg, rgba(84,80,78,1) 95%, rgba(255,255,255,1) 100%)",
+        "color": "white",        
+        "knob": "oscar",
         "parameters": [
-            {"name":"Level", "id": 0},
-            {"name":"Damping", "id": 1},
-            {"name":"Low Cut", "id": 2},
-            {"name":"High Cut", "id": 3},
-            {"name":"Dwell", "id": 4},
-            {"name":"Time", "id": 5}
+            {"name":"LEVEL", "id": 0, "width":25, "diameter":70},
+            {"name":"LOW CUT", "id": 2, "width":24, "diameter":70},
+            {"name":"HIGH CUT", "id": 3, "width":24, "diameter":70},
+            {"name":"TIME", "id": 5, "width":24, "diameter":70},
+            {"name":"DAMPING", "id": 1, "width":52, "diameter":70, "margin":"-25px"},
+            {"name":"DWELL", "id": 4, "width":46, "diameter":70, "margin":"-25px"}            
         ]
     }    
 }

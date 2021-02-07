@@ -1,0 +1,221 @@
+.acboost {
+    padding:20px;        
+    font-family:'Times New Roman', Times, serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: rgb(216, 194, 69);
+    font-size: 45px;  
+}
+
+.adclean {
+    background: white;
+    border-width: 3px;
+    border-color: black;
+    border-style: inset;
+    padding: 5px 20px 5px 20px;    
+    text-transform: uppercase;        
+    color: black;
+    font-weight:900;
+    font-size: 50px;
+}
+
+.americandeluxe {
+    background:rgb(95, 19, 19);
+    border-width:3px;
+    border-style:inset;
+    padding: 10px 20px 10px 20px;    
+    color: gold;    
+    font-size:28px;
+    font-family: 'Times New Roman', Times, serif;
+    font-style:italic;
+}
+
+.americanhighgain {
+    font-size:28px;
+    font-family:'Times New Roman', Times, serif;
+    background: black;
+    border-width:3px;
+    border-style:double;
+    border-color:white;
+    padding: 10px 20px 10px 20px;    
+    color:white;
+}
+
+.be101 {
+    background:rgb(213,203,111,1);
+    border-width:3px;
+    border-style:inset;
+    padding: 10px 20px 10px 20px;    
+    color: black;    
+    font-size:28px;
+    font-family: monospace;
+    font-weight:900;
+}
+
+.british30 {
+    color:black;
+    font-weight:900;
+    font-size:45px;
+}
+
+.duo {    
+    padding:20px;        
+    font-family:serif;    
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: white;
+    font-size: 40px;
+    font-style:italic;
+}
+
+.fishboy {
+    text-transform: uppercase;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:40px;
+    font-style:italic;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color:rgb(213,203,111);
+}
+
+.hammer500 {
+    padding:20px;        
+    font-family:fantasy;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: white;
+    font-size: 40px;
+    font-style:italic;
+}
+
+.insane {
+    background: white;
+    color: black;
+    text-align: center;
+    padding:20px;
+    border-radius:47px;
+    border-width:2px;
+    border-style:ridge;
+    font-size:large;
+    font-family:fantasy;
+}
+
+.jm45 {
+    color: rgb(207, 193, 114);
+    font-family:'Times New Roman', Times, serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    font-size:40px;    
+}
+
+.jumbo {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 50px;
+    font-style:italic;
+    font-weight:300;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+}
+
+.matchdc {
+    background: black;
+    border-width:1px;
+    padding: 10px 20px 10px 20px;    
+    color: white;
+    text-transform: uppercase;
+    font-size:30px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.plexiglas {
+    color: rgb(207, 193, 114);
+    font-family:'Times New Roman', Times, serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    font-size:40px;
+    font-style:italic;
+}
+
+.rb101 {
+    font-family:monospace;
+    color:white;
+    font-size:45px;
+}
+
+.rb800 {
+    font-family:monospace;
+    color:white;
+    font-size:40px;
+    margin-left:-350px;
+    margin-top:20px;
+}
+
+.rockerv {
+    color:black;
+    font-weight:900;
+    font-size:45px;
+}
+
+.silver120 {
+    background: black;
+    color: white;
+    padding:20px;    
+    font-size:large;
+    font-family:arial;
+    text-transform: uppercase;
+}
+
+.slo100 {
+    font-size:50px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black;
+}
+
+.sunny3000 {
+    font-size:30px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black;
+    text-transform: uppercase;
+    background:black;
+    border-width:1px;
+    padding:10px 20px 10px 20px;
+}
+
+.switchaxe {
+    font-size: 50px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black;
+    font-style:italic;
+}
+
+.treadplate {
+    background: black;
+    border-width:4px;
+    border-style:double;
+    border-color:white;
+    padding: 10px 20px 10px 20px;    
+    color: white;
+    text-transform: uppercase;
+    font-size:30px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.tweedbass {
+    padding:20px;        
+    font-family:serif;    
+    text-shadow: 0 0 15px rgb(180, 173, 72), 0 0 15px rgb(180, 173, 72), 0 0 15px rgb(180, 173, 72), 0 0 15px rgb(180, 173, 72); 
+    color: white;
+    font-size: 50px;
+    font-style:italic;
+}
+
+.twostone {
+    font-family:fantasy;
+    font-size:35px;
+    color:white;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+}
+
+.w600 {
+    font-family:'Times New Roman', Times, serif;
+    font-size:35px;
+    font-weight:900;
+    color: red;
+    padding: 10px;
+    border-style:solid;
+    border-width:1px;
+    background:rgb(233, 214, 108);
+}

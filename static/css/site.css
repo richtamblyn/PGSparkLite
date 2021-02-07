@@ -2,7 +2,7 @@ body {
     background-color: black;
     color: white;
     font-family: 'Courier New', Courier, monospace;
-    max-width: 600px;   
+    max-width: 520px;   
     margin-left: auto;  
     margin-right: auto;    
 }
@@ -32,10 +32,13 @@ a, a:visited {
     margin:10px 0px 10px 0px;
     border:1px solid #302f2f;
     border-radius:3px;
+    width:100%;
 }
 
 .effect_content {
     padding:15px;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size: x-small;
 }
 
 .effect_header {
@@ -43,22 +46,37 @@ a, a:visited {
 }
 
 .effect_title {
-    width:48%;    
+    width:16%;    
     display:inline-block;
     padding:15px;
     font-size:larger;    
 }
 
+.effect_topper {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .effect_onoff{
-    width:42%;    
+    width:33%;    
     display:inline-block;
     text-align:right;
 }
 
+.effect_selector{
+  width:37%;
+  display:inline-block;
+}
+
+.eject {
+  text-align: center;  
+}
+
 .eject_button{  
   width: 100%;
-  padding: 10px;
-  margin-top:30px;
+  padding: 10px;  
   margin-bottom:15px;    
   font-size: large;    
   background-color: red;
@@ -78,23 +96,32 @@ input[type="range"] {
 
 .onoff_button {
     padding:10px;
-    width: 22%;
+    width: 43%;
     border:none;
     border-radius:8px;
+    color:black;
+    background-color: white;
 }
 
 .onoff_buttons {
     padding-bottom:10px;
 }
 
+.parameter {
+  width:18%;
+  display:inline-block;
+  vertical-align:top;
+}
+
 .parameter_label {
-    width:35%;
-    display:inline-block;    
+    width:100%;
+    text-align:center;
+    padding-top:8px;
 }
 
 .parameter_value {
-    width:60%;
-    display:inline-block;
+    width:100%;
+    text-align:center;
 }
 
 .preset_button {
@@ -102,6 +129,8 @@ input[type="range"] {
     width: 23%;
     border: none;
     border-radius: 8px;
+    color:black;
+    background-color: white;
 }
 
 .preset_container {
@@ -110,8 +139,9 @@ input[type="range"] {
 
 select {    
     padding:10px;
-    width: 100%;
-    margin-bottom:10px;
+    width: 37%;    
+    background: #302f2f;
+    color: white;
 }
 
 .selected {

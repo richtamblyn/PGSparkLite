@@ -3,9 +3,12 @@
         "name":"Cloner Chorus",    
         "effect": "modulation",
         "switch_parameter": 0,
+        "background": "linear-gradient(0deg, rgba(117,39,176,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "white",        
+        "knob": "oscar",
         "parameters": [
-            {"name":"Rate", "id": 0},
-            {"name":"Depth (High / Low)", "id": 1, "switch": "true"}
+            {"name":"RATE", "id": 0, "width":48, "diameter":65, "margin":"10px"},
+            {"name":"DEPTH", "on":"HIGH", "off":"LOW", "id": 1, "switch": "true", "width":48, "margin":"10px"}
         ]
     }    
 }

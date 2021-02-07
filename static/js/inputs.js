@@ -1,6 +1,14 @@
-$(document).ready(function () {
+var socket = io();
 
-    var socket = io();
+function knobChangeEventHandler(knob) {
+    var effect = knob.dataset['id'];
+    var param = knob.dataset['parameter'];
+    var value = knob.value;
+    var data = { 'effect': effect, 'parameter': param, 'value': value };
+    socket.emit('change_effect_parameter', data)
+};
+
+$(document).ready(function () {    
 
     $('#connect').on('click', function (e) {
         e.preventDefault();
@@ -27,13 +35,13 @@ $(document).ready(function () {
     })
 
     $(document).on('click', '.onoff_button', function () {
-
         if ($(this).hasClass('selected')) {
             return;
         }
 
         var effect = $(this).data('id');
         var state = $(this).val();
+
         var data = { 'effect': effect, 'state': state };        
 
         if (state === 'Off') {
@@ -45,15 +53,7 @@ $(document).ready(function () {
         }
 
         socket.emit('turn_effect_onoff', data);
-    });
-
-    $(document).on('change', '[type=range]', function () {
-        var effect = $(this).data('id');
-        var param = $(this).data('parameter');
-        var value = $(this).val();
-        var data = { 'effect': effect, 'parameter': param, 'value': value };
-        socket.emit('change_effect_parameter', data)
-    });
+    });    
 
     $(document).on('change', '[type=checkbox]', function () {
         var effect = $(this).data('id');
@@ -81,5 +81,9 @@ $(document).ready(function () {
 
     $('#eject').on('click', function () {
         socket.emit('eject')
+    })
+
+    $('#reset-config').on('click', function() {
+        socket.emit('reset_config');
     })
 });

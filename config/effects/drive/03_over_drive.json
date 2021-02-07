@@ -1,11 +1,14 @@
 {
     "Overdrive":{
         "name":"Over Drive",    
-        "effect": "drive",    
+        "effect": "drive",
+        "background": "linear-gradient(0deg, rgba(255,164,17,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "black",        
+        "knob": "plastic_knob",        
         "parameters": [
-            {"name":"Level", "id":0},
-            {"name":"Tone", "id": 1},
-            {"name":"Drive", "id": 2}        
+            {"name":"LEVEL", "id":0, "width":32, "diameter":70, "margin":"10px"},
+            {"name":"TONE", "id": 1, "width":33, "diameter": 70, "margin":"10px"},
+            {"name":"DRIVE", "id": 2, "width":33, "diameter":70, "margin":"10px"}        
         ]
     }    
 }

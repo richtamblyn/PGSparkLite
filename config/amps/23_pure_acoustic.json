@@ -2,12 +2,17 @@
     "Acoustic":{
         "name":"Pure Acoustic",        
         "effect": "amp",
+        "background":"linear-gradient(0deg, rgba(255,250,250,1) 93%, rgba(0,0,0,1) 100%)",
+        "color":"black",
+        "knob":"chicken_head_black",        
+        "topper":"duo",
+        "badge":"duo",
         "parameters": [
-            {"name":"Gain", "id": 0},
-            {"name":"Bass", "id": 3},
-            {"name":"Middle", "id": 2},
-            {"name":"Treble", "id": 1},
-            {"name":"Master", "id": 4}
+            {"name":"GAIN", "id": 0, "width":19, "diameter":70},
+            {"name":"BASS", "id": 3, "width":19, "diameter":70},
+            {"name":"MIDDLE", "id": 2, "width":19, "diameter":70},
+            {"name":"TREBLE", "id": 1, "width":19, "diameter":70},
+            {"name":"MASTER", "id": 4, "width":19, "diameter":70}
         ]
     }    
 }

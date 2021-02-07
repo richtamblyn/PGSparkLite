@@ -3,9 +3,12 @@
         "name":"Phaser",    
         "effect": "modulation",
         "switch_parameter": 1,
+        "background": "linear-gradient(0deg, rgba(218,94,28,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "black",        
+        "knob": "hexagon",
         "parameters": [
-            {"name":"Intensity", "id": 1},
-            {"name":"Speed", "id": 0}        
+            {"name":"INTENSITY", "id": 1, "width":48, "diameter":89},
+            {"name":"SPEED", "id": 0, "width":48, "diameter":89}        
         ]
     }    
 }

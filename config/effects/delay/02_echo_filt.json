@@ -3,12 +3,16 @@
         "name":"Delay/Echo",    
         "effect": "delay",
         "switch_parameter": 2,
+        "background": "linear-gradient(0deg, rgba(48,70,232,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "white",        
+        "knob": "white_knob",
         "parameters": [
-            {"name":"Delay", "id": 0},
-            {"name":"Feedback", "id": 1},
-            {"name":"Level", "id": 2},
-            {"name":"Tone", "id": 3},
-            {"name":"BPM", "id": 4, "switch": "true"}
+            {"name":"DELAY", "id": 0, "width":19, "diameter":70},
+            {"name":"FEEDBACK", "id": 1, "width":20, "diameter":50, "margin":"40px"},
+            {"on":"BPM", "off":"", "id": 4, "switch": "true", "width":18, "margin":"20px"},
+            {"name":"LEVEL", "id": 2, "width":20, "diameter":50, "margin":"40px"},
+            {"name":"TONE", "id": 3, "width":20, "diameter":70}
+            
         ]
     }    
 }

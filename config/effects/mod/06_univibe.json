@@ -3,10 +3,13 @@
         "name":"Vibe",    
         "effect": "modulation",
         "switch_parameter": 2,
+        "background": "linear-gradient(0deg, rgba(8,37,46,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "lightgrey",        
+        "knob": "chicken_head_black",
         "parameters": [
-            {"name":"Speed", "id": 0},            
-            {"name":"Intensity", "id": 2},
-            {"name":"Chorus / Vibrato", "id": 1, "switch": "true"}
+            {"name":"SPEED", "id": 0, "width":32, "diameter":80, "margin":"10px"},                        
+            {"on":"CHORUS", "off":"VIBRATO", "id": 1, "switch": "true", "width":33, "margin":"22px"},
+            {"name":"INTENSITY", "id": 2, "width":33, "diameter":80, "margin":"10px"}
         ]
     }    
 }

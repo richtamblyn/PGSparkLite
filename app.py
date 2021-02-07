@@ -61,7 +61,7 @@ def change_effect():
     elif effect_type == 'AMP':
         current_effect = amp.config.amp
         effect_list = amp.config.amps
-    elif effect_type == 'MODULATION':
+    elif effect_type == 'MOD':
         current_effect = amp.config.modulation
         effect_list = amp.config.modulations
     elif effect_type == 'DELAY':
@@ -147,6 +147,11 @@ def turn_effect_onoff(data):
     amp.config.update_config(effect, 'turn_on_off', state)
     amp.config.last_call = 'turn_on_off'
 
+@socketio.event
+def reset_config():
+    amp.config.reset_static()
+    amp.config.load()
+    
 
 if __name__ == '__main__':
     socketio.run(app)
