@@ -259,8 +259,7 @@ class SparkReadMessage:
         self.add_str("Icon", icon)
         bpm = self.read_float ()
         self.add_float ("BPM", bpm)
-
-        num_effects = self.read_byte() - 0x90
+        
         self.add_python("\"Pedals\": [")
         self.add_indent()
 

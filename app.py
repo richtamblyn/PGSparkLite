@@ -1,13 +1,9 @@
 import threading
-from ast import literal_eval
 
 from flask import Flask, redirect, render_template, request, url_for
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO
 
-from lib.sparkdevices import SparkDevices
 from lib.sparkampserver import SparkAmpServer
-
-from EventNotifier import Notifier
 
 #####################
 # Application Setup
@@ -113,7 +109,6 @@ def static_file(path):
 # SocketIO EventListeners
 ###########################
 
-
 @socketio.event
 def change_effect_parameter(data):
     effect = str(data['effect'])
@@ -147,11 +142,12 @@ def turn_effect_onoff(data):
     amp.config.update_config(effect, 'turn_on_off', state)
     amp.config.last_call = 'turn_on_off'
 
+
 @socketio.event
 def reset_config():
     amp.config.reset_static()
     amp.config.load()
-    
+
 
 if __name__ == '__main__':
     socketio.run(app)

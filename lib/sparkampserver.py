@@ -8,8 +8,6 @@
 #####################################################
 
 import threading
-import time
-import requests
 import bluetooth
 
 from lib.external.SparkReaderClass import SparkReadMessage
