@@ -8,7 +8,7 @@
 {% endmacro %}
 
 {% macro effect_selector(effect_type, effects, effect_selected) %}
-<select class="effect-selector" data-type="{{ effect_type }}" data-selected="{{ effect_selected }}"
+<select class="effect_selector" data-type="{{ effect_type }}" data-selected="{{ effect_selected }}"
     id="{{ effect_type }}_selector">
     {% for id, effect in effects.items() %}
     <option value="{{ id }}" {% if id==effect_selected %} selected {% endif %}>{{ effect["name"] }}</option>
@@ -56,7 +56,7 @@
     {% if selector %}
         {{ effect_selector(type, effect_list, effect["Name"]) }}
     {% else %}
-    <div class="effect_selector"></div>
+    <div class="effect_selector_placeholder"></div>
     {% endif %}
     <div class="effect_onoff">
         {{ onoff_buttons(effect["Name"], effect["OnOff"]) }}
@@ -72,6 +72,15 @@
 <div id="{{ effect["Name"] }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
     <div class="effect_parameters">
         {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}
+    </div>
+</div>
+<div class="effect_footer">
+    <select class="pedal_preset_selector">
+        <option>No preset selected</option>
+    </select>
+    <div class="pedal_preset_buttons">
+        <button class="pedal_preset_button">SAVE</button>
+        <button class="pedal_preset_button">DELETE</button>
     </div>
 </div>
 {% endmacro %}

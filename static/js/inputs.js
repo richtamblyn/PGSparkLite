@@ -69,7 +69,7 @@ $(document).ready(function () {
         socket.emit('change_effect_parameter', data);        
     });
 
-    $(document).on('change', '.effect-selector', function () {
+    $(document).on('change', '.effect_selector', function () {
         var effecttype = $(this).data('type');
         var oldeffect = $(this).data('selected');
         var neweffect = $(this).val()

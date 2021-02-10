@@ -41,6 +41,11 @@ a, a:visited {
     font-size: x-small;
 }
 
+.effect_footer {
+  background-color: #302f2f;
+  padding:10px;
+}
+
 .effect_header {
     background-color: #302f2f;
 }
@@ -66,6 +71,13 @@ a, a:visited {
 }
 
 .effect_selector{
+  padding:10px;
+  width: 37%;    
+  background: #302f2f;
+  color: white;
+}
+
+.effect_selector_placeholder{
   width:37%;
   display:inline-block;
 }
@@ -124,6 +136,16 @@ input[type="range"] {
     text-align:center;
 }
 
+.pedal_preset_button {
+  padding:10px;
+    width: 23%;
+    border: none;
+    border-radius: 8px;
+    color:black;
+    background-color: white;
+    display:inline-block;
+}
+
 .preset_button {
     padding:10px;
     width: 23%;
@@ -137,11 +159,16 @@ input[type="range"] {
     text-align:center;
 }
 
-select {    
-    padding:10px;
-    width: 37%;    
-    background: #302f2f;
-    color: white;
+.pedal_preset_buttons {
+  display:inline;
+}
+
+.pedal_preset_selector{  
+  display:inline-block;
+  padding:10px;
+  width: 50%;    
+  background: #302f2f;
+  color: white;
 }
 
 .selected {
