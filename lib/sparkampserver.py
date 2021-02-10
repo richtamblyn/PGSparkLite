@@ -145,7 +145,8 @@ class SparkAmpServer:
             if self.config == None or self.config.preset != data[
                     'PresetNumber']:
                 # Load the configuration
-                self.config = SparkDevices(data)
+                self.config = SparkDevices(data)                
+
                 self.socketio.emit('connection-success', {'url': '/'})
                 return
             else:

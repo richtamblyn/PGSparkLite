@@ -87,6 +87,7 @@ class SparkDevices:
 
     def reset(self):
         self.preset = 0
+        self.presetName = ''
         self.gate = ''
         self.comp = ''
         self.drive = ''
@@ -129,6 +130,8 @@ class SparkDevices:
         self.reverbs = OrderedDict(sorted(self.reverbs.items(), key = lambda x: getitem(x[1], 'name'))) 
 
     def parse_preset(self, preset):             
+        self.presetName = preset[self.Name]
+        
         self.preset = preset['PresetNumber']
         self.gate = preset[self.Pedals][0]      
 

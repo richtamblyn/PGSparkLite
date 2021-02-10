@@ -3,9 +3,7 @@ from peewee import Model, IntegerField, CharField, BooleanField, FloatField, For
 database = SqliteDatabase('pgsparklite.db')
 
 
-class BaseModel(Model):
-    id = IntegerField(primary_key=True)
-
+class BaseModel(Model):    
     class Meta:
         database = database
 
@@ -16,9 +14,9 @@ class PedalParameter(BaseModel):
     p1_value = FloatField()
     p2_value = FloatField()
     p3_value = FloatField()
-    p4_value = FloatField()
-    p5_value = FloatField()
-    p6_value = FloatField()
+    p4_value = FloatField(null = True)
+    p5_value = FloatField(null = True)
+    p6_value = FloatField(null = True)
 
 
 class PedalPreset(BaseModel):
@@ -29,6 +27,7 @@ class PedalPreset(BaseModel):
 
 class ChainPreset(BaseModel):
     name = CharField()
+    system_preset_id = IntegerField(null = True, unique = True)
     gate_pedal_parameter_id = ForeignKeyField(PedalParameter)
     drive_pedal_parameter_id = ForeignKeyField(PedalParameter)
     amp_pedal_parameter_id = ForeignKeyField(PedalParameter)
