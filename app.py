@@ -4,7 +4,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 
 from lib.sparkampserver import SparkAmpServer
-from database.service import database, get_system_preset_by_id, sync_system_preset
+from database.service import database, get_system_preset_by_id, sync_system_preset, get_pedal_presets
 
 import time
 
@@ -117,7 +117,13 @@ def index():
     # Now update database id references in the in-memory config        
     amp.config.update_system_preset_database_ids(get_system_preset_by_id(amp.config.preset))
 
-    return render_template('main.html', config=amp.config)
+    # Populate chain preset dropdown
+    # TODO
+
+    # Populate pedal preset dropdowns
+    pedal_presets = get_pedal_presets(amp.config)
+
+    return render_template('main.html', config=amp.config, pedal_presets=pedal_presets)
 
 
 @app.route('/<path:path>')

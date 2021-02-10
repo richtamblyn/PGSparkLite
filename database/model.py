@@ -24,7 +24,7 @@ class PedalParameter(BaseModel):
 class PedalPreset(BaseModel):
     name = CharField()
     pedal_parameter = ForeignKeyField(PedalParameter)
-    effect_type = CharField()
+    effect_name = CharField()
 
 
 class ChainPreset(BaseModel):

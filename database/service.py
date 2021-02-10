@@ -55,6 +55,20 @@ def create_update_pedalparameter(pedal):
 
     return record.id
 
+def get_pedal_presets(config):
+
+    presets = {}
+        
+    presets["GATE"] = PedalPreset.select().where(PedalPreset.effect_name == config.gate['Name'])     
+    presets["COMP"] = PedalPreset.select().where(PedalPreset.effect_name == config.comp['Name'])
+    presets["DRIVE"] = PedalPreset.select().where(PedalPreset.effect_name == config.drive['Name'])
+    presets["AMP"] = PedalPreset.select().where(PedalPreset.effect_name == config.amp['Name'])
+    presets["MOD"] = PedalPreset.select().where(PedalPreset.effect_name == config.modulation['Name'])
+    presets["DELAY"] = PedalPreset.select().where(PedalPreset.effect_name == config.delay['Name'])
+    presets["REVERB"] = PedalPreset.select().where(PedalPreset.effect_name == config.reverb['Name'])
+
+    return presets
+
 def get_system_preset_by_id(id):
     try:
         return ChainPreset.get(ChainPreset.system_preset_id == id)
