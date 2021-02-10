@@ -1,25 +1,30 @@
 from peewee import DoesNotExist
 from database.model import database, PedalParameter, PedalPreset, ChainPreset
 
-def need_seed(system_preset_id):           
+
+def need_seed(system_preset_id):
     if ChainPreset.select().where(ChainPreset.system_preset_id == system_preset_id).count() > 0:
         return False
-    
-    return True        
-    
+
+    return True
+
 
 def create_update_chainpreset(config):
-    # TODO: Is this new or update?  
+    # TODO: Is this new or update?
     preset = ChainPreset()
     preset.name = config.presetName
     preset.system_preset_id = config.preset
     preset.gate_pedal_parameter_id = create_update_pedalparameter(config.gate)
-    preset.drive_pedal_parameter_id = create_update_pedalparameter(config.drive)
+    preset.drive_pedal_parameter_id = create_update_pedalparameter(
+        config.drive)
     preset.amp_pedal_parameter_id = create_update_pedalparameter(config.amp)
-    preset.mod_pedal_parameter_id = create_update_pedalparameter(config.modulation)
-    preset.delay_pedal_parameter_id = create_update_pedalparameter(config.delay)
-    preset.reverb_pedal_parameter_id = create_update_pedalparameter(config.reverb)
-    preset.save() 
+    preset.mod_pedal_parameter_id = create_update_pedalparameter(
+        config.modulation)
+    preset.delay_pedal_parameter_id = create_update_pedalparameter(
+        config.delay)
+    preset.reverb_pedal_parameter_id = create_update_pedalparameter(
+        config.reverb)
+    preset.save()
 
 
 def create_update_pedalparameter(pedal):
@@ -27,7 +32,7 @@ def create_update_pedalparameter(pedal):
 
     record = PedalParameter()
     record.effect_name = pedal['Name']
-    
+
     if pedal['OnOff'] == 'On':
         record.on_off = True
     else:
@@ -51,7 +56,7 @@ def create_update_pedalparameter(pedal):
             record.p6_value = x
 
         count += 1
-    
+
     record.save()
 
     return record.id
