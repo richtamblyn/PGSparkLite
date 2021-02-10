@@ -21,3 +21,4 @@ pgsparklite.db
 database/__pycache__/model.cpython-37.pyc
 database/__pycache__/service.cpython-37.pyc
 lib/__pycache__/presetdatabase.cpython-37.pyc
+database/__pycache__/__init__.cpython-37.pyc

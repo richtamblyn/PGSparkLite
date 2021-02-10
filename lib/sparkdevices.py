@@ -24,6 +24,7 @@ class SparkDevices:
         self.Parameters = 'Parameters'
         self.parameters = 'parameters'
         self.switch_parameter = 'switch_parameter'
+        self.db_id = 'db_id'
 
         self.last_call = ''
 
@@ -86,6 +87,7 @@ class SparkDevices:
         self.reverbs = {}
 
     def reset(self):
+        self.chain_preset_id = 0
         self.preset = 0
         self.presetName = ''
         self.gate = ''
@@ -215,3 +217,16 @@ class SparkDevices:
                 self.delay[self.Parameters][parameter] = value            
             elif effect == self.reverb[self.Name]:
                 self.reverb[self.Parameters][parameter] = value
+
+    def update_system_preset_database_ids(self, chainPreset):
+        if chainPreset == None:
+            return
+
+        self.chain_preset_id = chainPreset.id
+        self.gate[self.db_id] = chainPreset.gate_pedal_parameter.id
+        self.comp[self.db_id] = chainPreset.comp_pedal_parameter.id
+        self.drive[self.db_id] = chainPreset.drive_pedal_parameter.id
+        self.amp[self.db_id] = chainPreset.amp_pedal_parameter.id
+        self.modulation[self.db_id] = chainPreset.mod_pedal_parameter.id
+        self.delay[self.db_id] = chainPreset.delay_pedal_parameter.id
+        self.reverb[self.db_id] = chainPreset.reverb_pedal_parameter.id

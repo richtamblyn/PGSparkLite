@@ -4,7 +4,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 
 from lib.sparkampserver import SparkAmpServer
-from database.service import database, need_seed, create_update_chainpreset
+from database.service import database, get_system_preset_by_id, sync_system_preset
 
 import time
 
@@ -110,9 +110,12 @@ def connect():
 def index():
     if amp.connected == False:
         return redirect(url_for('connect'))
-    
-    if need_seed(amp.config.preset):                
-        create_update_chainpreset(amp.config)        
+        
+    # Always check that our database matches the amp preset settings
+    sync_system_preset(amp.config)
+
+    # Now update database id references in the in-memory config        
+    amp.config.update_system_preset_database_ids(get_system_preset_by_id(amp.config.preset))
 
     return render_template('main.html', config=amp.config)
 
