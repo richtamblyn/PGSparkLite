@@ -4,6 +4,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 
 from lib.sparkampserver import SparkAmpServer
+from lib.presetdatabase import database, PedalParameter, PedalPreset, ChainPreset
 
 #####################
 # Application Setup
@@ -21,6 +22,17 @@ amp = SparkAmpServer(socketio)
 ##################
 # Flask Routes
 ##################
+
+
+@app.before_request
+def _db_connect():
+    database.connect()
+
+
+@app.teardown_request
+def _db_close(exc):
+    if not database.is_closed():
+        database.close()
 
 
 @app.route('/changeeffect', methods=['POST'])
@@ -109,16 +121,16 @@ def static_file(path):
 # SocketIO EventListeners
 ###########################
 
+
 @socketio.event
 def change_effect_parameter(data):
     effect = str(data['effect'])
     parameter = int(data['parameter'])
     value = float(data['value'])
 
-    amp.change_effect_parameter(amp.get_amp_effect_name(effect),
-                                parameter, value)
-    amp.config.update_config(effect, 'change_parameter', value,
-                             parameter)
+    amp.change_effect_parameter(amp.get_amp_effect_name(effect), parameter,
+                                value)
+    amp.config.update_config(effect, 'change_parameter', value, parameter)
 
 
 @socketio.event

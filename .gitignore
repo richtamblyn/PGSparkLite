@@ -17,3 +17,5 @@ lib/external/__pycache__/SparkClass.cpython-39.pyc
 lib/external/__pycache__/SparkCommsClass.cpython-39.pyc
 lib/external/__pycache__/SparkReaderClass.cpython-39.pyc
 .vscode/settings.json
+pgsparklite.db
+lib/__pycache__/presetdatabase.cpython-39.pyc
