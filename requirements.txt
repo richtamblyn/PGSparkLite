@@ -13,6 +13,7 @@ Jinja2==2.11.2
 keyring==17.1.1
 keyrings.alt==3.1.1
 MarkupSafe==1.1.1
+peewee==3.14.0
 pyserial==3.4
 python-engineio==4.0.0
 python-socketio==5.0.4
