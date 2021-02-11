@@ -4,7 +4,7 @@ from flask import Flask, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 
 from lib.sparkampserver import SparkAmpServer
-from database.service import database, get_system_preset_by_id, sync_system_preset, get_pedal_presets
+from database.service import database, get_system_preset_by_id, sync_system_preset, get_pedal_presets, get_pedal_preset_by_effect_name, create_update_pedalpreset
 
 import time
 
@@ -110,12 +110,13 @@ def connect():
 def index():
     if amp.connected == False:
         return redirect(url_for('connect'))
-        
+
     # Always check that our database matches the amp preset settings
     sync_system_preset(amp.config)
 
-    # Now update database id references in the in-memory config        
-    amp.config.update_system_preset_database_ids(get_system_preset_by_id(amp.config.preset))
+    # Now update database id references in the in-memory config
+    amp.config.update_system_preset_database_ids(
+        get_system_preset_by_id(amp.config.preset))
 
     # Populate chain preset dropdown
     # TODO
@@ -158,6 +159,12 @@ def eject():
     amp.eject()
     socketio.emit('connection-lost', {'url': url_for('connect')})
 
+
+@socketio.event
+def new_pedal_preset(data):    
+    #TODO: Validate inbound data
+    create_update_pedalpreset(data)
+    
 
 @socketio.event
 def turn_effect_onoff(data):

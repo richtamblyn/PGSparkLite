@@ -3,8 +3,14 @@ from database.model import database, PedalParameter, PedalPreset, ChainPreset
 
 
 def create_update_chainpreset(config):
-    # TODO: Is this new or update?
-    preset = ChainPreset()
+    if config.chain_preset_id != 0:
+        try:
+            preset = ChainPreset.get(ChainPreset.id == config.chain_preset_id)
+        except DoesNotExist:
+            preset = ChainPreset()
+    else:
+        preset = ChainPreset()
+
     preset.name = config.presetName
     preset.system_preset_id = config.preset
     preset.gate_pedal_parameter = create_update_pedalparameter(config.gate)
@@ -22,9 +28,14 @@ def create_update_chainpreset(config):
 
 
 def create_update_pedalparameter(pedal):
-    # TODO: Is this new or update?
-
-    record = PedalParameter()
+    if pedal['db_id'] != 0:
+        try:
+            record = PedalParameter.get(PedalParameter.id == pedal['db_id'])
+        except DoesNotExist:
+            record = PedalParameter()
+    else:
+        record = PedalParameter()        
+    
     record.effect_name = pedal['Name']
 
     if pedal['OnOff'] == 'On':
@@ -55,6 +66,38 @@ def create_update_pedalparameter(pedal):
 
     return record.id
 
+def create_update_pedalpreset(data):
+    preset_id = int(data['preset_id'])
+
+    if preset_id != 0:
+        try:
+            record = PedalPreset.get(PedalPreset.id == preset_id)
+        except DoesNotExist:
+            record = PedalPreset()
+    else:
+        record = PedalPreset()
+
+    record.name = str(data['name'])
+    record.effect_name = str(data['effect'])
+
+    pedal = {}
+
+    if preset_id != 0:
+        pedal['db_id'] = record.pedal_parameter.id
+    else:
+        pedal['db_id'] = 0
+
+    pedal['Name'] = record.effect_name
+    pedal['OnOff'] = data['onoff']
+    pedal['Parameters'] = data['parameters']
+
+    record.pedal_parameter = create_update_pedalparameter(pedal)
+
+    record.save()
+
+    return record.id
+
+
 def get_pedal_presets(config):
 
     presets = {}
@@ -68,6 +111,9 @@ def get_pedal_presets(config):
     presets["REVERB"] = PedalPreset.select().where(PedalPreset.effect_name == config.reverb['Name'])
 
     return presets
+
+def get_pedal_preset_by_effect_name(name):
+    return PedalPreset.select().where(PedalPreset.effect_name == name)
 
 def get_system_preset_by_id(id):
     try:

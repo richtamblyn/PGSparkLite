@@ -70,7 +70,7 @@
 </div>
 {% endif %}
 <div id="{{ effect["Name"] }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
-    <div class="effect_parameters">
+    <div class="effect_parameters" id="{{ effect["Name"] }}_parameters" data-num={{ effect["Parameters"]|length }}>
         {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}
     </div>
 </div>
@@ -79,9 +79,9 @@
         <option>No preset selected</option>
     </select>
     <div class="pedal_preset_buttons">
-        <button class="pedal_preset_button new_pedal_preset" data-id="{{ effect["name"] }}">NEW</button>
-        <button class="pedal_preset_button save_pedal_preset">SAVE</button>
-        <button class="pedal_preset_button delete_pedal_preset">DELETE</button>
+        <button class="pedal_preset_button new_pedal_preset" data-id="{{ effect["Name"] }}">NEW</button>
+        <button class="pedal_preset_button save_pedal_preset" data-id="{{ effect["Name"] }}">SAVE</button>
+        <button class="pedal_preset_button delete_pedal_preset" data-id="{{ effect["Name"] }}">DELETE</button>
     </div>
 </div>
 {% endmacro %}

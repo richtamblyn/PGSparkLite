@@ -8,6 +8,25 @@ function knobChangeEventHandler(knob) {
     socket.emit('change_effect_parameter', data)
 };
 
+function getParametersByEffectName(effect) {
+    var numOfParameters = $('#' + effect + '_parameters').data('num');
+    var parameters = [];
+
+    for (var p = 0; p < numOfParameters; p++) {
+        parameters.push($('#' + effect + '_' + p).val());
+    }
+
+    return parameters;
+}
+
+function getOnOffStateByEffectName(effect) {
+    if ($('#' + effect + '_on').hasClass('selected')) {
+        return 'On'
+    } else {
+        return 'Off'
+    }
+}
+
 $(document).ready(function () {
 
     $('#connect').on('click', function (e) {
@@ -78,7 +97,7 @@ $(document).ready(function () {
 
         $('#' + effecttype + '_container').load('/changeeffect', data);
     });
-    
+
     $('#eject').on('click', function () {
         socket.emit('eject')
     })
@@ -88,9 +107,19 @@ $(document).ready(function () {
     })
 
     // Pedal Presets
+
     $(document).on('click', '.new_pedal_preset', function () {
-        // TODO: Grab the effect data values
-        var name = prompt("Please enter name for new preset");
+        var name = prompt('Please enter a name for new preset');
+        if (name != null) {
+            var effect = $(this).data('id');
+            var data = { 'effect': effect, 
+                        'name': name, 
+                        'parameters': getParametersByEffectName(effect), 
+                        'preset_id': 0, 
+                        'onoff': getOnOffStateByEffectName(effect) };
+
+            socket.emit('new_pedal_preset', data);
+        }
     });
 
     $(document).on('click', '.save_pedal_preset', function () {
