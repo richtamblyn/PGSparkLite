@@ -8,7 +8,7 @@ function knobChangeEventHandler(knob) {
     socket.emit('change_effect_parameter', data)
 };
 
-$(document).ready(function () {    
+$(document).ready(function () {
 
     $('#connect').on('click', function (e) {
         e.preventDefault();
@@ -42,7 +42,7 @@ $(document).ready(function () {
         var effect = $(this).data('id');
         var state = $(this).val();
 
-        var data = { 'effect': effect, 'state': state };        
+        var data = { 'effect': effect, 'state': state };
 
         if (state === 'Off') {
             $('#' + effect + '_off').addClass('selected');
@@ -53,7 +53,7 @@ $(document).ready(function () {
         }
 
         socket.emit('turn_effect_onoff', data);
-    });    
+    });
 
     $(document).on('change', '[type=checkbox]', function () {
         var effect = $(this).data('id');
@@ -66,7 +66,7 @@ $(document).ready(function () {
 
         var data = { 'effect': effect, 'parameter': param, 'value': value };
 
-        socket.emit('change_effect_parameter', data);        
+        socket.emit('change_effect_parameter', data);
     });
 
     $(document).on('change', '.effect_selector', function () {
@@ -78,12 +78,28 @@ $(document).ready(function () {
 
         $('#' + effecttype + '_container').load('/changeeffect', data);
     });
-
+    
     $('#eject').on('click', function () {
         socket.emit('eject')
     })
 
-    $('#reset-config').on('click', function() {
+    $('#reset-config').on('click', function () {
         socket.emit('reset_config');
+    })
+
+    // Pedal Presets
+    $(document).on('click', '.new_pedal_preset', function () {
+        // TODO: Grab the effect data values
+        var name = prompt("Please enter name for new preset");
+    });
+
+    $(document).on('click', '.save_pedal_preset', function () {
+        // Placeholder
+    });
+
+    $(document).on('click', '.delete_pedal_preset', function () {
+        if (confirm("Are you sure you want to delete this preset?")) {
+            // They say yes
+        };
     })
 });

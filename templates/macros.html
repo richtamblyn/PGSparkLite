@@ -79,8 +79,9 @@
         <option>No preset selected</option>
     </select>
     <div class="pedal_preset_buttons">
-        <button class="pedal_preset_button">SAVE</button>
-        <button class="pedal_preset_button">DELETE</button>
+        <button class="pedal_preset_button new_pedal_preset" data-id="{{ effect["name"] }}">NEW</button>
+        <button class="pedal_preset_button save_pedal_preset">SAVE</button>
+        <button class="pedal_preset_button delete_pedal_preset">DELETE</button>
     </div>
 </div>
 {% endmacro %}
