@@ -76,6 +76,8 @@ class SparkDevices:
             return self.delays[effect][self.parameters]
         elif effect in self.reverbs:
             return self.reverbs[effect][self.parameters]
+        elif effect in self.gates:
+            return self.gates[effect][self.parameters]
 
     def reset_static(self):
         self.amps = {}
@@ -132,8 +134,8 @@ class SparkDevices:
         self.reverbs = OrderedDict(sorted(self.reverbs.items(), key = lambda x: getitem(x[1], 'name'))) 
 
     def parse_preset(self, preset):             
-        self.presetName = preset[self.Name]
-        
+        self.presetName = preset[self.Name]        
+
         self.preset = preset['PresetNumber']
         self.gate = preset[self.Pedals][0]      
 
@@ -154,6 +156,15 @@ class SparkDevices:
                 
         self.reverb = preset[self.Pedals][6]
         self.reverb[self.Name] = str(self.reverb[self.Parameters][6])[-1]
+
+        # Initialise database ids
+        self.gate[self.db_id] = 0
+        self.comp[self.db_id] = 0
+        self.amp[self.db_id] = 0
+        self.drive[self.db_id] = 0
+        self.modulation[self.db_id] = 0
+        self.delay[self.db_id] = 0
+        self.reverb[self.db_id] = 0
 
     def initialise_effect(self, effect_id, effect, onoff, parameters = None):
         effect[self.Name] = effect_id

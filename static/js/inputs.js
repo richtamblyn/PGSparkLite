@@ -12,11 +12,11 @@ function getParametersByEffectName(effect) {
     var numOfParameters = $('#' + effect + '_parameters').data('num');
     var parameters = [];
 
-    for (var p = 0; p < numOfParameters; p++) {
+    for (var p = 0; p != numOfParameters; p++) {
         parameters.push($('#' + effect + '_' + p).val());
     }
 
-    return parameters;
+    return JSON.stringify(parameters);
 }
 
 function getOnOffStateByEffectName(effect) {
@@ -83,6 +83,8 @@ $(document).ready(function () {
             value = 1.0000
         }
 
+        $(this).val(value);
+
         var data = { 'effect': effect, 'parameter': param, 'value': value };
 
         socket.emit('change_effect_parameter', data);
@@ -112,13 +114,19 @@ $(document).ready(function () {
         var name = prompt('Please enter a name for new preset');
         if (name != null) {
             var effect = $(this).data('id');
-            var data = { 'effect': effect, 
-                        'name': name, 
-                        'parameters': getParametersByEffectName(effect), 
-                        'preset_id': 0, 
-                        'onoff': getOnOffStateByEffectName(effect) };
+            var effecttype = $(this).data('type');
+            var data = {
+                'effect': effect,
+                'effect_type': effecttype,
+                'name': name,
+                'parameters': getParametersByEffectName(effect),
+                'preset_id': 0,
+                'onoff': getOnOffStateByEffectName(effect)
+            };
 
-            socket.emit('new_pedal_preset', data);
+            $.post('/newpedalpreset', data, function (result) {
+                $('#' + effecttype + '_footer').html(result)
+            })
         }
     });
 
@@ -130,5 +138,19 @@ $(document).ready(function () {
         if (confirm("Are you sure you want to delete this preset?")) {
             // They say yes
         };
+    })
+
+    $(document).on('change', '.pedal_preset_selector', function () {
+        var effect = $(this).data('id');
+        var effecttype = $(this).data('type');
+        var data = {
+            'effect_name': effect,
+            'effect_type': effecttype,
+            'preset_id': $(this).val(),
+        };
+
+        $.post('/changepedalpreset', data, function (result) {
+            $('#' + effecttype + '_container').html(result)
+        })
     })
 });

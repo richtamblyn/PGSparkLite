@@ -66,9 +66,7 @@ def create_update_pedalparameter(pedal):
 
     return record.id
 
-def create_update_pedalpreset(data):
-    preset_id = int(data['preset_id'])
-
+def create_update_pedalpreset(effect_name, preset_name, preset_id, on_off, parameters):
     if preset_id != 0:
         try:
             record = PedalPreset.get(PedalPreset.id == preset_id)
@@ -77,8 +75,8 @@ def create_update_pedalpreset(data):
     else:
         record = PedalPreset()
 
-    record.name = str(data['name'])
-    record.effect_name = str(data['effect'])
+    record.name = preset_name
+    record.effect_name = effect_name
 
     pedal = {}
 
@@ -88,8 +86,8 @@ def create_update_pedalpreset(data):
         pedal['db_id'] = 0
 
     pedal['Name'] = record.effect_name
-    pedal['OnOff'] = data['onoff']
-    pedal['Parameters'] = data['parameters']
+    pedal['OnOff'] = on_off
+    pedal['Parameters'] = parameters
 
     record.pedal_parameter = create_update_pedalparameter(pedal)
 
@@ -114,6 +112,12 @@ def get_pedal_presets(config):
 
 def get_pedal_preset_by_effect_name(name):
     return PedalPreset.select().where(PedalPreset.effect_name == name)
+
+def get_pedal_preset_by_id(id):
+    try:
+        return PedalPreset.get(PedalPreset.id == id)
+    except DoesNotExist:
+        return None
 
 def get_system_preset_by_id(id):
     try:

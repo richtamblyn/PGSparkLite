@@ -16,16 +16,32 @@
 </select>
 {% endmacro %}
 
+{% macro effect_footer(effect_name, effect_type, pedal_presets, preset_selected) %}
+<select class="pedal_preset_selector" data-type="{{ effect_type }}" data-id="{{ effect_name }}">
+    <option>No preset selected</option>
+    {% for preset in pedal_presets %}
+        <option value="{{ preset.id }}" {% if preset.id==preset_selected %} selected {% endif %}>{{ preset.name }}</option>
+    {% endfor %}
+</select>
+<div class="pedal_preset_buttons">
+    <button class="pedal_preset_button new_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name }}">NEW</button>
+    <button class="pedal_preset_button save_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name}}">SAVE</button>
+    <button class="pedal_preset_button delete_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name }}">DELETE</button>
+</div>
+{% endmacro %}
+
 {% macro effect_parameters(effect_id, parameters, parameter_values, knob) %}
 {% for parameter in parameters %}
 <div class="parameter" style="width:{{ parameter.width }}%; {% if parameter.margin %} margin-top:{{ parameter.margin }};{% endif %}">    
-    {% if parameter.switch == "true" %}
+    {% if parameter.hidden == "true" %}
+        <input type="hidden" id="{{ effect_id }}_{{ parameter.id }}" value="{{ parameter_values[parameter.id] }}"/>
+    {% elif parameter.switch == "true" %}
     <div class="parameter_value">      
         {% if parameter.name %}
         <span>{{ parameter.name }}</span><br/>
         {% endif %}
         <span>{{ parameter.on }}</span><br/>
-        <input data-parameter="{{ parameter.id }}" class="input-switch" data-src="./img/knobs/switch_offon.png" data-diameter="50" data-id="{{ effect_id }}" type="checkbox" {% if parameter_values[parameter.id] == 1.0000 %} checked {% endif %}/><br/>
+        <input id="{{ effect_id }}_{{ parameter.id }}" data-parameter="{{ parameter.id }}" class="input-switch" data-src="./img/knobs/switch_offon.png" data-diameter="50" data-id="{{ effect_id }}" type="checkbox" {% if parameter_values[parameter.id] == 1.0000 %} checked value="1.0000"{% endif %}/><br/>
         <span>{{ parameter.off }}</span>
     </div>
     {% else %}
@@ -42,7 +58,7 @@
 {% endfor %}
 {% endmacro %}
 
-{% macro effect_container(type, effect, effect_list, selector) %}
+{% macro effect_container(type, effect, effect_list, selector, presets, preset_selected) %}
 {% set effect_config = effect_list[effect["Name"]] %}
 {% set topper = effect_config["topper"] %}
 {% set badge = effect_config["badge"] %}
@@ -74,14 +90,7 @@
         {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}
     </div>
 </div>
-<div class="effect_footer">
-    <select class="pedal_preset_selector">
-        <option>No preset selected</option>
-    </select>
-    <div class="pedal_preset_buttons">
-        <button class="pedal_preset_button new_pedal_preset" data-id="{{ effect["Name"] }}">NEW</button>
-        <button class="pedal_preset_button save_pedal_preset" data-id="{{ effect["Name"] }}">SAVE</button>
-        <button class="pedal_preset_button delete_pedal_preset" data-id="{{ effect["Name"] }}">DELETE</button>
-    </div>
+<div id="{{ type }}_footer" class="effect_footer">
+    {{ effect_footer(effect["Name"], type, presets, preset_selected)}}
 </div>
 {% endmacro %}

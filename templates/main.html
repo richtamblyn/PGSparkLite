@@ -10,25 +10,25 @@
 </div>
     
 <div id="GATE_container" class="effect_container">
-    {{ effect_container("GATE", config.gate, config.gates, False) }}
+    {{ effect_container("GATE", config.gate, config.gates, False, pedal_presets["GATE"], 0) }}
 </div>
  <div id="COMP_container" class="effect_container">
-    {{ effect_container("COMP", config.comp, config.comps, True) }}
+    {{ effect_container("COMP", config.comp, config.comps, True, pedal_presets["COMP"], 0) }}
 </div>
 <div id="DRIVE_container" class="effect_container">
-    {{ effect_container("DRIVE", config.drive, config.drives, True) }}
+    {{ effect_container("DRIVE", config.drive, config.drives, True, pedal_presets["DRIVE"], 0) }}
 </div>
 <div id="AMP_container" class="effect_container">
-    {{ effect_container("AMP", config.amp, config.amps, True) }}
+    {{ effect_container("AMP", config.amp, config.amps, True, pedal_presets["AMP"], 0) }}
 </div>
 <div id="MOD_container" class="effect_container">
-    {{ effect_container("MOD", config.modulation, config.modulations, True) }}
+    {{ effect_container("MOD", config.modulation, config.modulations, True, pedal_presets["MOD"], 0) }}
 </div>
 <div id="DELAY_container" class="effect_container">
-    {{ effect_container("DELAY", config.delay, config.delays, True) }}
+    {{ effect_container("DELAY", config.delay, config.delays, True, pedal_presets["DELAY"], 0) }}
 </div>
 <div id="REVERB_container" class="effect_container">
-    {{ effect_container("REVERB", config.reverb, config.reverbs, True) }}
+    {{ effect_container("REVERB", config.reverb, config.reverbs, True, pedal_presets["REVERB"], 0) }}
 </div>
 <div class="eject">
     <button class="eject_button" id="eject">Eject</button>

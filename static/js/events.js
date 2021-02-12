@@ -46,4 +46,9 @@ $(document).ready(function(){
             $('#' + data.effect + '_off').removeClass('selected');
         }
     })
+
+    // Reload effect footer
+    socket.on('reload-effect-footer', function(data){
+        $('#' + data.effect_type + '_footer').load('/effectfooter', data);
+    })
 });
