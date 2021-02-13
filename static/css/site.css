@@ -10,6 +10,20 @@ a, a:visited {
     color:white;
 }
 
+.collapse_open {
+  background-image: url("/img/icons/arrow-down-s-line.png");  
+  height:24px;
+  width:24px;
+  display:inline-block;
+}
+
+.collapse_closed {
+  background-image: url("/img/icons/arrow-right-s-line.png");  
+  height:24px;
+  width:24px;
+  display:inline-block;
+}
+
 .connect_button {
     width: 200px;
     padding: 10px;
@@ -35,8 +49,7 @@ a, a:visited {
     width:100%;
 }
 
-.effect_content {
-    padding:15px;
+.effect_content {    
     font-family:Arial, Helvetica, sans-serif;
     font-size: x-small;
 }
@@ -62,6 +75,10 @@ a, a:visited {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.effect_parameters {
+  padding:15px;
 }
 
 .effect_onoff{
@@ -146,20 +163,17 @@ input[type="range"] {
 
 .pedal_preset_button {
   padding:6px 6px 4px 5px;
-  margin-bottom:1px;
-  width: 11%;
-  border: none;
-  border-radius: 8px;
-  color:black;
-  background-color: white;
-  display:inline-block;
+  margin-top:3px;
+  width: 10%;
+  border: none;  
+  background-color: #302f2f;  
   vertical-align: bottom;
 }
 
 .pedal_preset_selector{  
   display:inline-block;
   padding:10px;
-  width: 59%;    
+  width: 63%;    
   background: #302f2f;
   color: white;
 }

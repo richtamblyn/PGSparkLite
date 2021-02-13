@@ -72,7 +72,7 @@
 {% set onoff = effect["OnOff"] %}
 <div class="effect_header">
     <div class="effect_title">
-        <img class="showhidecontent" data-id="{{ name }}" src="/img/icons/arrow-down-s-line.png" /> {{ type }}
+        <div class="showhidecontent collapse_open" data-id="{{ name }}"></div> {{ type }}
     </div>    
     {% if selector %}
         {{ effect_selector(type, effect_list, name) }}
@@ -83,15 +83,15 @@
         {{ onoff_buttons(type, name, onoff) }}
     </div>    
 </div>
-{% if topper|length %}
-<div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
-    <span class="{{ badge }}">
-        {{ effect_config["name"] }}
-    </span>
-</div>
-{% endif %}
-<div id="{{ name }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
-    <div class="effect_parameters" id="{{ name }}_parameters" data-num={{ effect["Parameters"]|length }}>
+<div id="{{ name }}_content" class="effect_content">
+    {% if topper|length %}
+    <div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
+        <span class="{{ badge }}">
+            {{ effect_config["name"] }}
+        </span>
+    </div>
+    {% endif %}
+    <div class="effect_parameters" style="background:{{ background }}; color:{{ color }};" id="{{ name }}_parameters" data-num={{ effect["Parameters"]|length }}>
         {{ effect_parameters(name, effect_config["parameters"], effect["Parameters"], knob)}}
     </div>    
 </div>

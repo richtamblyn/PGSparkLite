@@ -51,8 +51,7 @@ function updatePedalPreset(effect, effecttype, preset_id, namerequired){
     });
 }
 
-$(document).ready(function () {
-
+$(document).ready(function () {    
     $('#connect').on('click', function (e) {
         e.preventDefault();
         $('#connect').prop('disabled', true)
@@ -133,6 +132,20 @@ $(document).ready(function () {
     $('#reset-config').on('click', function () {
         socket.emit('reset_config');
     });
+
+    $(document).on('click', '.showhidecontent', function () {
+        var effect = $(this).data('id');        
+        if ($(this).hasClass('collapse_open')) {
+            $('#' + effect + '_content').slideUp('slow');
+            $(this).removeClass('collapse_open');
+            $(this).addClass('collapse_closed');
+        } else
+        {
+            $('#' + effect + '_content').slideDown('slow');
+            $(this).removeClass('collapse_closed');
+            $(this).addClass('collapse_open');
+        }
+    })
 
     // Pedal Presets
 
