@@ -12,7 +12,9 @@
             {"name":"HIGH CUT", "id": 3, "width":24, "diameter":70},
             {"name":"TIME", "id": 5, "width":24, "diameter":70},
             {"name":"DAMPING", "id": 1, "width":52, "diameter":70, "margin":"-25px"},
-            {"name":"DWELL", "id": 4, "width":46, "diameter":70, "margin":"-25px"}            
+            {"name":"DWELL", "id": 4, "width":46, "diameter":70, "margin":"-25px"},
+            {"id":6, "hidden":"true"},
+            {"id":7, "hidden":"true"}       
         ]
     }    
 }
