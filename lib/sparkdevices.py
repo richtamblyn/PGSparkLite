@@ -46,22 +46,25 @@ class SparkDevices:
             return None
         elif effect in self.modulations:
             config_effect = self.modulation
-            switch_parameter = self.modulations[effect][self.switch_parameter]                        
+            switch_parameter = self.modulations[effect][self.switch_parameter]
+            effect_type = 'MOD'                      
         elif effect in self.delays:
             config_effect = self.delay
             switch_parameter = self.delays[effect][self.switch_parameter]
+            effect_type = 'DELAY'
         elif effect in self.reverbs:
             config_effect = self.reverb
             switch_parameter = self.reverbs[effect][self.switch_parameter]
+            effect_type = 'REVERB'
 
         if switch_parameter != parameter:
             return None
 
         if config_effect[self.OnOff] == 'On' and value == 0.0000:
-            return 'Off'
+            return (effect_type, 'Off')
 
         if config_effect[self.OnOff] == 'Off' and value > 0.0000:
-            return 'On'
+            return (effect_type, 'On')
 
     def get_parameters(self, effect):
         if effect in self.amps:

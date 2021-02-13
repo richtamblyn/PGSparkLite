@@ -199,7 +199,8 @@ class SparkAmpServer:
 
             self.socketio.emit('update-onoff', {
                 'effect': effect,
-                'state': state
+                'state': state[1],
+                'type': state[0]
             })
             self.config.update_config(effect, 'turn_on_off', state)
 

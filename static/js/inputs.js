@@ -1,5 +1,17 @@
 var socket = io();
 
+function changeOnOffState(state, effect, type){
+    if (state === 'Off') {
+        $('#' + effect + '_off').addClass('selected');
+        $('#' + effect + '_on').removeClass('selected');
+        $('#' + type + '_container').addClass('grayscale');
+    } else {
+        $('#' + effect + '_on').addClass('selected');
+        $('#' + effect + '_off').removeClass('selected');
+        $('#' + type + '_container').removeClass('grayscale');
+    }
+}
+
 function knobChangeEventHandler(knob) {
     var effect = knob.dataset['id'];
     var param = knob.dataset['parameter'];
@@ -86,16 +98,7 @@ $(document).ready(function () {
         var type = $(this).data('type');
         var data = { 'effect': effect, 'state': state };
 
-        if (state === 'Off') {
-            $('#' + effect + '_off').addClass('selected');
-            $('#' + effect + '_on').removeClass('selected');
-            $('#' + type + '_container').addClass('grayscale');
-        } else {
-            $('#' + effect + '_on').addClass('selected');
-            $('#' + effect + '_off').removeClass('selected');
-            $('#' + type + '_container').removeClass('grayscale');
-        }
-
+        window.changeOnOffState(state, effect, type);
         socket.emit('turn_effect_onoff', data);
     });
 

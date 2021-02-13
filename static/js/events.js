@@ -38,13 +38,7 @@ $(document).ready(function(){
 
     // Change OnOff status
     socket.on('update-onoff', function(data){
-        if (data.state === 'Off'){
-            $('#' + data.effect + '_off').addClass('selected');
-            $('#' + data.effect + '_on').removeClass('selected');
-        } else{
-            $('#' + data.effect + '_on').addClass('selected');
-            $('#' + data.effect + '_off').removeClass('selected');
-        }
+        window.changeOnOffState(data.state, data.effect, data.type);        
     })
 
     // Reload effect footer
