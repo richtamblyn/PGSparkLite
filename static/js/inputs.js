@@ -151,11 +151,16 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.delete_pedal_preset', function () {
-        if (confirm("Are you sure you want to delete this preset?")) {
-            var effecttype = $(this).data('type');            
+        var effecttype = $(this).data('type');            
+        var preset_id = $('#' + effecttype + '_pedal_preset_selector').val();
+        if(preset_id == 0){
+            return;
+        }
+
+        if (confirm("Are you sure you want to delete this preset?")) {            
             var data = {
                 'effect_type': effecttype,
-                'preset_id': $('#' + effecttype + '_pedal_preset_selector').val()
+                'preset_id': preset_id
             };
 
             $.post('/deletepedalpreset', data, function (result) {
@@ -170,7 +175,7 @@ $(document).ready(function () {
         if(preset_id == 0){
             return;
         }
-        
+
         var effecttype = $(this).data('type');
         var data = {
             'effect_name': $(this).data('id'),
@@ -179,7 +184,7 @@ $(document).ready(function () {
         };
 
         $.post('/changepedalpreset', data, function (result) {
-            $('#' + effecttype + '_container').html(result)
+            $('#' + effecttype + '_container').html(result);            
         });
     })
 });
