@@ -84,14 +84,17 @@ $(document).ready(function () {
 
         var effect = $(this).data('id');
         var state = $(this).val();
+        var type = $(this).data('type');
         var data = { 'effect': effect, 'state': state };
 
         if (state === 'Off') {
             $('#' + effect + '_off').addClass('selected');
             $('#' + effect + '_on').removeClass('selected');
+            $('#' + type + '_container').addClass('grayscale');
         } else {
             $('#' + effect + '_on').addClass('selected');
             $('#' + effect + '_off').removeClass('selected');
+            $('#' + type + '_container').removeClass('grayscale');
         }
 
         socket.emit('turn_effect_onoff', data);

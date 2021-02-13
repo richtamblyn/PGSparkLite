@@ -51,7 +51,7 @@ a, a:visited {
 }
 
 .effect_title {
-    width:16%;    
+    width:20%;    
     display:inline-block;
     padding:15px;
     font-size:larger;    
@@ -72,13 +72,13 @@ a, a:visited {
 
 .effect_selector{
   padding:10px;
-  width: 37%;    
+  width: 35%;    
   background: #302f2f;
   color: white;
 }
 
 .effect_selector_placeholder{
-  width:37%;
+  width:35%;
   display:inline-block;
 }
 
@@ -97,6 +97,10 @@ a, a:visited {
   border-radius:8px;
 }
 
+.grayscale {
+  filter: grayscale(100%);
+}
+
 input[type="submit"] {    
     padding:10px;   
     width:100%; 
@@ -108,7 +112,7 @@ input[type="range"] {
 
 .onoff_button {
     padding:10px;
-    width: 43%;
+    width: 40%;
     border:none;
     border-radius:8px;
     color:black;
@@ -141,19 +145,21 @@ input[type="range"] {
 }
 
 .pedal_preset_button {
-  padding:10px;
-    width: 14%;
-    border: none;
-    border-radius: 8px;
-    color:black;
-    background-color: white;
-    display:inline-block;
+  padding:6px 6px 4px 5px;
+  margin-bottom:1px;
+  width: 11%;
+  border: none;
+  border-radius: 8px;
+  color:black;
+  background-color: white;
+  display:inline-block;
+  vertical-align: bottom;
 }
 
 .pedal_preset_selector{  
   display:inline-block;
   padding:10px;
-  width: 50%;    
+  width: 59%;    
   background: #302f2f;
   color: white;
 }
@@ -176,6 +182,10 @@ input[type="range"] {
 .selected {
     background-color: red;
     color: white;
+}
+
+.showhidecontent {
+  vertical-align:bottom;
 }
 
 /* Absolute Center CSS Spinner */

@@ -7,27 +7,31 @@
     <button id="preset_1" class="preset_button {% if config.preset == 1 %} selected {% endif %}" name="preset" value="1">2</button>
     <button id="preset_2" class="preset_button {% if config.preset == 2 %} selected {% endif %}" name="preset" value="2">3</button>
     <button id="preset_3" class="preset_button {% if config.preset == 3 %} selected {% endif %}" name="preset" value="3">4</button>
+
+    <div class="chain_preset_selector">
+
+    </div>
 </div>
-    
-<div id="GATE_container" class="effect_container">
+
+<div id="GATE_container" class="effect_container {% if config.gate["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("GATE", config.gate, config.gates, False, pedal_presets["GATE"], 0) }}
 </div>
- <div id="COMP_container" class="effect_container">
+ <div id="COMP_container" class="effect_container {% if config.comp["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("COMP", config.comp, config.comps, True, pedal_presets["COMP"], 0) }}
 </div>
-<div id="DRIVE_container" class="effect_container">
+<div id="DRIVE_container" class="effect_container {% if config.drive["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("DRIVE", config.drive, config.drives, True, pedal_presets["DRIVE"], 0) }}
 </div>
-<div id="AMP_container" class="effect_container">
+<div id="AMP_container" class="effect_container {% if config.amp["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("AMP", config.amp, config.amps, True, pedal_presets["AMP"], 0) }}
 </div>
-<div id="MOD_container" class="effect_container">
+<div id="MOD_container" class="effect_container {% if config.modulation["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("MOD", config.modulation, config.modulations, True, pedal_presets["MOD"], 0) }}
 </div>
-<div id="DELAY_container" class="effect_container">
+<div id="DELAY_container" class="effect_container {% if config.delay["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("DELAY", config.delay, config.delays, True, pedal_presets["DELAY"], 0) }}
 </div>
-<div id="REVERB_container" class="effect_container">
+<div id="REVERB_container" class="effect_container {% if config.reverb["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("REVERB", config.reverb, config.reverbs, True, pedal_presets["REVERB"], 0) }}
 </div>
 <div class="eject">

@@ -1,8 +1,8 @@
-{% macro onoff_buttons(effect_id, state) %}
+{% macro onoff_buttons(effect_type, effect_id, state) %}
 <div class="onoff_buttons">
-    <button data-id="{{ effect_id }}" id="{{ effect_id }}_on"
+    <button data-type="{{ effect_type }}" data-id="{{ effect_id }}" id="{{ effect_id }}_on"
         class="onoff_button {% if state == 'On' %} selected {% endif %}" value="On" type="submit">ON</button>
-    <button data-id="{{ effect_id }}" id="{{ effect_id }}_off"
+    <button data-type="{{ effect_type }}" data-id="{{ effect_id }}" id="{{ effect_id }}_off"
         class="onoff_button {% if state == 'Off' %} selected {% endif %}" value="Off" type="submit">OFF</button>
 </div>
 {% endmacro %}
@@ -24,9 +24,9 @@
     {% endfor %}
 </select>
 <div class="pedal_preset_buttons">
-    <button class="pedal_preset_button new_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name }}">NEW</button>
-    <button class="pedal_preset_button save_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name}}">SAVE</button>
-    <button class="pedal_preset_button delete_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name }}">DELETE</button>
+    <button class="pedal_preset_button new_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name }}"><img src="/img/icons/add-line.png" /></button>
+    <button class="pedal_preset_button save_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name}}"><img src="/img/icons/save-line.png" /></button>
+    <button class="pedal_preset_button delete_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name }}"><img src="/img/icons/delete-bin-line.png" /></button>
 </div>
 {% endmacro %}
 
@@ -68,17 +68,19 @@
 {% set background = effect_config["background"] %}
 {% set color = effect_config["color"] %}
 {% set knob = effect_config["knob"] %}
+{% set name = effect["Name"] %}
+{% set onoff = effect["OnOff"] %}
 <div class="effect_header">
     <div class="effect_title">
-        {{ type }}
+        <img class="showhidecontent" data-id="{{ name }}" src="/img/icons/arrow-down-s-line.png" /> {{ type }}
     </div>    
     {% if selector %}
-        {{ effect_selector(type, effect_list, effect["Name"]) }}
+        {{ effect_selector(type, effect_list, name) }}
     {% else %}
     <div class="effect_selector_placeholder"></div>
     {% endif %}
     <div class="effect_onoff">
-        {{ onoff_buttons(effect["Name"], effect["OnOff"]) }}
+        {{ onoff_buttons(type, name, onoff) }}
     </div>    
 </div>
 {% if topper|length %}
@@ -88,12 +90,12 @@
     </span>
 </div>
 {% endif %}
-<div id="{{ effect["Name"] }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
-    <div class="effect_parameters" id="{{ effect["Name"] }}_parameters" data-num={{ effect["Parameters"]|length }}>
-        {{ effect_parameters(effect["Name"], effect_config["parameters"], effect["Parameters"], knob)}}
-    </div>
+<div id="{{ name }}_content" class="effect_content" style="background:{{ background }}; color:{{ color }};">
+    <div class="effect_parameters" id="{{ name }}_parameters" data-num={{ effect["Parameters"]|length }}>
+        {{ effect_parameters(name, effect_config["parameters"], effect["Parameters"], knob)}}
+    </div>    
 </div>
 <div id="{{ type }}_footer" class="effect_footer">
-    {{ effect_footer(effect["Name"], type, presets, preset_selected)}}
+    {{ effect_footer(name, type, presets, preset_selected)}}
 </div>
 {% endmacro %}
