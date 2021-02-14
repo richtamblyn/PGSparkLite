@@ -1,5 +1,5 @@
 {% extends 'layout.html' %}
-{% from 'macros.html' import effect_container %}
+{% from 'macros.html' import effect_container, chain_preset_selector %}
 {% block content %}
 
 <div class="preset_container">    
@@ -8,8 +8,8 @@
     <button id="preset_2" class="preset_button {% if config.preset == 2 %} selected {% endif %}" name="preset" value="2">3</button>
     <button id="preset_3" class="preset_button {% if config.preset == 3 %} selected {% endif %}" name="preset" value="3">4</button>
 
-    <div class="chain_preset_selector">
-
+    <div id="chain_preset_container">
+        {{ chain_preset_selector(chain_presets) }}
     </div>
 </div>
 

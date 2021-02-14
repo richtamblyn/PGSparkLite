@@ -10,6 +10,32 @@ a, a:visited {
     color:white;
 }
 
+#chain_preset_container {
+  margin-top:10px;  
+}
+
+.chain_preset_selector {  
+  display:inline-block;
+  padding:10px;
+  width: 66%;    
+  background: #302f2f;
+  color: white;
+}
+
+.chain_preset_button {
+  padding:6px 6px 4px 5px;
+  margin-top:3px;
+  width: 9%;
+  border: none;  
+  background-color: #302f2f;  
+  vertical-align: bottom;
+}
+
+.chain_preset_buttons {  
+  display:inline;
+  margin-left:3px;
+}
+
 .collapse_open {
   background-image: url("/img/icons/arrow-down-s-line.png");  
   height:24px;
@@ -175,7 +201,7 @@ input[type="range"] {
 .pedal_preset_selector{  
   display:inline-block;
   padding:10px;
-  width: 63%;    
+  width: 66%;    
   background: #302f2f;
   color: white;
 }
@@ -190,10 +216,11 @@ input[type="range"] {
 }
 
 .preset_container {
-    text-align:center;
+    text-align:center;    
+    background-color: #302f2f;
+    padding:10px;
+    border-radius:8px;
 }
-
-
 
 .selected {
     background-color: red;

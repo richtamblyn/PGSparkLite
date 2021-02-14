@@ -82,6 +82,9 @@ def create_update_pedalpreset(effect_name, preset_name, preset_id, on_off, param
 
     return record.id
 
+def get_chain_presets():
+    return ChainPreset.select().where(ChainPreset.system_preset_id == None)
+
 
 def get_pedal_presets(config):
     presets = {}

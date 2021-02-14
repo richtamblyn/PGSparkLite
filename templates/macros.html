@@ -16,6 +16,17 @@
 </select>
 {% endmacro %}
 
+{% macro chain_preset_selector(presets) %}
+<select class="chain_preset_selector">
+    <option value="0">No preset selected</option>
+</select>
+<div class="chain_preset_buttons">
+    <button id="new_chain_preset" class="chain_preset_button" data-type="{{ effect_type }}" data-id="{{ effect_name }}"><img src="/img/icons/add-line.png" /></button>
+    <button id="save_chain_preset" class="chain_preset_button" data-type="{{ effect_type }}" data-id="{{ effect_name}}"><img src="/img/icons/save-line.png" /></button>
+    <button id="delete_chain_preset" class="chain_preset_button" data-type="{{ effect_type }}" data-id="{{ effect_name }}"><img src="/img/icons/delete-bin-line.png" /></button>
+</div>
+{% endmacro %}
+
 {% macro effect_footer(effect_name, effect_type, pedal_presets, preset_selected) %}
 <select id="{{ effect_type }}_pedal_preset_selector" class="pedal_preset_selector" data-type="{{ effect_type }}" data-id="{{ effect_name }}">
     <option value="0">No preset selected</option>
