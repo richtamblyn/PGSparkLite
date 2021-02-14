@@ -8,25 +8,18 @@ import glob
 from ast import literal_eval
 from collections import OrderedDict 
 from operator import getitem 
+from lib.common import dict_Name, dict_name, dict_parameters, dict_Parameters, dict_db_id, dict_visible, dict_gate, \
+ dict_comp, dict_drive, dict_amp, dict_mod, dict_delay, dict_reverb, dict_OnOff, dict_id, dict_Pedals, dict_On, dict_Off, \
+ dict_Preset_Number, dict_bias_noisegate, dict_bias_noisegate_safe, dict_AC_Boost, dict_AC_Boost_safe, \
+ dict_switch_parameter, dict_effect, dict_turn_on_off, dict_show_hide_pedal, dict_change_pedal_preset, \
+ dict_change_effect, dict_change_parameter
 
 class SparkDevices:
     
     configDirs = ['config/effects/gate', 'config/amps', 'config/effects/comp',
     'config/effects/mod', 'config/effects/drive', 'config/effects/delay', 'config/effects/reverb']                   
 
-    def __init__(self, preset):        
-        
-        # Dictionary helpers
-        self.Name = 'Name'
-        self.name = 'name'
-        self.Pedals = 'Pedals'     
-        self.OnOff = 'OnOff'  
-        self.Parameters = 'Parameters'
-        self.parameters = 'parameters'
-        self.switch_parameter = 'switch_parameter'
-        self.db_id = 'db_id'
-        self.visible = 'visible'
-
+    def __init__(self, preset):                        
         self.last_call = ''
 
         self.reset_static()
@@ -34,54 +27,120 @@ class SparkDevices:
         self.load()        
         self.parse_preset(preset)
 
-    def switch_onoff_parameter(self, effect, parameter, value):
-        
-        switch_parameter = None
-        config_effect = None
-        
-        if effect in self.amps:
-            return None
-        elif effect in self.comps:
-            return None
-        elif effect in self.drives:
-            return None
-        elif effect in self.modulations:
-            config_effect = self.modulation
-            switch_parameter = self.modulations[effect][self.switch_parameter]
-            effect_type = 'MOD'                      
-        elif effect in self.delays:
-            config_effect = self.delay
-            switch_parameter = self.delays[effect][self.switch_parameter]
-            effect_type = 'DELAY'
-        elif effect in self.reverbs:
-            config_effect = self.reverb
-            switch_parameter = self.reverbs[effect][self.switch_parameter]
-            effect_type = 'REVERB'
-
-        if switch_parameter != parameter:
-            return None
-
-        if config_effect[self.OnOff] == 'On' and value == 0.0000:
-            return (effect_type, 'Off')
-
-        if config_effect[self.OnOff] == 'Off' and value > 0.0000:
-            return (effect_type, 'On')
-
+    
     def get_parameters(self, effect):
         if effect in self.amps:
-            return self.amps[effect][self.parameters]
+            return self.amps[effect][dict_parameters]
         elif effect in self.comps:
-            return self.comps[effect][self.parameters]
+            return self.comps[effect][dict_parameters]
         elif effect in self.drives:
-            return self.drives[effect][self.parameters]
+            return self.drives[effect][dict_parameters]
         elif effect in self.modulations:
-            return self.modulations[effect][self.parameters]
+            return self.modulations[effect][dict_parameters]
         elif effect in self.delays:
-            return self.delays[effect][self.parameters]
+            return self.delays[effect][dict_parameters]
         elif effect in self.reverbs:
-            return self.reverbs[effect][self.parameters]
+            return self.reverbs[effect][dict_parameters]
         elif effect in self.gates:
-            return self.gates[effect][self.parameters]
+            return self.gates[effect][dict_parameters]
+
+    def get_current_effect_by_type(self, type):
+        if type == dict_gate:
+            return self.gate
+        elif type == dict_comp:
+            return self.comp
+        elif type == dict_drive:
+            return self.drive
+        elif type == dict_amp:
+            return self.amp
+        elif type == dict_mod:
+            return self.modulation
+        elif type == dict_delay:
+            return self.delay
+        elif type == dict_reverb:
+            return self.reverb
+
+    def initialise_effect(self, effect_id, effect, onoff, parameters = None):
+        effect[dict_Name] = effect_id
+        effect[dict_OnOff] = onoff
+
+        if parameters == None:
+            effect[dict_Parameters] = {}
+            for parameter in effect[dict_parameters]:
+                effect[dict_Parameters][parameter[dict_id]] = 0.5
+        else:
+            effect[dict_Parameters] = parameters
+        
+        return effect
+
+
+    def load(self):
+        for configDir in self.configDirs:
+            configFiles = glob.glob(configDir + '/*.json')    
+
+            for configFile in configFiles:
+                with open(configFile,'r') as f:
+                    configObject = f.read()
+                    
+                device = literal_eval(configObject)
+
+                for id, values in device.items():                        
+                    if values[dict_effect] == 'amp':
+                        self.amps[id] = values
+                    elif values[dict_effect] == 'gate':
+                        self.gates[id] = values
+                    elif values[dict_effect] == 'comp':
+                        self.comps[id] = values
+                    elif values[dict_effect] == 'drive':
+                        self.drives[id] = values
+                    elif values[dict_effect] == 'modulation':
+                        self.modulations[id] = values
+                    elif values[dict_effect] == 'delay':
+                        self.delays[id] = values
+                    elif values[dict_effect] == 'reverb':
+                        self.reverbs[id] = values
+                
+        self.amps = OrderedDict(sorted(self.amps.items(), key = lambda x: getitem(x[1], dict_name))) 
+        self.comps = OrderedDict(sorted(self.comps.items(), key = lambda x: getitem(x[1], dict_name))) 
+        self.drives = OrderedDict(sorted(self.drives.items(), key = lambda x: getitem(x[1], dict_name))) 
+        self.modulations = OrderedDict(sorted(self.modulations.items(), key = lambda x: getitem(x[1], dict_name))) 
+        self.delays = OrderedDict(sorted(self.delays.items(), key = lambda x: getitem(x[1], dict_name))) 
+        self.reverbs = OrderedDict(sorted(self.reverbs.items(), key = lambda x: getitem(x[1], dict_name))) 
+
+    
+    def parse_preset(self, preset):             
+        self.presetName = preset[dict_Name]        
+
+        self.preset = preset[dict_Preset_Number]
+        self.gate = preset[dict_Pedals][0]      
+
+        # Fix the gate ID with an underscore
+        if self.gate[dict_Name] == dict_bias_noisegate:
+            self.gate[dict_Name] = dict_bias_noisegate_safe
+
+        self.comp = preset[dict_Pedals][1]
+        self.drive = preset[dict_Pedals][2]        
+        self.amp = preset[dict_Pedals][3]
+
+        # Fix the AC Boost ID with an underscore
+        if self.amp[dict_Name] == dict_AC_Boost:
+            self.amp[dict_Name] = dict_AC_Boost_safe
+
+        self.modulation = preset[dict_Pedals][4]
+        self.delay = preset[dict_Pedals][5]
+                
+        self.reverb = preset[dict_Pedals][6]
+        self.reverb[dict_Name] = str(self.reverb[dict_Parameters][6])[-1]
+
+        # Initialise database ids
+        self.gate[dict_db_id] = 0
+        self.comp[dict_db_id] = 0
+        self.amp[dict_db_id] = 0
+        self.drive[dict_db_id] = 0
+        self.modulation[dict_db_id] = 0
+        self.delay[dict_db_id] = 0
+        self.reverb[dict_db_id] = 0
+
 
     def reset_static(self):
         self.amps = {}
@@ -91,6 +150,7 @@ class SparkDevices:
         self.modulations = {}
         self.delays = {}
         self.reverbs = {}
+
 
     def reset(self):
         self.chain_preset_id = 0
@@ -104,185 +164,140 @@ class SparkDevices:
         self.delay = ''
         self.reverb = ''        
 
-    def load(self):
-        for configDir in self.configDirs:
-            configFiles = glob.glob(configDir + '/*.json')    
 
-            for configFile in configFiles:
-                with open(configFile,'r') as f:
-                    configObject = f.read()
-                    
-                device = literal_eval(configObject)
-
-                for id, values in device.items():                        
-                    if values['effect'] == 'amp':
-                        self.amps[id] = values
-                    elif values['effect'] == 'gate':
-                        self.gates[id] = values
-                    elif values['effect'] == 'comp':
-                        self.comps[id] = values
-                    elif values['effect'] == 'drive':
-                        self.drives[id] = values
-                    elif values['effect'] == 'modulation':
-                        self.modulations[id] = values
-                    elif values['effect'] == 'delay':
-                        self.delays[id] = values
-                    elif values['effect'] == 'reverb':
-                        self.reverbs[id] = values
-                
-        self.amps = OrderedDict(sorted(self.amps.items(), key = lambda x: getitem(x[1], 'name'))) 
-        self.comps = OrderedDict(sorted(self.comps.items(), key = lambda x: getitem(x[1], 'name'))) 
-        self.drives = OrderedDict(sorted(self.drives.items(), key = lambda x: getitem(x[1], 'name'))) 
-        self.modulations = OrderedDict(sorted(self.modulations.items(), key = lambda x: getitem(x[1], 'name'))) 
-        self.delays = OrderedDict(sorted(self.delays.items(), key = lambda x: getitem(x[1], 'name'))) 
-        self.reverbs = OrderedDict(sorted(self.reverbs.items(), key = lambda x: getitem(x[1], 'name'))) 
-
-    def parse_preset(self, preset):             
-        self.presetName = preset[self.Name]        
-
-        self.preset = preset['PresetNumber']
-        self.gate = preset[self.Pedals][0]      
-
-        # Fix the gate ID with an underscore
-        if self.gate[self.Name] == 'bias.noisegate':
-            self.gate[self.Name] = 'bias_noisegate'
-
-        self.comp = preset[self.Pedals][1]
-        self.drive = preset[self.Pedals][2]        
-        self.amp = preset[self.Pedals][3]
-
-        # Fix the AC Boost ID with an underscore
-        if self.amp[self.Name] == 'AC Boost':
-            self.amp[self.Name] = 'AC_Boost'
-
-        self.modulation = preset[self.Pedals][4]
-        self.delay = preset[self.Pedals][5]
-                
-        self.reverb = preset[self.Pedals][6]
-        self.reverb[self.Name] = str(self.reverb[self.Parameters][6])[-1]
-
-        # Initialise database ids
-        self.gate[self.db_id] = 0
-        self.comp[self.db_id] = 0
-        self.amp[self.db_id] = 0
-        self.drive[self.db_id] = 0
-        self.modulation[self.db_id] = 0
-        self.delay[self.db_id] = 0
-        self.reverb[self.db_id] = 0
-
-    def initialise_effect(self, effect_id, effect, onoff, parameters = None):
-        effect[self.Name] = effect_id
-        effect[self.OnOff] = onoff
-
-        if parameters == None:
-            effect[self.Parameters] = {}
-            for parameter in effect[self.parameters]:
-                effect[self.Parameters][parameter['id']] = 0.5
-        else:
-            effect[self.Parameters] = parameters
+    def switch_onoff_parameter(self, effect, parameter, value):        
+        switch_parameter = None
+        config_effect = None
         
-        return effect
+        if effect in self.amps:
+            return None
+        elif effect in self.comps:
+            return None
+        elif effect in self.drives:
+            return None
+        elif effect in self.modulations:
+            config_effect = self.modulation
+            switch_parameter = self.modulations[effect][dict_switch_parameter]
+            effect_type = dict_mod
+        elif effect in self.delays:
+            config_effect = self.delay
+            switch_parameter = self.delays[effect][dict_switch_parameter]
+            effect_type = dict_delay
+        elif effect in self.reverbs:
+            config_effect = self.reverb
+            switch_parameter = self.reverbs[effect][dict_switch_parameter]
+            effect_type = dict_reverb
+
+        if switch_parameter != parameter:
+            return None
+
+        if config_effect[dict_OnOff] == dict_On and value == 0.0000:
+            return (effect_type, dict_Off)
+
+        if config_effect[dict_OnOff] == dict_Off and value > 0.0000:
+            return (effect_type, dict_On)
+    
 
     def update_config(self, effect, action, value, parameter = None):        
         # Allows us to preserve unsaved config changes through browser refresh / change
-        if action == 'show_hide_pedal':
-            if effect == 'GATE':
-                self.gate[self.visible] = value
-            elif effect == 'COMP':
-                self.comp[self.visible] = value
-            elif effect == 'DRIVE':
-                self.drive[self.visible] = value
-            elif effect == 'AMP':
-                self.amp[self.visible] = value
-            elif effect == 'MOD':
-                self.modulation[self.visible] = value
-            elif effect == 'DELAY':
-                self.delay[self.visible] = value
-            elif effect == 'REVERB':
-                self.reverb[self.visible] = value
+        if action == dict_show_hide_pedal:
+            if effect == dict_gate:
+                self.gate[dict_visible] = value
+            elif effect == dict_comp:
+                self.comp[dict_visible] = value
+            elif effect == dict_drive:
+                self.drive[dict_visible] = value
+            elif effect == dict_amp:
+                self.amp[dict_visible] = value
+            elif effect == dict_mod:
+                self.modulation[dict_visible] = value
+            elif effect == dict_delay:
+                self.delay[dict_visible] = value
+            elif effect == dict_reverb:
+                self.reverb[dict_visible] = value
             return
         
-        if action == 'change_pedal_preset':
-            if effect == 'GATE':
-                self.gate[self.db_id] = value
-            elif effect == 'COMP':
-                self.comp[self.db_id] = value
-            elif effect == 'DRIVE':
-                self.drive[self.db_id] = value
-            elif effect == 'AMP':
-                self.amp[self.db_id] = value
-            elif effect == 'MOD':
-                self.modulation[self.db_id] = value
-            elif effect == 'DELAY':
-                self.delay[self.db_id] = value
-            elif effect == 'REVERB':
-                self.reverb[self.db_id] = value
+        if action == dict_change_pedal_preset:
+            if effect == dict_gate:
+                self.gate[dict_db_id] = value
+            elif effect == dict_comp:
+                self.comp[dict_db_id] = value
+            elif effect == dict_drive:
+                self.drive[dict_db_id] = value
+            elif effect == dict_amp:
+                self.amp[dict_db_id] = value
+            elif effect == dict_mod:
+                self.modulation[dict_db_id] = value
+            elif effect == dict_delay:
+                self.delay[dict_db_id] = value
+            elif effect == dict_reverb:
+                self.reverb[dict_db_id] = value
             return
 
-        if action == 'turn_on_off':
-            if effect == self.gate[self.Name]:
-                self.gate[self.OnOff] = value
-            elif effect == self.comp[self.Name]:
-                self.comp[self.OnOff] = value
-            elif effect == self.drive[self.Name]:
-                self.drive[self.OnOff] = value
-            elif effect == self.amp[self.Name]:
-                self.amp[self.OnOff] = value
-            elif effect == self.modulation[self.Name]:
-                self.modulation[self.OnOff] = value
-            elif effect == self.delay[self.Name]:
-                self.delay[self.OnOff] = value
-            elif effect == self.reverb[self.Name]:
-                self.reverb[self.OnOff] = value
+        if action == dict_turn_on_off:
+            if effect == self.gate[dict_Name]:
+                self.gate[dict_OnOff] = value
+            elif effect == self.comp[dict_Name]:
+                self.comp[dict_OnOff] = value
+            elif effect == self.drive[dict_Name]:
+                self.drive[dict_OnOff] = value
+            elif effect == self.amp[dict_Name]:
+                self.amp[dict_OnOff] = value
+            elif effect == self.modulation[dict_Name]:
+                self.modulation[dict_OnOff] = value
+            elif effect == self.delay[dict_Name]:
+                self.delay[dict_OnOff] = value
+            elif effect == self.reverb[dict_Name]:
+                self.reverb[dict_OnOff] = value
             return
         
-        if action == 'change_effect':            
+        if action == dict_change_effect:            
             if value in self.comps:
-                self.comp = self.initialise_effect(value, self.comps[value], self.comp[self.OnOff])                
+                self.comp = self.initialise_effect(value, self.comps[value], self.comp[dict_OnOff])                
             elif value in self.drives:
-                self.drive = self.initialise_effect(value, self.drives[value], self.drive[self.OnOff])                
+                self.drive = self.initialise_effect(value, self.drives[value], self.drive[dict_OnOff])                
             elif value in self.amps:
-                self.amp = self.initialise_effect(value, self.amps[value], self.amp[self.OnOff], self.amp[self.Parameters])
+                self.amp = self.initialise_effect(value, self.amps[value], self.amp[dict_OnOff], self.amp[dict_Parameters])
             elif value in self.modulations:
-                self.modulation = self.initialise_effect(value, self.modulations[value], self.modulation[self.OnOff])                
+                self.modulation = self.initialise_effect(value, self.modulations[value], self.modulation[dict_OnOff])                
             elif value in self.delays:
-                self.delay = self.initialise_effect(value, self.delays[value], self.delay[self.OnOff])                
+                self.delay = self.initialise_effect(value, self.delays[value], self.delay[dict_OnOff])                
             elif value in self.reverbs:
-                self.reverb = self.initialise_effect(value, self.reverbs[value], self.reverb[self.OnOff], self.reverb[self.Parameters])                
+                self.reverb = self.initialise_effect(value, self.reverbs[value], self.reverb[dict_OnOff], self.reverb[dict_Parameters])                
             return
 
-        if action == 'change_parameter':
-            if effect == self.gate[self.Name]:
-                self.gate[self.Parameters][parameter] = value
-            elif effect == self.comp[self.Name]:
-                self.comp[self.Parameters][parameter] = value
-            elif effect == self.drive[self.Name]:
-                self.drive[self.Parameters][parameter] = value
-            elif effect == self.amp[self.Name]:
-                self.amp[self.Parameters][parameter] = value
-            elif effect == self.modulation[self.Name]:
-                self.modulation[self.Parameters][parameter] = value
-            elif effect == self.delay[self.Name]:
-                self.delay[self.Parameters][parameter] = value            
-            elif effect == self.reverb[self.Name]:
-                self.reverb[self.Parameters][parameter] = value
+        if action == dict_change_parameter:
+            if effect == self.gate[dict_Name]:
+                self.gate[dict_Parameters][parameter] = value
+            elif effect == self.comp[dict_Name]:
+                self.comp[dict_Parameters][parameter] = value
+            elif effect == self.drive[dict_Name]:
+                self.drive[dict_Parameters][parameter] = value
+            elif effect == self.amp[dict_Name]:
+                self.amp[dict_Parameters][parameter] = value
+            elif effect == self.modulation[dict_Name]:
+                self.modulation[dict_Parameters][parameter] = value
+            elif effect == self.delay[dict_Name]:
+                self.delay[dict_Parameters][parameter] = value            
+            elif effect == self.reverb[dict_Name]:
+                self.reverb[dict_Parameters][parameter] = value
 
     def update_system_preset_database_ids(self, chainPreset):
         if chainPreset == None:
             return
 
         self.chain_preset_id = chainPreset.id
-        self.gate[self.db_id] = chainPreset.gate_pedal_parameter.id
-        self.gate[self.visible] = chainPreset.gate_visible
-        self.comp[self.db_id] = chainPreset.comp_pedal_parameter.id
-        self.comp[self.visible] = chainPreset.comp_visible
-        self.drive[self.db_id] = chainPreset.drive_pedal_parameter.id
-        self.drive[self.visible] = chainPreset.drive_visible
-        self.amp[self.db_id] = chainPreset.amp_pedal_parameter.id
-        self.amp[self.visible] = chainPreset.amp_visible
-        self.modulation[self.db_id] = chainPreset.mod_pedal_parameter.id
-        self.modulation[self.visible] = chainPreset.mod_visible
-        self.delay[self.db_id] = chainPreset.delay_pedal_parameter.id
-        self.delay[self.visible] = chainPreset.delay_visible
-        self.reverb[self.db_id] = chainPreset.reverb_pedal_parameter.id
-        self.reverb[self.visible] = chainPreset.reverb_visible
+        self.gate[dict_db_id] = chainPreset.gate_pedal_parameter.id
+        self.gate[dict_visible] = chainPreset.gate_visible
+        self.comp[dict_db_id] = chainPreset.comp_pedal_parameter.id
+        self.comp[dict_visible] = chainPreset.comp_visible
+        self.drive[dict_db_id] = chainPreset.drive_pedal_parameter.id
+        self.drive[dict_visible] = chainPreset.drive_visible
+        self.amp[dict_db_id] = chainPreset.amp_pedal_parameter.id
+        self.amp[dict_visible] = chainPreset.amp_visible
+        self.modulation[dict_db_id] = chainPreset.mod_pedal_parameter.id
+        self.modulation[dict_visible] = chainPreset.mod_visible
+        self.delay[dict_db_id] = chainPreset.delay_pedal_parameter.id
+        self.delay[dict_visible] = chainPreset.delay_visible
+        self.reverb[dict_db_id] = chainPreset.reverb_pedal_parameter.id
+        self.reverb[dict_visible] = chainPreset.reverb_visible

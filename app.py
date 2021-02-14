@@ -1,12 +1,17 @@
 import threading
-import json
 
 from flask import Flask, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 
 from lib.sparkampserver import SparkAmpServer
-from database.service import database, get_chain_presets, get_system_preset_by_id, sync_system_preset, get_pedal_presets, \
+from database.service import create_update_chainpreset, database, get_chain_presets, get_system_preset_by_id, sync_system_preset, get_pedal_presets, \
     get_pedal_presets_by_effect_name, create_update_pedalpreset, get_pedal_preset_by_id, get_chain_presets
+from lib.messages import msg_attempting_connect
+from lib.common import dict_gate, dict_comp, dict_drive, dict_amp, dict_mod, dict_delay, dict_reverb, dict_Name, dict_OnOff, dict_Parameters, \
+    dict_effect_name, dict_effect_type, dict_preset_id, dict_name, dict_effect, dict_parameter, dict_value, dict_preset, dict_visible, \
+    dict_On, dict_Off, dict_old_effect, dict_new_effect, dict_bias_reverb, dict_change_effect, dict_connection_message, dict_message, \
+    dict_change_parameter, dict_turn_on_off, dict_change_pedal_preset, dict_bias_noisegate_safe, dict_connection_lost, dict_state, \
+    dict_show_hide_pedal
 
 
 #####################
@@ -40,24 +45,24 @@ def _db_close(exc):
 
 @app.route('/changeeffect', methods=['POST'])
 def change_effect():
-    old_effect = request.form['oldeffect']
-    new_effect = request.form['neweffect']
-    effect_type = request.form['effecttype']
-    log_change_only = request.form['logchangeonly']
+    old_effect = request.form[dict_old_effect]
+    new_effect = request.form[dict_new_effect]
+    effect_type = request.form[dict_effect_type]
+    log_change_only = request.form['log_change_only']
 
     if log_change_only == 'false':
         if old_effect.isdigit():
             # Changing Reverb just requires change of value on parameter 6
-            amp.change_effect_parameter('bias.reverb', 6,
+            amp.change_effect_parameter(dict_bias_reverb, 6,
                                         float('0.' + new_effect))
         else:
             amp.change_effect(amp.get_amp_effect_name(old_effect),
                               amp.get_amp_effect_name(new_effect))
 
         # Prevent loop when changing amp remotely and receiving update from amp
-        amp.config.last_call = 'change_effect'
+        amp.config.last_call = dict_change_effect
 
-    amp.config.update_config(old_effect, 'change_effect', new_effect)
+    amp.config.update_config(old_effect, dict_change_effect, new_effect)
 
     return render_effect(effect_type, True)
 
@@ -68,8 +73,8 @@ def connect():
         return render_template('connect.html')
     else:
         # Start a separate thread to connect to the amp, keep user posted via SocketIO
-        socketio.emit('connection-message',
-                      {'message': 'Attempting to connect...'})
+        socketio.emit(dict_connection_message,
+                      {dict_message: msg_attempting_connect})
 
         connection = threading.Thread(target=amp.connect, args=(), daemon=True)
         connection.start()
@@ -79,9 +84,9 @@ def connect():
 
 @app.route('/changepedalpreset', methods=['POST'])
 def change_pedal_preset():
-    preset_id = int(request.form['preset_id'])
-    effect_name = str(request.form['effect_name'])
-    effect_type = str(request.form['effect_type'])
+    preset_id = int(request.form[dict_preset_id])
+    effect_name = str(request.form[dict_effect_name])
+    effect_type = str(request.form[dict_effect_type])
 
     preset = get_pedal_preset_by_id(preset_id)
     parameters = preset.pedal_parameter.parameters()
@@ -92,34 +97,35 @@ def change_pedal_preset():
         amp.change_effect_parameter(
             amp.get_amp_effect_name(effect_name), parameter, value)
         amp.config.update_config(
-            effect_name, 'change_parameter', value, parameter)
+            effect_name, dict_change_parameter, value, parameter)
 
     if preset.pedal_parameter.on_off:
-        state = 'On'
+        state = dict_On
     else:
-        state = 'Off'
+        state = dict_Off
 
     amp.turn_effect_onoff(amp.get_amp_effect_name(effect_name), state)
-    amp.config.update_config(effect_name, 'turn_on_off', state)
-    amp.config.last_call = 'turn_on_off'
-    amp.config.update_config(effect_type, 'change_pedal_preset', preset.id)
+    amp.config.update_config(effect_name, dict_turn_on_off, state)
+    amp.config.last_call = dict_turn_on_off
+    amp.config.update_config(effect_type, dict_change_pedal_preset, preset.id)
 
     # Update the UI
     selector = True
-    if effect_name == 'bias_noisegate':
+    if effect_name == dict_bias_noisegate_safe:
         selector = False
 
     return render_effect(effect_type, selector, preset_id)
 
+
 @app.route('/deletepedalpreset', methods=['POST'])
 def delete_pedal_preset():
-    preset_id = int(request.form['preset_id'])
+    preset_id = int(request.form[dict_preset_id])
     preset = get_pedal_preset_by_id(preset_id)
-    effect_name = preset.effect_name    
-    preset.delete_instance()    
+    effect_name = preset.effect_name
+    preset.delete_instance()
     return render_template('effect_footer.html',
                            effect_name=effect_name,
-                           effect_type=str(request.form['effect_type']),
+                           effect_type=str(request.form[dict_effect_type]),
                            presets=get_pedal_presets_by_effect_name(
                                effect_name),
                            preset_selected=0)
@@ -136,14 +142,14 @@ def index():
     # Now update database id references in the in-memory config
     amp.config.update_system_preset_database_ids(
         get_system_preset_by_id(amp.config.preset))
-    
-    chain_presets = get_chain_presets()    
+
+    chain_presets = get_chain_presets()
     pedal_presets = get_pedal_presets(amp.config)
 
-    return render_template('main.html', 
-                            config=amp.config, 
-                            pedal_presets=pedal_presets,
-                            chain_presets=chain_presets)
+    return render_template('main.html',
+                           config=amp.config,
+                           pedal_presets=pedal_presets,
+                           chain_presets=chain_presets)
 
 
 @app.route('/<path:path>')
@@ -151,26 +157,42 @@ def static_file(path):
     return app.send_static_file(path)
 
 
+@app.route('/updatechainpreset', methods=['POST'])
+def update_chain_preset():
+    preset_id = int(request.form[dict_preset_id])    
+    if preset_id == 0:        
+        # Prep the config for a new preset
+        amp.config.chain_preset_id = preset_id
+        amp.config.presetName = str(request.form[dict_name])
+        amp.config.preset = None
+
+    id = create_update_chainpreset(amp.config)
+
+    chain_presets = get_chain_presets()
+
+    return render_template('chain_preset_selector.html',
+                           chain_presets=chain_presets,
+                           preset_selected = id)
+
+
 @app.route('/updatepedalpreset', methods=['POST'])
 def update_pedal_preset():
-    effect_name = str(request.form['effect'])
-    preset_id = int(request.form['preset_id'])
-
+    preset_id = int(request.form[dict_preset_id])
+    effect_type = str(request.form[dict_effect_type])
     preset_name = None
     if preset_id == 0:
-        preset_name = str(request.form['name'])
+        preset_name = str(request.form[dict_name])
 
-    on_off = str(request.form['onoff'])
-    parameters = json.loads(request.form['parameters'])
+    effect = amp.config.get_current_effect_by_type(effect_type)
 
     id = create_update_pedalpreset(
-        effect_name, preset_name, preset_id, on_off, parameters)
+        effect[dict_Name], preset_name, preset_id, effect[dict_OnOff], effect[dict_Parameters])
 
     return render_template('effect_footer.html',
-                           effect_name=effect_name,
-                           effect_type=str(request.form['effect_type']),
+                           effect_name=effect[dict_Name],
+                           effect_type=effect_type,
                            presets=get_pedal_presets_by_effect_name(
-                               effect_name),
+                               effect[dict_Name]),
                            preset_selected=id)
 
 ###########################
@@ -180,38 +202,41 @@ def update_pedal_preset():
 
 @socketio.event
 def change_effect_parameter(data):
-    effect = str(data['effect'])
-    parameter = int(data['parameter'])
-    value = float(data['value'])
+    effect = str(data[dict_effect])
+    parameter = int(data[dict_parameter])
+    value = float(data[dict_value])
 
     amp.change_effect_parameter(amp.get_amp_effect_name(effect), parameter,
                                 value)
-    amp.config.update_config(effect, 'change_parameter', value, parameter)
+    amp.config.update_config(effect, dict_change_parameter, value, parameter)
 
 
 @socketio.event
 def change_preset(data):
-    amp.change_to_preset(int(data['preset']))
+    amp.change_to_preset(int(data[dict_preset]))
 
 
 @socketio.event
 def eject():
     amp.config = None
     amp.eject()
-    socketio.emit('connection-lost', {'url': url_for('connect')})
+    socketio.emit(dict_connection_lost, {'url': url_for('connect')})
+
 
 @socketio.event
 def show_hide_pedal(data):
-    amp.config.update_config(data['effect_type'], 'show_hide_pedal', data['visible'])
+    amp.config.update_config(
+        data[dict_effect_type], dict_show_hide_pedal, data[dict_visible])
+
 
 @socketio.event
 def turn_effect_onoff(data):
-    effect = str(data['effect'])
-    state = data['state']
+    effect = str(data[dict_effect])
+    state = data[dict_state]
 
     amp.turn_effect_onoff(amp.get_amp_effect_name(effect), state)
-    amp.config.update_config(effect, 'turn_on_off', state)
-    amp.config.last_call = 'turn_on_off'
+    amp.config.update_config(effect, dict_turn_on_off, state)
+    amp.config.last_call = dict_turn_on_off
 
 
 @socketio.event
@@ -228,32 +253,32 @@ def render_effect(effect_type, selector, preset_selected=0):
     current_effect = None
     effect_list = None
 
-    if effect_type == 'COMP':
+    if effect_type == dict_comp:
         current_effect = amp.config.comp
         effect_list = amp.config.comps
-    elif effect_type == 'DRIVE':
+    elif effect_type == dict_drive:
         current_effect = amp.config.drive
         effect_list = amp.config.drives
-    elif effect_type == 'AMP':
+    elif effect_type == dict_amp:
         current_effect = amp.config.amp
         effect_list = amp.config.amps
-    elif effect_type == 'MOD':
+    elif effect_type == dict_mod:
         current_effect = amp.config.modulation
         effect_list = amp.config.modulations
-    elif effect_type == 'DELAY':
+    elif effect_type == dict_delay:
         current_effect = amp.config.delay
         effect_list = amp.config.delays
-    elif effect_type == 'REVERB':
+    elif effect_type == dict_reverb:
         current_effect = amp.config.reverb
         effect_list = amp.config.reverbs
-    elif effect_type == 'GATE':
+    elif effect_type == dict_gate:
         current_effect = amp.config.gate
         effect_list = amp.config.gates
 
     if current_effect == None:
         return 'error'
 
-    presets = get_pedal_presets_by_effect_name(current_effect['Name'])
+    presets = get_pedal_presets_by_effect_name(current_effect[dict_Name])
 
     return render_template('effect.html',
                            effect_type=effect_type,

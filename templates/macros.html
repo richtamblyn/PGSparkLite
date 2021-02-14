@@ -16,14 +16,17 @@
 </select>
 {% endmacro %}
 
-{% macro chain_preset_selector(presets) %}
+{% macro chain_preset_selector(chain_presets, preset_selected) %}
 <select class="chain_preset_selector">
     <option value="0">No preset selected</option>
+    {% for preset in chain_presets|sort(attribute='name') %}
+        <option value="{{ preset.id }}" {% if preset.id==preset_selected %} selected {% endif %}>{{ preset.name }}</option>
+    {% endfor %}
 </select>
 <div class="chain_preset_buttons">
-    <button id="new_chain_preset" class="chain_preset_button" data-type="{{ effect_type }}" data-id="{{ effect_name }}"><img title="New Preset" src="/img/icons/add-line.png" /></button>
-    <button id="save_chain_preset" class="chain_preset_button" data-type="{{ effect_type }}" data-id="{{ effect_name}}"><img title="Save Preset" src="/img/icons/save-line.png" /></button>
-    <button id="delete_chain_preset" class="chain_preset_button" data-type="{{ effect_type }}" data-id="{{ effect_name }}"><img title="Delete Preset" src="/img/icons/delete-bin-line.png" /></button>
+    <button id="new_chain_preset" class="chain_preset_button"><img title="New Preset" src="/img/icons/add-line.png" /></button>
+    <button id="save_chain_preset" class="chain_preset_button"><img title="Save Preset" src="/img/icons/save-line.png" /></button>
+    <button id="delete_chain_preset" class="chain_preset_button"><img title="Delete Preset" src="/img/icons/delete-bin-line.png" /></button>
 </div>
 {% endmacro %}
 
@@ -35,9 +38,9 @@
     {% endfor %}
 </select>
 <div class="pedal_preset_buttons">
-    <button class="pedal_preset_button new_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name }}"><img title="New Preset" src="/img/icons/add-line.png" /></button>
-    <button class="pedal_preset_button save_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name}}"><img title="Save Preset" src="/img/icons/save-line.png" /></button>
-    <button class="pedal_preset_button delete_pedal_preset" data-type="{{ effect_type }}" data-id="{{ effect_name }}"><img title="Delete Preset" src="/img/icons/delete-bin-line.png" /></button>
+    <button class="pedal_preset_button new_pedal_preset" data-type="{{ effect_type }}"><img title="New Preset" src="/img/icons/add-line.png" /></button>
+    <button class="pedal_preset_button save_pedal_preset" data-type="{{ effect_type }}"><img title="Save Preset" src="/img/icons/save-line.png" /></button>
+    <button class="pedal_preset_button delete_pedal_preset" data-type="{{ effect_type }}"><img title="Delete Preset" src="/img/icons/delete-bin-line.png" /></button>
 </div>
 {% endmacro %}
 

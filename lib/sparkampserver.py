@@ -15,6 +15,12 @@ from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkClass import SparkMessage
 from lib.sparklistener import SparkListener
 from lib.sparkdevices import SparkDevices
+from lib.common import dict_Name, dict_value, dict_effect, dict_parameter, dict_effect_type, dict_state, \
+    dict_turn_on_off, dict_New_Preset, dict_Preset_Number, dict_amp, dict_Old_Effect, dict_New_Effect, \
+    dict_Parameter, dict_Effect, dict_Value, dict_old_effect, dict_new_effect, dict_message, \
+    dict_connection_message, dict_change_effect, dict_bias_reverb, dict_AC_Boost, dict_AC_Boost_safe, \
+    dict_bias_noisegate, dict_bias_noisegate_safe, dict_callback, dict_connection_lost, dict_preset_corrupt
+from lib.messages import msg_preset_error, msg_retrieving_config, msg_connection_failed
 
 from EventNotifier import Notifier
 
@@ -29,10 +35,10 @@ class SparkAmpServer:
         self.config = None
 
         self.notifier = Notifier(
-            ["callback", "connection_lost", "preset_corrupt"])
-        self.notifier.subscribe("callback", self.callback_event)
-        self.notifier.subscribe("connection_lost", self.connection_lost_event)
-        self.notifier.subscribe("preset_corrupt", self.preset_corrupt_event)
+            [dict_callback, dict_connection_lost, dict_preset_corrupt])
+        self.notifier.subscribe(dict_callback, self.callback_event)
+        self.notifier.subscribe(dict_connection_lost, self.connection_lost_event)
+        self.notifier.subscribe(dict_preset_corrupt, self.preset_corrupt_event)
 
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
@@ -53,9 +59,8 @@ class SparkAmpServer:
 
             address = None
 
-            for addr, bt_name in bt_devices:
-                print("  {} - {}".format(addr, bt_name))
-                if bt_name == "Spark 40 Audio":
+            for addr, bt_name in bt_devices:                
+                if bt_name == 'Spark 40 Audio':
                     address = addr
 
             self.bt_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
@@ -75,14 +80,14 @@ class SparkAmpServer:
 
             self.connected = True
 
-            self.socketio.emit('connection-message',
-                               {'message': 'Retrieving Amp configuration...'})
+            self.socketio.emit(dict_connection_message,
+                               {dict_message: msg_retrieving_config})
             self.initialise()
 
         except Exception as e:
             print(e)
-            self.socketio.emit('connection-message',
-                               {'message': 'Connection failed.'})
+            self.socketio.emit(dict_connection_message,
+                               {dict_message: msg_connection_failed})
 
     def initialise(self):
         return self.change_to_preset(0)
@@ -111,21 +116,20 @@ class SparkAmpServer:
 
     def get_amp_effect_name(self, effect):
         # Special cases to match internal amp ID
-        if effect == 'bias_noisegate':
-            effect = 'bias.noisegate'
-        elif effect == 'AC_Boost':
-            effect = 'AC Boost'
+        if effect == dict_bias_noisegate_safe:
+            effect = dict_bias_noisegate
+        elif effect == dict_AC_Boost_safe:
+            effect = dict_AC_Boost
         elif effect.isdigit():
-            effect = 'bias.reverb'
+            effect = dict_bias_reverb
         return effect
 
     def get_js_effect_name(self, effect):
         # Modify amp IDs to make them JS friendly
-        if effect == 'AC Boost':
-            effect = 'AC_Boost'
-        elif effect == 'bias.reverb':
-            effect = self.config.reverb['Name']
-
+        if effect == dict_AC_Boost:
+            effect = dict_AC_Boost_safe
+        elif effect == dict_bias_reverb:
+            effect = self.config.reverb[dict_Name]
         return effect
 
     ##################
@@ -134,60 +138,59 @@ class SparkAmpServer:
 
     def callback_event(self, data):
         # Preset button changed
-        if 'NewPreset' in data:
-            preset = data['NewPreset']
-            self.socketio.emit('update-preset', {'value': preset})
+        if dict_New_Preset in data:
+            preset = data[dict_New_Preset]
+            self.socketio.emit('update-preset', {dict_value: preset})
             self.request_preset(preset)
             return
 
         # Parse inbound preset changes
-        if 'PresetNumber' in data:
+        if dict_Preset_Number in data:
             if self.config == None or self.config.preset != data[
-                    'PresetNumber']:
-                # Load the configuration
+                    dict_Preset_Number]:
+                
                 self.config = SparkDevices(data)                
-
                 self.socketio.emit('connection-success', {'url': '/'})
                 return
             else:
                 return
 
         # Change of amp
-        if 'OldEffect' in data:
-            if self.config.last_call == 'change_effect':
+        if dict_Old_Effect in data:
+            if self.config.last_call == dict_change_effect:
                 self.config.last_call = ''
                 return
 
-            old_effect = self.get_js_effect_name(data['OldEffect'])
-            new_effect = self.get_js_effect_name(data['NewEffect'])
+            old_effect = self.get_js_effect_name(data[dict_Old_Effect])
+            new_effect = self.get_js_effect_name(data[dict_New_Effect])
 
             self.socketio.emit(
                 'update-effect', {
-                    'old_effect': old_effect,
-                    'effect_type': 'AMP',
-                    'new_effect': new_effect
+                    dict_old_effect: old_effect,
+                    dict_effect_type: dict_amp,
+                    dict_new_effect: new_effect
                 })
-            self.config.update_config(old_effect, 'change_effect', new_effect)
+            self.config.update_config(old_effect, dict_change_effect, new_effect)
             return
 
         # Effect / Amp changes
-        if 'Effect' in data:
+        if dict_Effect in data:
 
             # Ignore call back after effect is turned off
-            if self.config.last_call == 'turn_on_off':
+            if self.config.last_call == dict_turn_on_off:
                 self.config.last_call = ''
                 return
 
-            effect = self.get_js_effect_name(data['Effect'])
-            parameter = data['Parameter']
-            value = data['Value']
+            effect = self.get_js_effect_name(data[dict_Effect])
+            parameter = data[dict_Parameter]
+            value = data[dict_Value]
 
             self.config.update_config(effect, 'change_parameter', value,
                                       parameter)
             self.socketio.emit('update-parameter', {
-                'effect': effect,
-                'parameter': parameter,
-                'value': value
+                dict_effect: effect,
+                dict_parameter: parameter,
+                dict_value: value
             })
 
             # Check if physical knob turn has activated/deactivated this effect
@@ -198,11 +201,11 @@ class SparkAmpServer:
                 return
 
             self.socketio.emit('update-onoff', {
-                'effect': effect,
-                'state': state[1],
-                'type': state[0]
+                dict_effect: effect,
+                dict_state: state[1],
+                dict_effect_type: state[0]
             })
-            self.config.update_config(effect, 'turn_on_off', state)
+            self.config.update_config(effect, dict_turn_on_off, state)
 
     def connection_lost_event(self):
         self.connected = False
@@ -210,8 +213,4 @@ class SparkAmpServer:
 
     def preset_corrupt_event(self):
         self.connected = False
-        message = (
-            'Preset cannot be read correctly. '
-            'To resolve this, manually change to the preset on the amp, set all dials to zero and store the preset.'
-            'Power cycle the amp, restart PGSparkLite server and try again.')
-        self.socketio.emit('connection-message', {'message': message})
+        self.socketio.emit(dict_connection_message, {dict_message: msg_preset_error})

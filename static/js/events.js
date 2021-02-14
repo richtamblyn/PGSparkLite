@@ -38,7 +38,7 @@ $(document).ready(function(){
 
     // Change OnOff status
     socket.on('update-onoff', function(data){
-        window.changeOnOffState(data.state, data.effect, data.type);        
+        window.changeOnOffState(data.state, data.effect, data.effect_type);        
     })
 
     // Reload effect footer

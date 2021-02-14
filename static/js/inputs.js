@@ -20,26 +20,26 @@ function knobChangeEventHandler(knob) {
     socket.emit('change_effect_parameter', data)
 };
 
-function getParametersByEffectName(effect) {
-    var numOfParameters = $('#' + effect + '_parameters').data('num');
-    var parameters = [];
-
-    for (var p = 0; p != numOfParameters; p++) {
-        parameters.push($('#' + effect + '_' + p).val());
+function updateChainPreset(preset_id, namerequired){
+    if(namerequired){
+        var name = prompt('Please enter a name for new preset');
+        if (name == null) {                    
+            return;
+        }
     }
 
-    return JSON.stringify(parameters);
+    var data = {
+        'name': name,
+        'preset_id':preset_id
+    };
+
+    $.post('/updatechainpreset', data, function (result){
+        $('#chain_preset_container').html(result);
+        alert('The preset was saved successfully.');
+    })
 }
 
-function getOnOffStateByEffectName(effect) {
-    if ($('#' + effect + '_on').hasClass('selected')) {
-        return 'On'
-    } else {
-        return 'Off'
-    }
-}
-
-function updatePedalPreset(effect, effecttype, preset_id, namerequired){
+function updatePedalPreset(effecttype, preset_id, namerequired){
     if(namerequired){
         var name = prompt('Please enter a name for new preset');
         if (name == null) {                    
@@ -47,17 +47,14 @@ function updatePedalPreset(effect, effecttype, preset_id, namerequired){
         }
     }
         
-    var data = {
-        'effect': effect,
+    var data = {        
         'effect_type': effecttype,
-        'name': name,
-        'parameters': getParametersByEffectName(effect),
-        'preset_id': preset_id,
-        'onoff': getOnOffStateByEffectName(effect)
+        'name': name,        
+        'preset_id': preset_id        
     };
 
     $.post('/updatepedalpreset', data, function (result) {
-        $('#' + effecttype + '_footer').html(result)
+        $('#' + effecttype + '_footer').html(result);
         alert('The preset was saved successfully.');
     });
 }
@@ -122,7 +119,7 @@ $(document).ready(function () {
         var oldeffect = $(this).data('selected');
         var neweffect = $(this).val()
 
-        var data = { 'oldeffect': oldeffect, 'neweffect': neweffect, 'effecttype': effecttype, 'logchangeonly': false };
+        var data = { 'old_effect': oldeffect, 'new_effect': neweffect, 'effect_type': effecttype, 'log_change_only': false };
 
         $('#' + effecttype + '_container').load('/changeeffect', data);
     });
@@ -154,25 +151,28 @@ $(document).ready(function () {
 
         var data = {'effect_type':effecttype, 'visible':visible}
         socket.emit('show_hide_pedal', data);
-    })
+    });
+
+    // Chain Presets
+    $("#new_chain_preset").on('click', function(){
+        updateChainPreset(0, true);
+    });
 
     // Pedal Presets
 
-    $(document).on('click', '.new_pedal_preset', function () {
-        var effect = $(this).data('id');
+    $(document).on('click', '.new_pedal_preset', function () {        
         var effecttype = $(this).data('type');        
-        updatePedalPreset(effect, effecttype, 0, true);
+        updatePedalPreset(effecttype, 0, true);
     });
 
-    $(document).on('click', '.save_pedal_preset', function () {
-        var effect = $(this).data('id');
+    $(document).on('click', '.save_pedal_preset', function () {        
         var effecttype = $(this).data('type');
         var preset_id = $('#' + effecttype + '_pedal_preset_selector').val()
         var namerequired = false
         if(preset_id == 0){
             namerequired = true;
         } 
-        updatePedalPreset(effect, effecttype, preset_id, namerequired);
+        updatePedalPreset(effecttype, preset_id, namerequired);
     });
 
     $(document).on('click', '.delete_pedal_preset', function () {
