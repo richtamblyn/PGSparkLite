@@ -42,8 +42,7 @@ function getOnOffStateByEffectName(effect) {
 function updatePedalPreset(effect, effecttype, preset_id, namerequired){
     if(namerequired){
         var name = prompt('Please enter a name for new preset');
-        if (name == null) {        
-            alert('You must enter a name for the preset.');
+        if (name == null) {                    
             return;
         }
     }

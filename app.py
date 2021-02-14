@@ -102,6 +102,7 @@ def change_pedal_preset():
     amp.turn_effect_onoff(amp.get_amp_effect_name(effect_name), state)
     amp.config.update_config(effect_name, 'turn_on_off', state)
     amp.config.last_call = 'turn_on_off'
+    amp.config.update_config(effect_type, 'change_pedal_preset', preset.id)
 
     # Update the UI
     selector = True

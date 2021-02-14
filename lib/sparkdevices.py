@@ -184,6 +184,23 @@ class SparkDevices:
 
     def update_config(self, effect, action, value, parameter = None):        
         # Allows us to preserve unsaved config changes through browser refresh / change
+        if action == 'change_pedal_preset':
+            if effect == 'GATE':
+                self.gate[self.db_id] = value
+            elif effect == 'COMP':
+                self.comp[self.db_id] = value
+            elif effect == 'DRIVE':
+                self.drive[self.db_id] = value
+            elif effect == 'AMP':
+                self.amp[self.db_id] = value
+            elif effect == 'MOD':
+                self.modulation[self.db_id] = value
+            elif effect == 'DELAY':
+                self.delay[self.db_id] = value
+            elif effect == 'REVERB':
+                self.reverb[self.db_id] = value
+            return
+
         if action == 'turn_on_off':
             if effect == self.gate[self.Name]:
                 self.gate[self.OnOff] = value

@@ -57,6 +57,7 @@ a, a:visited {
 .effect_footer {
   background-color: #302f2f;
   padding:10px;
+  text-align:center;
 }
 
 .effect_header {
@@ -159,6 +160,7 @@ input[type="range"] {
 
 .pedal_preset_buttons {
   display:inline;
+  margin-left:10px;
 }
 
 .pedal_preset_button {

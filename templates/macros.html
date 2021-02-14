@@ -94,8 +94,8 @@
     <div class="effect_parameters" style="background:{{ background }}; color:{{ color }};" id="{{ name }}_parameters" data-num={{ effect["Parameters"]|length }}>
         {{ effect_parameters(name, effect_config["parameters"], effect["Parameters"], knob)}}
     </div>    
-</div>
-<div id="{{ type }}_footer" class="effect_footer">
-    {{ effect_footer(name, type, presets, preset_selected)}}
+    <div id="{{ type }}_footer" class="effect_footer">
+        {{ effect_footer(name, type, presets, preset_selected)}}
+    </div>
 </div>
 {% endmacro %}
