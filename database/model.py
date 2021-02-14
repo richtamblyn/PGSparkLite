@@ -1,5 +1,7 @@
-from peewee import Model, IntegerField, CharField, BooleanField, ForeignKeyField, SqliteDatabase
 import json
+
+from peewee import (BooleanField, CharField, ForeignKeyField, IntegerField,
+                    Model, SqliteDatabase)
 
 database = SqliteDatabase('pgsparklite.db')
 
@@ -21,6 +23,7 @@ class PedalParameter(BaseModel):
 
     def store_parameters(self, parameters):
         self._parameters = json.dumps(parameters)
+
 
 class PedalPreset(BaseModel):
     name = CharField()

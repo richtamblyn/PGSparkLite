@@ -3,16 +3,23 @@ import threading
 from flask import Flask, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 
-from lib.sparkampserver import SparkAmpServer
-from database.service import create_update_chainpreset, database, get_chain_presets, get_system_preset_by_id, sync_system_preset, get_pedal_presets, \
-    get_pedal_presets_by_effect_name, create_update_pedalpreset, get_pedal_preset_by_id, get_chain_presets
+from database.service import (create_update_chainpreset,
+                              create_update_pedalpreset, database,
+                              get_chain_presets, get_pedal_preset_by_id,
+                              get_pedal_presets,
+                              get_pedal_presets_by_effect_name,
+                              get_system_preset_by_id, sync_system_preset)
+from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
+                        dict_change_effect, dict_change_parameter,
+                        dict_change_pedal_preset, dict_connection_lost,
+                        dict_connection_message, dict_effect, dict_effect_name,
+                        dict_effect_type, dict_message, dict_name, dict_Name,
+                        dict_new_effect, dict_Off, dict_old_effect, dict_On,
+                        dict_OnOff, dict_parameter, dict_Parameters,
+                        dict_preset, dict_preset_id, dict_show_hide_pedal,
+                        dict_state, dict_turn_on_off, dict_value, dict_visible)
 from lib.messages import msg_attempting_connect
-from lib.common import dict_gate, dict_comp, dict_drive, dict_amp, dict_mod, dict_delay, dict_reverb, dict_Name, dict_OnOff, dict_Parameters, \
-    dict_effect_name, dict_effect_type, dict_preset_id, dict_name, dict_effect, dict_parameter, dict_value, dict_preset, dict_visible, \
-    dict_On, dict_Off, dict_old_effect, dict_new_effect, dict_bias_reverb, dict_change_effect, dict_connection_message, dict_message, \
-    dict_change_parameter, dict_turn_on_off, dict_change_pedal_preset, dict_bias_noisegate_safe, dict_connection_lost, dict_state, \
-    dict_show_hide_pedal
-
+from lib.sparkampserver import SparkAmpServer
 
 #####################
 # Application Setup
@@ -159,8 +166,8 @@ def static_file(path):
 
 @app.route('/updatechainpreset', methods=['POST'])
 def update_chain_preset():
-    preset_id = int(request.form[dict_preset_id])    
-    if preset_id == 0:        
+    preset_id = int(request.form[dict_preset_id])
+    if preset_id == 0:
         # Prep the config for a new preset
         amp.config.chain_preset_id = preset_id
         amp.config.presetName = str(request.form[dict_name])
@@ -172,7 +179,7 @@ def update_chain_preset():
 
     return render_template('chain_preset_selector.html',
                            chain_presets=chain_presets,
-                           preset_selected = id)
+                           preset_selected=id)
 
 
 @app.route('/updatepedalpreset', methods=['POST'])
@@ -183,7 +190,8 @@ def update_pedal_preset():
     if preset_id == 0:
         preset_name = str(request.form[dict_name])
 
-    effect = amp.config.get_current_effect_by_type(effect_type)
+    effect = amp.config.get_current_effect_and_available_by_type(effect_type)[
+        0]
 
     id = create_update_pedalpreset(
         effect[dict_Name], preset_name, preset_id, effect[dict_OnOff], effect[dict_Parameters])
@@ -250,40 +258,13 @@ def reset_config():
 
 
 def render_effect(effect_type, selector, preset_selected=0):
-    current_effect = None
-    effect_list = None
-
-    if effect_type == dict_comp:
-        current_effect = amp.config.comp
-        effect_list = amp.config.comps
-    elif effect_type == dict_drive:
-        current_effect = amp.config.drive
-        effect_list = amp.config.drives
-    elif effect_type == dict_amp:
-        current_effect = amp.config.amp
-        effect_list = amp.config.amps
-    elif effect_type == dict_mod:
-        current_effect = amp.config.modulation
-        effect_list = amp.config.modulations
-    elif effect_type == dict_delay:
-        current_effect = amp.config.delay
-        effect_list = amp.config.delays
-    elif effect_type == dict_reverb:
-        current_effect = amp.config.reverb
-        effect_list = amp.config.reverbs
-    elif effect_type == dict_gate:
-        current_effect = amp.config.gate
-        effect_list = amp.config.gates
-
-    if current_effect == None:
-        return 'error'
-
-    presets = get_pedal_presets_by_effect_name(current_effect[dict_Name])
-
+    current_effect = amp.config.get_current_effect_and_available_by_type(
+        effect_type)
+    presets = get_pedal_presets_by_effect_name(current_effect[0][dict_Name])
     return render_template('effect.html',
                            effect_type=effect_type,
-                           effect=current_effect,
-                           effect_list=effect_list,
+                           effect=current_effect[0],
+                           effect_list=current_effect[1],
                            selector=selector,
                            presets=presets,
                            preset_selected=preset_selected)

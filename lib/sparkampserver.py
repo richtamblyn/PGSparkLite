@@ -8,21 +8,27 @@
 #####################################################
 
 import threading
+
 import bluetooth
-
-from lib.external.SparkReaderClass import SparkReadMessage
-from lib.external.SparkCommsClass import SparkComms
-from lib.external.SparkClass import SparkMessage
-from lib.sparklistener import SparkListener
-from lib.sparkdevices import SparkDevices
-from lib.common import dict_Name, dict_value, dict_effect, dict_parameter, dict_effect_type, dict_state, \
-    dict_turn_on_off, dict_New_Preset, dict_Preset_Number, dict_amp, dict_Old_Effect, dict_New_Effect, \
-    dict_Parameter, dict_Effect, dict_Value, dict_old_effect, dict_new_effect, dict_message, \
-    dict_connection_message, dict_change_effect, dict_bias_reverb, dict_AC_Boost, dict_AC_Boost_safe, \
-    dict_bias_noisegate, dict_bias_noisegate_safe, dict_callback, dict_connection_lost, dict_preset_corrupt
-from lib.messages import msg_preset_error, msg_retrieving_config, msg_connection_failed
-
 from EventNotifier import Notifier
+
+from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
+                        dict_bias_noisegate, dict_bias_noisegate_safe,
+                        dict_bias_reverb, dict_callback, dict_change_effect,
+                        dict_connection_lost, dict_connection_message,
+                        dict_effect, dict_Effect, dict_effect_type,
+                        dict_message, dict_Name, dict_New_Effect,
+                        dict_new_effect, dict_New_Preset, dict_Old_Effect,
+                        dict_old_effect, dict_parameter, dict_Parameter,
+                        dict_preset_corrupt, dict_Preset_Number, dict_state,
+                        dict_turn_on_off, dict_value, dict_Value)
+from lib.external.SparkClass import SparkMessage
+from lib.external.SparkCommsClass import SparkComms
+from lib.external.SparkReaderClass import SparkReadMessage
+from lib.messages import (msg_connection_failed, msg_preset_error,
+                          msg_retrieving_config)
+from lib.sparkdevices import SparkDevices
+from lib.sparklistener import SparkListener
 
 
 class SparkAmpServer:
@@ -37,7 +43,8 @@ class SparkAmpServer:
         self.notifier = Notifier(
             [dict_callback, dict_connection_lost, dict_preset_corrupt])
         self.notifier.subscribe(dict_callback, self.callback_event)
-        self.notifier.subscribe(dict_connection_lost, self.connection_lost_event)
+        self.notifier.subscribe(dict_connection_lost,
+                                self.connection_lost_event)
         self.notifier.subscribe(dict_preset_corrupt, self.preset_corrupt_event)
 
     def change_to_preset(self, hw_preset):
@@ -59,7 +66,7 @@ class SparkAmpServer:
 
             address = None
 
-            for addr, bt_name in bt_devices:                
+            for addr, bt_name in bt_devices:
                 if bt_name == 'Spark 40 Audio':
                     address = addr
 
@@ -148,8 +155,8 @@ class SparkAmpServer:
         if dict_Preset_Number in data:
             if self.config == None or self.config.preset != data[
                     dict_Preset_Number]:
-                
-                self.config = SparkDevices(data)                
+
+                self.config = SparkDevices(data)
                 self.socketio.emit('connection-success', {'url': '/'})
                 return
             else:
@@ -170,7 +177,8 @@ class SparkAmpServer:
                     dict_effect_type: dict_amp,
                     dict_new_effect: new_effect
                 })
-            self.config.update_config(old_effect, dict_change_effect, new_effect)
+            self.config.update_config(
+                old_effect, dict_change_effect, new_effect)
             return
 
         # Effect / Amp changes
@@ -213,4 +221,5 @@ class SparkAmpServer:
 
     def preset_corrupt_event(self):
         self.connected = False
-        self.socketio.emit(dict_connection_message, {dict_message: msg_preset_error})
+        self.socketio.emit(dict_connection_message, {
+                           dict_message: msg_preset_error})
