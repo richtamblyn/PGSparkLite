@@ -219,7 +219,7 @@ input[type="range"] {
     text-align:center;    
     background-color: #302f2f;
     padding:10px;
-    border-radius:8px;
+    border-radius:6px;
 }
 
 .selected {

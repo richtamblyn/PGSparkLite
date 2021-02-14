@@ -200,6 +200,9 @@ def eject():
     amp.eject()
     socketio.emit('connection-lost', {'url': url_for('connect')})
 
+@socketio.event
+def show_hide_pedal(data):
+    amp.config.update_config(data['effect_type'], 'show_hide_pedal', data['visible'])
 
 @socketio.event
 def turn_effect_onoff(data):

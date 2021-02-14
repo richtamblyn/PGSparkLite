@@ -25,6 +25,7 @@ class SparkDevices:
         self.parameters = 'parameters'
         self.switch_parameter = 'switch_parameter'
         self.db_id = 'db_id'
+        self.visible = 'visible'
 
         self.last_call = ''
 
@@ -184,6 +185,23 @@ class SparkDevices:
 
     def update_config(self, effect, action, value, parameter = None):        
         # Allows us to preserve unsaved config changes through browser refresh / change
+        if action == 'show_hide_pedal':
+            if effect == 'GATE':
+                self.gate[self.visible] = value
+            elif effect == 'COMP':
+                self.comp[self.visible] = value
+            elif effect == 'DRIVE':
+                self.drive[self.visible] = value
+            elif effect == 'AMP':
+                self.amp[self.visible] = value
+            elif effect == 'MOD':
+                self.modulation[self.visible] = value
+            elif effect == 'DELAY':
+                self.delay[self.visible] = value
+            elif effect == 'REVERB':
+                self.reverb[self.visible] = value
+            return
+        
         if action == 'change_pedal_preset':
             if effect == 'GATE':
                 self.gate[self.db_id] = value
@@ -255,9 +273,16 @@ class SparkDevices:
 
         self.chain_preset_id = chainPreset.id
         self.gate[self.db_id] = chainPreset.gate_pedal_parameter.id
+        self.gate[self.visible] = chainPreset.gate_visible
         self.comp[self.db_id] = chainPreset.comp_pedal_parameter.id
+        self.comp[self.visible] = chainPreset.comp_visible
         self.drive[self.db_id] = chainPreset.drive_pedal_parameter.id
+        self.drive[self.visible] = chainPreset.drive_visible
         self.amp[self.db_id] = chainPreset.amp_pedal_parameter.id
+        self.amp[self.visible] = chainPreset.amp_visible
         self.modulation[self.db_id] = chainPreset.mod_pedal_parameter.id
+        self.modulation[self.visible] = chainPreset.mod_visible
         self.delay[self.db_id] = chainPreset.delay_pedal_parameter.id
+        self.delay[self.visible] = chainPreset.delay_visible
         self.reverb[self.db_id] = chainPreset.reverb_pedal_parameter.id
+        self.reverb[self.visible] = chainPreset.reverb_visible

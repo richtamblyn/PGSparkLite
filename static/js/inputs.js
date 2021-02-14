@@ -136,17 +136,24 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.showhidecontent', function () {
-        var effect = $(this).data('id');        
+        var effect = $(this).data('id');  
+        var effecttype = $(this).data('type');        
+        var visible = true;
+
         if ($(this).hasClass('collapse_open')) {
             $('#' + effect + '_content').slideUp('slow');
             $(this).removeClass('collapse_open');
-            $(this).addClass('collapse_closed');
+            $(this).addClass('collapse_closed');            
+            visible = false;
         } else
         {
             $('#' + effect + '_content').slideDown('slow');
             $(this).removeClass('collapse_closed');
             $(this).addClass('collapse_open');
         }
+
+        var data = {'effect_type':effecttype, 'visible':visible}
+        socket.emit('show_hide_pedal', data);
     })
 
     // Pedal Presets
