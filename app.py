@@ -190,7 +190,7 @@ def update_pedal_preset():
     if preset_id == 0:
         preset_name = str(request.form[dict_name])
 
-    effect = amp.config.get_current_effect_and_available_by_type(effect_type)[0]
+    effect = amp.config.get_current_effect_by_type(effect_type)
 
     id = create_update_pedalpreset(
         effect[dict_Name], preset_name, preset_id, effect[dict_OnOff], effect[dict_Parameters])
@@ -257,13 +257,14 @@ def reset_config():
 
 
 def render_effect(effect_type, selector, preset_selected=0):
-    current_effect = amp.config.get_current_effect_and_available_by_type(
+    current_effect = amp.config.get_current_effect_by_type(
         effect_type)
-    presets = get_pedal_presets_by_effect_name(current_effect[0][dict_Name])
+    effect_list = amp.config.get_effect_list_by_type(effect_type)
+    presets = get_pedal_presets_by_effect_name(current_effect[dict_Name])
     return render_template('effect.html',
                            effect_type=effect_type,
-                           effect=current_effect[0],
-                           effect_list=current_effect[1],
+                           effect=current_effect,
+                           effect_list=effect_list,
                            selector=selector,
                            presets=presets,
                            preset_selected=preset_selected)

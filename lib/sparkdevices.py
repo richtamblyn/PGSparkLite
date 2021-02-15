@@ -50,21 +50,37 @@ class SparkDevices:
         elif effect in self.gates:
             return self.gates[effect][dict_parameters]
 
-    def get_current_effect_and_available_by_type(self, type):
+    def get_current_effect_by_type(self, type):
         if type == dict_gate:
-            return (self.gate, self.gates)
+            return self.gates
         elif type == dict_comp:
-            return (self.comp, self.comps)
+            return self.comp
         elif type == dict_drive:
-            return (self.drive, self.drives)
+            return self.drive
         elif type == dict_amp:
-            return (self.amp, self.amps)
+            return self.amp
         elif type == dict_mod:
-            return (self.modulation, self.modulations)
+            return self.modulation
         elif type == dict_delay:
-            return (self.delay, self.delays)
+            return self.delay
         elif type == dict_reverb:
-            return (self.reverb, self.reverbs)
+            return self.reverb
+
+    def get_effect_list_by_type(self, type):
+        if type == dict_gate:
+            return self.gates
+        elif type == dict_comp:
+            return self.comps
+        elif type == dict_drive:
+            return self.drives
+        elif type == dict_amp:
+            return self.amps
+        elif type == dict_mod:
+            return self.modulations
+        elif type == dict_delay:
+            return self.delays
+        elif type == dict_reverb:
+            return self.reverbs
 
     def initialise_effect(self, effect_id, effect, onoff, parameters=None):
         effect[dict_Name] = effect_id
