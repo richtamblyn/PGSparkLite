@@ -190,8 +190,7 @@ def update_pedal_preset():
     if preset_id == 0:
         preset_name = str(request.form[dict_name])
 
-    effect = amp.config.get_current_effect_and_available_by_type(effect_type)[
-        0]
+    effect = amp.config.get_current_effect_and_available_by_type(effect_type)[0]
 
     id = create_update_pedalpreset(
         effect[dict_Name], preset_name, preset_id, effect[dict_OnOff], effect[dict_Parameters])

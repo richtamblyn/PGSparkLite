@@ -142,14 +142,21 @@ class SparkDevices:
         self.reverb = preset[dict_Pedals][6]
         self.reverb[dict_Name] = str(self.reverb[dict_Parameters][6])[-1]
 
-        # Initialise database ids
+        # Initialise database ids and visibility
         self.gate[dict_db_id] = 0
+        self.gate[dict_visible] = True
         self.comp[dict_db_id] = 0
+        self.comp[dict_visible] = True
         self.amp[dict_db_id] = 0
+        self.amp[dict_visible] = True
         self.drive[dict_db_id] = 0
+        self.drive[dict_visible] = True
         self.modulation[dict_db_id] = 0
+        self.modulation[dict_visible] = True
         self.delay[dict_db_id] = 0
+        self.delay[dict_visible] = True
         self.reverb[dict_db_id] = 0
+        self.reverb[dict_visible] = True
 
     def reset_static(self):
         self.amps = {}
