@@ -69,6 +69,8 @@ class SparkDevices:
     def initialise_effect(self, effect_id, effect, onoff, parameters=None):
         effect[dict_Name] = effect_id
         effect[dict_OnOff] = onoff
+        effect[dict_db_id] = 0
+        effect[dict_visible] = True
 
         if parameters == None:
             effect[dict_Parameters] = {}
