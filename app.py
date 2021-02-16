@@ -100,21 +100,16 @@ def change_pedal_preset():
 
     # Send the changes to the amp
     for parameter in range(len(parameters)):
-        value = float(parameters[str(parameter)])
+        value = float(parameters[parameter])
         amp.change_effect_parameter(
             amp.get_amp_effect_name(effect_name), parameter, value)
         amp.config.update_config(
-            effect_name, dict_change_parameter, value, parameter)
+            effect_name, dict_change_parameter, value, parameter)   
 
-    if preset.pedal_parameter.on_off:
-        state = dict_On
-    else:
-        state = dict_Off
-
-    amp.turn_effect_onoff(amp.get_amp_effect_name(effect_name), state)
-    amp.config.update_config(effect_name, dict_turn_on_off, state)
+    amp.turn_effect_onoff(amp.get_amp_effect_name(effect_name), preset.pedal_parameter.on_off)
+    amp.config.update_config(effect_name, dict_turn_on_off, preset.pedal_parameter.on_off)
     amp.config.last_call = dict_turn_on_off
-    amp.config.update_config(effect_type, dict_change_pedal_preset, preset.id)
+    amp.config.update_config(effect_type, dict_change_pedal_preset, preset.pedal_parameter.id)
 
     # Update the UI
     selector = True
@@ -192,8 +187,7 @@ def update_pedal_preset():
 
     effect = amp.config.get_current_effect_by_type(effect_type)
 
-    id = create_update_pedalpreset(
-        effect[dict_Name], preset_name, preset_id, effect[dict_OnOff], effect[dict_Parameters])
+    id = create_update_pedalpreset(preset_name, preset_id, effect)
 
     return render_template('effect_footer.html',
                            effect_name=effect[dict_Name],
@@ -213,7 +207,7 @@ def change_chain_preset(data):
     if preset == None:
         return
 
-    #TODO: Get this data into the amp somehow...
+    amp.send_custom_preset(preset)
 
 
 @socketio.event

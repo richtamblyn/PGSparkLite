@@ -17,19 +17,19 @@ class PedalParameter(BaseModel):
     effect_name = CharField()
     on_off = CharField()
     _parameters = CharField()
+    visible = BooleanField(default=True)
 
     def parameters(self):
-        return json.loads(self._parameters)
+        return [float(param) for param in self._parameters.split(',')]
 
-    def store_parameters(self, parameters):
-        self._parameters = json.dumps(parameters)
+    def store_parameters(self, parameters):        
+        self._parameters = ','.join(format(param, "1.4f") for param in parameters)
 
 
 class PedalPreset(BaseModel):
     name = CharField()
     pedal_parameter = ForeignKeyField(PedalParameter)
-    effect_name = CharField(index=True)
-    visible = BooleanField(default=True)
+    effect_name = CharField(index=True)    
 
 
 class ChainPreset(BaseModel):

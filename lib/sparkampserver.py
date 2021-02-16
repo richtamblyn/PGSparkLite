@@ -121,31 +121,33 @@ class SparkAmpServer:
             "Icon": "icon.png",
             dict_BPM: preset.bpm,
             dict_Pedals: [
-                { dict_Name: preset.gate_pedal.name,
+                { dict_Name: self.get_amp_effect_name(preset.gate_pedal.effect_name),
                   dict_OnOff: preset.gate_pedal.on_off,
                   dict_Parameters: preset.gate_pedal.parameters() },
-                { dict_Name: preset.comp_pedal.name,
+                { dict_Name: preset.comp_pedal.effect_name,
                   dict_OnOff: preset.comp_pedal.on_off,
                   dict_Parameters: preset.comp_pedal.parameters() },
-                { dict_Name: preset.drive_pedal.name,
+                { dict_Name: preset.drive_pedal.effect_name,
                   dict_OnOff: preset.drive_pedal.on_off,
                   dict_Parameters: preset.drive_pedal.parameters() },
-                { dict_Name: preset.amp_pedal.name,
+                { dict_Name: self.get_amp_effect_name(preset.amp_pedal.effect_name),
                   dict_OnOff: preset.amp_pedal.on_off,
                   dict_Parameters: preset.amp_pedal.parameters() },
-                { dict_Name: preset.mod_pedal.name,
+                { dict_Name: preset.mod_pedal.effect_name,
                   dict_OnOff: preset.mod_pedal.on_off,
                   dict_Parameters: preset.mod_pedal.parameters() },
-                { dict_Name: preset.delay_pedal.name,
+                { dict_Name: preset.delay_pedal.effect_name,
                   dict_OnOff: preset.delay_pedal.on_off,
-                  dict_Parameters: preset.delay.parameters() },
-                { dict_Name: preset.reverb_pedal.name,
+                  dict_Parameters: preset.delay_pedal.parameters() },
+                { dict_Name: self.get_amp_effect_name(preset.reverb_pedal.effect_name),
                   dict_OnOff: preset.reverb_pedal.on_off,
                   dict_Parameters: preset.reverb_pedal.parameters() }],
             "End Filler": 0xb4}
-
+        
         cmd = self.msg.create_preset(preset_json)
-        self.comms.send_it(cmd)
+        for i in cmd:
+            self.bt_sock.send(i)
+            a = self.bt_sock.recv(100)
 
     def turn_effect_onoff(self, effect, state):
         cmd = self.msg.turn_effect_onoff(effect, state)

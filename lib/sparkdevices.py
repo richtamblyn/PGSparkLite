@@ -14,8 +14,8 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_BPM, dict_change_effect, dict_change_parameter,
                         dict_change_pedal_preset, dict_comp, dict_db_id,
                         dict_delay, dict_drive, dict_effect, dict_gate,
-                        dict_id, dict_mod, dict_Name, dict_name, dict_Off,
-                        dict_On, dict_OnOff, dict_parameters, dict_Parameters,
+                        dict_mod, dict_Name, dict_name, dict_Off, dict_On,
+                        dict_OnOff, dict_parameters, dict_Parameters,
                         dict_Pedals, dict_Preset_Number, dict_reverb,
                         dict_show_hide_pedal, dict_switch_parameter,
                         dict_turn_on_off, dict_UUID, dict_visible)
@@ -52,7 +52,7 @@ class SparkDevices:
 
     def get_current_effect_by_type(self, type):
         if type == dict_gate:
-            return self.gates
+            return self.gate
         elif type == dict_comp:
             return self.comp
         elif type == dict_drive:
@@ -89,9 +89,9 @@ class SparkDevices:
         effect[dict_visible] = True
 
         if parameters == None:
-            effect[dict_Parameters] = {}
+            effect[dict_Parameters] = []
             for parameter in effect[dict_parameters]:
-                effect[dict_Parameters][parameter[dict_id]] = 0.5
+                effect[dict_Parameters].append(0.5000)
         else:
             effect[dict_Parameters] = parameters
 
@@ -327,17 +327,17 @@ class SparkDevices:
             return
 
         self.chain_preset_id = chainPreset.id
-        self.gate[dict_db_id] = chainPreset.gate_pedal_parameter.id
-        self.gate[dict_visible] = chainPreset.gate_visible
-        self.comp[dict_db_id] = chainPreset.comp_pedal_parameter.id
-        self.comp[dict_visible] = chainPreset.comp_visible
-        self.drive[dict_db_id] = chainPreset.drive_pedal_parameter.id
-        self.drive[dict_visible] = chainPreset.drive_visible
-        self.amp[dict_db_id] = chainPreset.amp_pedal_parameter.id
-        self.amp[dict_visible] = chainPreset.amp_visible
-        self.modulation[dict_db_id] = chainPreset.mod_pedal_parameter.id
-        self.modulation[dict_visible] = chainPreset.mod_visible
-        self.delay[dict_db_id] = chainPreset.delay_pedal_parameter.id
-        self.delay[dict_visible] = chainPreset.delay_visible
-        self.reverb[dict_db_id] = chainPreset.reverb_pedal_parameter.id
-        self.reverb[dict_visible] = chainPreset.reverb_visible
+        self.gate[dict_db_id] = chainPreset.gate_pedal.id
+        self.gate[dict_visible] = chainPreset.gate_pedal.visible
+        self.comp[dict_db_id] = chainPreset.comp_pedal.id
+        self.comp[dict_visible] = chainPreset.comp_pedal.visible
+        self.drive[dict_db_id] = chainPreset.drive_pedal.id
+        self.drive[dict_visible] = chainPreset.drive_pedal.visible
+        self.amp[dict_db_id] = chainPreset.amp_pedal.id
+        self.amp[dict_visible] = chainPreset.amp_pedal.visible
+        self.modulation[dict_db_id] = chainPreset.mod_pedal.id
+        self.modulation[dict_visible] = chainPreset.mod_pedal.visible
+        self.delay[dict_db_id] = chainPreset.delay_pedal.id
+        self.delay[dict_visible] = chainPreset.delay_pedal.visible
+        self.reverb[dict_db_id] = chainPreset.reverb_pedal.id
+        self.reverb[dict_visible] = chainPreset.reverb_pedal.visible
