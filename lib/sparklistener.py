@@ -43,5 +43,5 @@ class SparkListener:
                 break        
 
     def stop(self):
-        self._listening = False
+        self.listening = False
         

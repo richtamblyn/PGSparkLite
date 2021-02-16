@@ -143,11 +143,11 @@ class SparkAmpServer:
                   dict_OnOff: preset.reverb_pedal.on_off,
                   dict_Parameters: preset.reverb_pedal.parameters() }],
             "End Filler": 0xb4}
-        
-        cmd = self.msg.create_preset(preset_json)
-        for i in cmd:
-            self.bt_sock.send(i)
-            a = self.bt_sock.recv(100)
+                
+        for cmd in self.msg.create_preset(preset_json):
+            self.comms.send_it(cmd)            
+        cmd = self.msg.change_hardware_preset(0x7f)
+        self.comms.send_it(cmd[0])
 
     def turn_effect_onoff(self, effect, state):
         cmd = self.msg.turn_effect_onoff(effect, state)
