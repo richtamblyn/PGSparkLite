@@ -14,14 +14,16 @@ from EventNotifier import Notifier
 
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
-                        dict_bias_reverb, dict_callback, dict_change_effect,
-                        dict_connection_lost, dict_connection_message,
-                        dict_effect, dict_Effect, dict_effect_type,
-                        dict_message, dict_Name, dict_New_Effect,
-                        dict_new_effect, dict_New_Preset, dict_Old_Effect,
-                        dict_old_effect, dict_parameter, dict_Parameter,
-                        dict_preset_corrupt, dict_Preset_Number, dict_state,
-                        dict_turn_on_off, dict_value, dict_Value)
+                        dict_bias_reverb, dict_BPM, dict_callback,
+                        dict_change_effect, dict_connection_lost,
+                        dict_connection_message, dict_effect, dict_Effect,
+                        dict_effect_type, dict_message, dict_Name,
+                        dict_New_Effect, dict_new_effect, dict_New_Preset,
+                        dict_Old_Effect, dict_old_effect, dict_OnOff,
+                        dict_parameter, dict_Parameter, dict_Parameters,
+                        dict_Pedals, dict_preset_corrupt, dict_Preset_Number,
+                        dict_state, dict_turn_on_off, dict_UUID, dict_value,
+                        dict_Value)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -109,6 +111,41 @@ class SparkAmpServer:
         self.bt_sock.close()
 
         self.connected = False
+
+    def send_custom_preset(self, preset):
+        preset_json = { "Preset Number": [0x00, 0x7f],
+            dict_UUID: preset.uuid,
+            dict_Name: preset.name,
+            "Version": "0.7",
+            "Description": preset.name,
+            "Icon": "icon.png",
+            dict_BPM: preset.bpm,
+            dict_Pedals: [
+                { dict_Name: preset.gate_pedal.name,
+                  dict_OnOff: preset.gate_pedal.on_off,
+                  dict_Parameters: preset.gate_pedal.parameters() },
+                { dict_Name: preset.comp_pedal.name,
+                  dict_OnOff: preset.comp_pedal.on_off,
+                  dict_Parameters: preset.comp_pedal.parameters() },
+                { dict_Name: preset.drive_pedal.name,
+                  dict_OnOff: preset.drive_pedal.on_off,
+                  dict_Parameters: preset.drive_pedal.parameters() },
+                { dict_Name: preset.amp_pedal.name,
+                  dict_OnOff: preset.amp_pedal.on_off,
+                  dict_Parameters: preset.amp_pedal.parameters() },
+                { dict_Name: preset.mod_pedal.name,
+                  dict_OnOff: preset.mod_pedal.on_off,
+                  dict_Parameters: preset.mod_pedal.parameters() },
+                { dict_Name: preset.delay_pedal.name,
+                  dict_OnOff: preset.delay_pedal.on_off,
+                  dict_Parameters: preset.delay.parameters() },
+                { dict_Name: preset.reverb_pedal.name,
+                  dict_OnOff: preset.reverb_pedal.on_off,
+                  dict_Parameters: preset.reverb_pedal.parameters() }],
+            "End Filler": 0xb4}
+
+        cmd = self.msg.create_preset(preset_json)
+        self.comms.send_it(cmd)
 
     def turn_effect_onoff(self, effect, state):
         cmd = self.msg.turn_effect_onoff(effect, state)
