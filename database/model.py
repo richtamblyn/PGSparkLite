@@ -15,7 +15,7 @@ class BaseModel(Model):
 
 class PedalParameter(BaseModel):
     effect_name = CharField()
-    on_off = BooleanField()
+    on_off = CharField()
     _parameters = CharField()
 
     def parameters(self):
@@ -29,25 +29,21 @@ class PedalPreset(BaseModel):
     name = CharField()
     pedal_parameter = ForeignKeyField(PedalParameter)
     effect_name = CharField(index=True)
+    visible = BooleanField(default=True)
 
 
 class ChainPreset(BaseModel):
     name = CharField()
+    uuid = CharField()
+    bpm = IntegerField(default=120)
     system_preset_id = IntegerField(null=True, unique=True)
-    gate_pedal_parameter = ForeignKeyField(PedalParameter)
-    gate_visible = BooleanField(default=True)
-    comp_pedal_parameter = ForeignKeyField(PedalParameter)
-    comp_visible = BooleanField(default=True)
-    drive_pedal_parameter = ForeignKeyField(PedalParameter)
-    drive_visible = BooleanField(default=True)
-    amp_pedal_parameter = ForeignKeyField(PedalParameter)
-    amp_visible = BooleanField(default=True)
-    mod_pedal_parameter = ForeignKeyField(PedalParameter)
-    mod_visible = BooleanField(default=True)
-    delay_pedal_parameter = ForeignKeyField(PedalParameter)
-    delay_visible = BooleanField(default=True)
-    reverb_pedal_parameter = ForeignKeyField(PedalParameter)
-    reverb_visible = BooleanField(default=True)
+    gate_pedal = ForeignKeyField(PedalParameter)
+    comp_pedal = ForeignKeyField(PedalParameter)
+    drive_pedal = ForeignKeyField(PedalParameter)
+    amp_pedal = ForeignKeyField(PedalParameter)
+    mod_pedal = ForeignKeyField(PedalParameter)
+    delay_pedal = ForeignKeyField(PedalParameter)
+    reverb_pedal = ForeignKeyField(PedalParameter)
 
 
 # Create and initialise the database if necessary

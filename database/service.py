@@ -18,6 +18,8 @@ def create_update_chainpreset(config):
 
     preset.name = config.presetName
     preset.system_preset_id = config.preset
+    preset.uuid = config.uuid
+    preset.bpm = config.bpm
     preset.gate_pedal_parameter = create_update_pedalparameter(config.gate)
     preset.gate_visible = config.gate[dict_visible]
     preset.comp_pedal_parameter = create_update_pedalparameter(config.comp)
@@ -101,6 +103,14 @@ def create_update_pedalpreset(effect_name, preset_name, preset_id, on_off, param
 
 def get_chain_presets():
     return ChainPreset.select().where(ChainPreset.system_preset_id == None)
+
+
+def get_chain_preset_by_id(id):
+    try:
+        preset =  ChainPreset.get(ChainPreset.id == id)
+        return preset
+    except DoesNotExist:
+        return None
 
 
 def get_pedal_presets(config):

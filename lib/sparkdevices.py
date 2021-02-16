@@ -11,14 +11,14 @@ from operator import getitem
 
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
-                        dict_change_effect, dict_change_parameter,
+                        dict_BPM, dict_change_effect, dict_change_parameter,
                         dict_change_pedal_preset, dict_comp, dict_db_id,
                         dict_delay, dict_drive, dict_effect, dict_gate,
                         dict_id, dict_mod, dict_Name, dict_name, dict_Off,
                         dict_On, dict_OnOff, dict_parameters, dict_Parameters,
                         dict_Pedals, dict_Preset_Number, dict_reverb,
                         dict_show_hide_pedal, dict_switch_parameter,
-                        dict_turn_on_off, dict_visible)
+                        dict_turn_on_off, dict_UUID, dict_visible)
 
 
 class SparkDevices:
@@ -138,7 +138,8 @@ class SparkDevices:
 
     def parse_preset(self, preset):
         self.presetName = preset[dict_Name]
-
+        self.uuid = preset[dict_UUID]
+        self.bpm = preset[dict_BPM]
         self.preset = preset[dict_Preset_Number]
         self.gate = preset[dict_Pedals][0]
 
@@ -196,6 +197,8 @@ class SparkDevices:
         self.modulation = ''
         self.delay = ''
         self.reverb = ''
+        self.bpm = 0
+        self.uuid = ''
 
     def switch_onoff_parameter(self, effect, parameter, value):
         switch_parameter = None

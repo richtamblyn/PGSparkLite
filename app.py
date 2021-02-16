@@ -5,8 +5,8 @@ from flask_socketio import SocketIO
 
 from database.service import (create_update_chainpreset,
                               create_update_pedalpreset, database,
-                              get_chain_presets, get_pedal_preset_by_id,
-                              get_pedal_presets,
+                              get_chain_preset_by_id, get_chain_presets,
+                              get_pedal_preset_by_id, get_pedal_presets,
                               get_pedal_presets_by_effect_name,
                               get_system_preset_by_id, sync_system_preset)
 from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
@@ -205,6 +205,15 @@ def update_pedal_preset():
 ###########################
 # SocketIO EventListeners
 ###########################
+
+@socketio.event
+def change_chain_preset(data):
+    preset_id = int(data[dict_preset_id])
+    preset = get_chain_preset_by_id(preset_id)
+    if preset == None:
+        return
+
+    #TODO: Get this data into the amp somehow...
 
 
 @socketio.event

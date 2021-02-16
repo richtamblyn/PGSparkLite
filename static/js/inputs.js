@@ -154,25 +154,42 @@ $(document).ready(function () {
     });
 
     // Chain Presets
-    $("#new_chain_preset").on('click', function(){
+    $(document).on('click','#new_chain_preset', function(){
         updateChainPreset(0, true);
+    });
+
+    $(document).on('click','#save_chain_preset', function(){
+        var preset_id = $('#chain_preset_selector').val()
+        var name_required = false;
+        if(preset_id == 0){
+            name_required = true;
+        }
+        updateChainPreset(preset_id, name_required);
+    });
+
+    $(document).on('change', '#chain_preset_selector', function () {
+        var preset_id = $(this).val();
+        if(preset_id == 0){
+            return;
+        }
+        
+        socket.emit('change_chain_preset', {'preset_id':preset_id})
     });
 
     // Pedal Presets
 
-    $(document).on('click', '.new_pedal_preset', function () {        
-        var effecttype = $(this).data('type');        
-        updatePedalPreset(effecttype, 0, true);
+    $(document).on('click', '.new_pedal_preset', function () {                
+        updatePedalPreset($(this).data('type'), 0, true);
     });
 
     $(document).on('click', '.save_pedal_preset', function () {        
         var effecttype = $(this).data('type');
-        var preset_id = $('#' + effecttype + '_pedal_preset_selector').val()
-        var namerequired = false
+        var preset_id = $('#' + effecttype + '_pedal_preset_selector').val();
+        var name_required = false;
         if(preset_id == 0){
-            namerequired = true;
+            name_required = true;
         } 
-        updatePedalPreset(effecttype, preset_id, namerequired);
+        updatePedalPreset(effecttype, preset_id, name_required);
     });
 
     $(document).on('click', '.delete_pedal_preset', function () {
