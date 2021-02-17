@@ -12,6 +12,20 @@ function changeOnOffState(state, effect, type){
     }
 }
 
+function showHideContent(effect_type, effect, visible){
+    if (visible){
+        $('#' + effect + '_content').slideDown('slow');
+        $('#' + effect_type + '_showhidecontent').removeClass('collapse_closed');
+        $('#' + effect_type + '_showhidecontent').addClass('collapse_open');
+    }
+    else {
+        $('#' + effect + '_content').slideUp('slow');
+        $('#' + effect_type + '_showhidecontent').removeClass('collapse_open');
+        $('#' + effect_type + '_showhidecontent').addClass('collapse_closed');            
+        visible = false;
+    }                    
+}
+
 function knobChangeEventHandler(knob) {
     var effect = knob.dataset['id'];
     var param = knob.dataset['parameter'];
@@ -134,22 +148,16 @@ $(document).ready(function () {
 
     $(document).on('click', '.showhidecontent', function () {
         var effect = $(this).data('id');  
-        var effecttype = $(this).data('type');        
+        var effect_type = $(this).data('type');        
         var visible = true;
 
-        if ($(this).hasClass('collapse_open')) {
-            $('#' + effect + '_content').slideUp('slow');
-            $(this).removeClass('collapse_open');
-            $(this).addClass('collapse_closed');            
+        if ($(this).hasClass('collapse_open')) {            
             visible = false;
-        } else
-        {
-            $('#' + effect + '_content').slideDown('slow');
-            $(this).removeClass('collapse_closed');
-            $(this).addClass('collapse_open');
         }
+        
+        showHideContent(effect_type, effect, visible);
 
-        var data = {'effect_type':effecttype, 'visible':visible}
+        var data = {'effect_type':effect_type, 'visible':visible}
         socket.emit('show_hide_pedal', data);
     });
 

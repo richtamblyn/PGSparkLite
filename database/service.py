@@ -157,11 +157,14 @@ def update_pedalparameter(pedal, pedal_parameter):
     params = pedal_parameter.parameters()
 
     for x in pedal[dict_Parameters]:
-        if params[count] != x:
-            changed = True
-            params[count] = x
+        try:
+            if params[count] != x:
+                changed = True
+                params[count] = x
 
-        count += 1
+            count += 1
+        except:
+            print('Parameter count is incorrect for ' + pedal[dict_Name])
 
     if changed == True:
         pedal_parameter.store_parameters(params)

@@ -24,7 +24,7 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_New_Preset, dict_Old_Effect, dict_old_effect,
                         dict_parameter, dict_Parameter, dict_preset_corrupt,
                         dict_Preset_Number, dict_reverb, dict_state,
-                        dict_turn_on_off, dict_value, dict_Value)
+                        dict_turn_on_off, dict_value, dict_Value, dict_visible)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -77,6 +77,11 @@ class SparkAmpServer:
         self.socketio.emit('update-onoff', {dict_state:pedal.on_off,
                                             dict_effect:pedal.effect_name,
                                             dict_effect_type:effect_type})
+
+        # Show/Hide the content DIV
+        self.socketio.emit('show-hide-content', {dict_effect_type: effect_type,
+                                                dict_effect:self.get_js_effect_name(pedal.effect_name),
+                                                dict_visible: pedal.visible})
 
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
@@ -150,6 +155,9 @@ class SparkAmpServer:
         self.apply_preset_pedal(preset.mod_pedal, self.config.modulation[dict_Name], dict_mod)
         self.apply_preset_pedal(preset.delay_pedal, self.config.delay[dict_Name], dict_delay)
         self.apply_preset_pedal(preset.reverb_pedal, self.config.reverb[dict_Name], dict_reverb)
+        
+        # Update the config
+        self.config.update_chain_preset_database_ids(preset)
 
     def turn_effect_onoff(self, effect, state):
         cmd = self.msg.turn_effect_onoff(effect, state)

@@ -334,11 +334,13 @@ class SparkDevices:
             elif effect == self.reverb[dict_Name]:
                 self.reverb[dict_Parameters][parameter] = value
 
-    def update_system_preset_database_ids(self, chainPreset):
+    def update_chain_preset_database_ids(self, chainPreset):
         if chainPreset == None:
             return
 
         self.chain_preset_id = chainPreset.id
+        self.preset = chainPreset.system_preset_id
+        self.presetName = chainPreset.name
         self.gate[dict_db_id] = chainPreset.gate_pedal.id
         self.gate[dict_visible] = chainPreset.gate_pedal.visible
         self.comp[dict_db_id] = chainPreset.comp_pedal.id

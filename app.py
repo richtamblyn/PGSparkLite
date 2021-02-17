@@ -72,7 +72,11 @@ def change_effect():
 
     amp.config.update_config(old_effect, dict_change_effect, new_effect)
 
-    return render_effect(effect_type, True)
+    selector = True
+    if new_effect == dict_bias_noisegate_safe:
+        selector = False
+
+    return render_effect(effect_type, selector)
 
 
 @app.route('/connect', methods=['GET', 'POST'])
@@ -143,7 +147,7 @@ def index():
     sync_system_preset(amp.config)
 
     # Now update database id references in the in-memory config
-    amp.config.update_system_preset_database_ids(
+    amp.config.update_chain_preset_database_ids(
         get_system_preset_by_id(amp.config.preset))
 
     chain_presets = get_chain_presets()
@@ -166,9 +170,11 @@ def update_chain_preset():
     if preset_id == 0:
         amp.config.initialise_chain_preset(str(request.form[dict_name]))        
 
-    id = create_update_chainpreset(amp.config)
-
+    id = create_update_chainpreset(amp.config)    
     chain_presets = get_chain_presets()
+
+    preset = get_chain_preset_by_id(id)
+    amp.config.update_chain_preset_database_ids(preset)
 
     return render_template('chain_preset_selector.html',
                            chain_presets=chain_presets,

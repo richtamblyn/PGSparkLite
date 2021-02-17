@@ -87,7 +87,7 @@
 {% set visible = effect["visible"] %}
 <div class="effect_header">
     <div class="effect_title">
-        <div class="showhidecontent {% if visible %} collapse_open {% else %} collapse_closed {% endif %}" data-type="{{ type }}" data-id="{{ name }}"></div> {{ type }}
+        <div id="{{ type }}_showhidecontent" class="showhidecontent {% if visible %} collapse_open {% else %} collapse_closed {% endif %}" data-type="{{ type }}" data-id="{{ name }}"></div> {{ type }}
     </div>    
     {% if selector %}
         {{ effect_selector(type, effect_list, name) }}
