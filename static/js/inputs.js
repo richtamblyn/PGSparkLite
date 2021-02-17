@@ -173,6 +173,7 @@ $(document).ready(function () {
             return;
         }
         
+        $('#loading').show();
         socket.emit('change_chain_preset', {'preset_id':preset_id})
     });
 

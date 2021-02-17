@@ -12,12 +12,13 @@ from database.service import (create_update_chainpreset,
 from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_change_effect, dict_change_parameter,
                         dict_change_pedal_preset, dict_connection_lost,
-                        dict_connection_message, dict_effect, dict_effect_name,
-                        dict_effect_type, dict_message, dict_name, dict_Name,
-                        dict_new_effect, dict_Off, dict_old_effect, dict_On,
-                        dict_OnOff, dict_parameter, dict_Parameters,
-                        dict_preset, dict_preset_id, dict_show_hide_pedal,
-                        dict_state, dict_turn_on_off, dict_value, dict_visible)
+                        dict_connection_message, dict_db_id, dict_effect,
+                        dict_effect_name, dict_effect_type,
+                        dict_log_change_only, dict_message, dict_name,
+                        dict_Name, dict_new_effect, dict_old_effect,
+                        dict_parameter, dict_preset, dict_preset_id,
+                        dict_show_hide_pedal, dict_state, dict_turn_on_off,
+                        dict_value, dict_visible)
 from lib.messages import msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -55,7 +56,7 @@ def change_effect():
     old_effect = request.form[dict_old_effect]
     new_effect = request.form[dict_new_effect]
     effect_type = request.form[dict_effect_type]
-    log_change_only = request.form['log_change_only']
+    log_change_only = request.form[dict_log_change_only]
 
     if log_change_only == 'false':
         if old_effect.isdigit():
@@ -163,10 +164,7 @@ def static_file(path):
 def update_chain_preset():
     preset_id = int(request.form[dict_preset_id])
     if preset_id == 0:
-        # Prep the config for a new preset
-        amp.config.chain_preset_id = preset_id
-        amp.config.presetName = str(request.form[dict_name])
-        amp.config.preset = None
+        amp.config.initialise_chain_preset(str(request.form[dict_name]))        
 
     id = create_update_chainpreset(amp.config)
 
@@ -207,7 +205,8 @@ def change_chain_preset(data):
     if preset == None:
         return
 
-    amp.send_custom_preset(preset)
+    amp.load_chain_preset(preset)
+    socketio.emit('done-loading',{dict_state:True})
 
 
 @socketio.event

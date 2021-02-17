@@ -97,6 +97,18 @@ class SparkDevices:
 
         return effect
 
+    def initialise_chain_preset(self, name):        
+        self.chain_preset_id = 0
+        self.presetName = name
+        self.preset = None
+        self.gate[dict_db_id] = 0
+        self.comp[dict_db_id] = 0
+        self.drive[dict_db_id] = 0
+        self.amp[dict_db_id] = 0
+        self.modulation[dict_db_id] = 0
+        self.delay[dict_db_id] = 0
+        self.reverb[dict_db_id] = 0
+
     def load(self):
         for configDir in self.configDirs:
             configFiles = glob.glob(configDir + '/*.json')

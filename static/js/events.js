@@ -27,7 +27,7 @@ $(document).ready(function(){
     // Change of effect
     socket.on('update-effect', function(data){
         $('#' + data.effect_type + '_selector').val(data.new_effect);        
-        var update = {'oldeffect': data.old_effect, 'neweffect': data.new_effect, 'effecttype': data.effect_type, 'logchangeonly': true};        
+        var update = {'old_effect': data.old_effect, 'new_effect': data.new_effect, 'effect_type': data.effect_type, 'log_change_only': data.log_change_only};        
         $('#' + data.effect_type + '_container').load('/changeeffect', update); 
     })
 
@@ -38,11 +38,18 @@ $(document).ready(function(){
 
     // Change OnOff status
     socket.on('update-onoff', function(data){
-        window.changeOnOffState(data.state, data.effect, data.effect_type);        
+        window.changeOnOffState(data.state, data.effect, data.effect_type);    
+        socket.emit('turn_effect_onoff', data);
     })
 
     // Reload effect footer
     socket.on('reload-effect-footer', function(data){
         $('#' + data.effect_type + '_footer').load('/effectfooter', data);
+    })
+
+    socket.on('done-loading', function(data){
+        if(data.state){
+            $("#loading").hide();
+        }        
     })
 });
