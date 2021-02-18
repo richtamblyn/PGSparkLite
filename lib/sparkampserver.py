@@ -74,6 +74,8 @@ class SparkAmpServer:
             
             count +=1        
 
+        time.sleep(0.2) # More waiting
+
         # Apply the OnOff status
         self.socketio.emit('update-onoff', {dict_state:pedal.on_off,
                                             dict_effect:pedal.effect_name,
