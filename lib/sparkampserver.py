@@ -224,7 +224,8 @@ class SparkAmpServer:
                 'update-effect', {
                     dict_old_effect: old_effect,
                     dict_effect_type: dict_amp,
-                    dict_new_effect: new_effect
+                    dict_new_effect: new_effect,
+                    dict_log_change_only: False
                 })
             self.config.update_config(
                 old_effect, dict_change_effect, new_effect)
