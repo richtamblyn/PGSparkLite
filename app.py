@@ -8,7 +8,8 @@ from database.service import (create_update_chainpreset,
                               get_chain_preset_by_id, get_chain_presets,
                               get_pedal_preset_by_id, get_pedal_presets,
                               get_pedal_presets_by_effect_name,
-                              get_system_preset_by_id, sync_system_preset)
+                              get_system_preset_by_id, sync_system_preset,
+                              verify_delete_chain_preset)
 from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_change_effect, dict_change_parameter,
                         dict_change_pedal_preset, dict_connection_lost,
@@ -122,6 +123,17 @@ def change_pedal_preset():
         selector = False
 
     return render_effect(effect_type, selector, preset_id)
+
+@app.route('/deletechainpreset', methods=['POST'])
+def delete_chain_preset():
+    preset_id = int(request.form[dict_preset_id])
+    if verify_delete_chain_preset(preset_id):
+        chain_presets = get_chain_presets()
+        return render_template('chain_preset_selector.html',
+                           chain_presets=chain_presets,
+                           preset_selected=0)
+
+    return 'error'
 
 
 @app.route('/deletepedalpreset', methods=['POST'])

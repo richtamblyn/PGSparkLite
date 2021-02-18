@@ -175,6 +175,24 @@ $(document).ready(function () {
         updateChainPreset(preset_id, name_required);
     });
 
+    $(document).on('click', '#delete_chain_preset', function () {        
+        var preset_id = $('#chain_preset_selector').val();
+        if(preset_id == 0){
+            return;
+        }
+
+        if (confirm("Are you sure you want to delete this preset?")) {            
+            var data = {                
+                'preset_id': preset_id
+            };
+
+            $.post('/deletechainpreset', data, function (result) {
+                $('#chain_preset_container').html(result)
+                alert('The preset was deleted successfully.');
+            });
+        };
+    })
+
     $(document).on('change', '#chain_preset_selector', function () {
         var preset_id = $(this).val();
         if(preset_id == 0){
