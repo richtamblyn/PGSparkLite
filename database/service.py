@@ -6,7 +6,7 @@ from peewee import DoesNotExist
 from database.model import ChainPreset, PedalParameter, PedalPreset, database
 
 
-def create_update_chainpreset(config):
+def create_update_chainpreset(config, system_preset=False):
     if config.chain_preset_id != 0:
         try:
             preset = ChainPreset.get(ChainPreset.id == config.chain_preset_id)
@@ -19,26 +19,34 @@ def create_update_chainpreset(config):
     preset.system_preset_id = config.preset
     preset.uuid = config.uuid
     preset.bpm = config.bpm
-    preset.gate_pedal = create_update_pedalparameter(config.gate, True)
-    preset.comp_pedal = create_update_pedalparameter(config.comp, True)
-    preset.drive_pedal = create_update_pedalparameter(config.drive, True)
-    preset.amp_pedal = create_update_pedalparameter(config.amp, True)
-    preset.mod_pedal = create_update_pedalparameter(config.modulation, True)
-    preset.delay_pedal = create_update_pedalparameter(config.delay, True)
-    preset.reverb_pedal = create_update_pedalparameter(config.reverb, True)
+    preset.gate_pedal = create_update_pedalparameter(
+        config.gate, chain_preset=True, system_preset=system_preset)
+    preset.comp_pedal = create_update_pedalparameter(
+        config.comp, chain_preset=True, system_preset=system_preset)
+    preset.drive_pedal = create_update_pedalparameter(
+        config.drive, chain_preset=True, system_preset=system_preset)
+    preset.amp_pedal = create_update_pedalparameter(
+        config.amp, chain_preset=True, system_preset=system_preset)
+    preset.mod_pedal = create_update_pedalparameter(
+        config.modulation, chain_preset=True, system_preset=system_preset)
+    preset.delay_pedal = create_update_pedalparameter(
+        config.delay, chain_preset=True, system_preset=system_preset)
+    preset.reverb_pedal = create_update_pedalparameter(
+        config.reverb, chain_preset=True, system_preset=system_preset)
     preset.save()
 
     return preset.id
 
 
-def create_update_pedalparameter(pedal, chain_preset=False):
+def create_update_pedalparameter(pedal, chain_preset=False, system_preset=False):
     record = PedalParameter()
+    record.is_system_preset = system_preset
 
     if pedal[dict_db_id] != 0:
         try:
             record = PedalParameter.get(PedalParameter.id == pedal[dict_db_id])
             if chain_preset:
-                if has_associated_system_preset(record.id) or has_associated_pedal_preset(record.id) and update_pedalparameter(pedal, record, False):
+                if record.is_system_preset or record.pedal_preset_id != None and update_pedalparameter(pedal, record, False):
                     record = PedalParameter()
         except DoesNotExist:
             pass
@@ -65,8 +73,10 @@ def create_update_pedalpreset(preset_name, preset_id, effect):
     record.pedal_parameter = create_update_pedalparameter(effect)
     record.save()
 
-    return record.id
+    record.pedal_parameter.pedal_preset_id = record.id
+    record.pedal_parameter.save()
 
+    return record.id
 
 
 def get_chain_presets():
@@ -119,40 +129,11 @@ def get_system_preset_by_id(id):
         return None
 
 
-def has_associated_system_preset(id):
-    system_presets = ChainPreset.select().where(ChainPreset.system_preset_id != None)
-    for preset in system_presets:
-        if preset.gate_pedal.id == id:
-            return True
-        elif preset.comp_pedal.id == id:
-            return True
-        elif preset.drive_pedal.id == id:
-            return True
-        elif preset.amp_pedal.id == id:
-            return True
-        elif preset.mod_pedal.id == id:
-            return True
-        elif preset.delay_pedal.id == id:
-            return True
-        elif preset.reverb_pedal.id == id:
-            return True
-
-    return False
-
-
-def has_associated_pedal_preset(id):
-    if PedalPreset.select().where(PedalPreset.pedal_parameter == id).count() > 0:
-        return True
-    else:
-        return False
-
-
 def sync_system_preset(config):
     preset = get_system_preset_by_id(config.preset)
 
     if preset == None:
-        # Couldn't find a record for this preset, create a new one
-        create_update_chainpreset(config)
+        create_update_chainpreset(config, system_preset=True)
         return
 
     update_pedalparameter(config.gate, preset.gate_pedal)
@@ -199,48 +180,93 @@ def update_pedalparameter(pedal, pedal_parameter, apply_changes=True):
 
     return changed
 
+
 def verify_delete_chain_preset(id):
     try:
         record = ChainPreset.get(ChainPreset.id == id)
     except DoesNotExist:
         return True
 
-    if has_associated_pedal_preset(record.gate_pedal.id):
-        pass
-    else:
+    if record.gate_pedal.pedal_preset_id == None:
         record.gate_pedal.delete_instance()
 
-    if has_associated_pedal_preset(record.comp_pedal.id):
-        pass
-    else:
+    if record.comp_pedal.pedal_preset_id == None:
         record.comp_pedal.delete_instance()
 
-    if has_associated_pedal_preset(record.drive_pedal.id):
-        pass
-    else:
+    if record.drive_pedal.pedal_preset_id == None:
         record.drive_pedal.delete_instance()
 
-    if has_associated_pedal_preset(record.amp_pedal.id):
-        pass
-    else:
+    if record.amp_pedal.pedal_preset_id == None:
         record.amp_pedal.delete_instance()
 
-    if has_associated_pedal_preset(record.mod_pedal.id):
-        pass
-    else:
+    if record.mod_pedal.pedal_preset_id == None:
         record.mod_pedal.delete_instance()
 
-    if has_associated_pedal_preset(record.delay_pedal.id):
-        pass
-    else:
+    if record.delay_pedal.pedal_preset_id == None:
         record.delay_pedal.delete_instance()
 
-    if has_associated_pedal_preset(record.reverb_pedal.id):
-        pass
-    else:
+    if record.reverb_pedal.pedal_preset_id == None:
         record.reverb_pedal.delete_instance()
 
     record.delete_instance()
 
     return True
 
+
+def verify_delete_pedal_preset(id):
+    try:
+        record = PedalPreset.get(PedalPreset.id == id)
+    except DoesNotExist:
+        return True
+
+    gate_count = (PedalParameter
+                  .select()
+                  .join(ChainPreset, on=ChainPreset.gate_pedal)
+                  .where(ChainPreset.gate_pedal.id == record.pedal_parameter.id)
+                  .count())
+
+    comp_count = (PedalParameter
+                  .select()
+                  .join(ChainPreset, on=ChainPreset.comp_pedal)
+                  .where(ChainPreset.comp_pedal.id == record.pedal_parameter.id)
+                  .count())
+
+    drive_count = (PedalParameter
+                   .select()
+                   .join(ChainPreset, on=ChainPreset.drive_pedal)
+                   .where(ChainPreset.drive_pedal.id == record.pedal_parameter.id)
+                   .count())
+
+    amp_count = (PedalParameter
+                 .select()
+                 .join(ChainPreset, on=ChainPreset.amp_pedal)
+                 .where(ChainPreset.amp_pedal.id == record.pedal_parameter.id)
+                 .count())
+
+    mod_count = (PedalParameter
+                 .select()
+                 .join(ChainPreset, on=ChainPreset.mod_pedal)
+                 .where(ChainPreset.mod_pedal.id == record.pedal_parameter.id)
+                 .count())
+
+    delay_count = (PedalParameter
+                   .select()
+                   .join(ChainPreset, on=ChainPreset.delay_pedal)
+                   .where(ChainPreset.delay_pedal.id == record.pedal_parameter.id)
+                   .count())
+
+    reverb_count = (PedalParameter
+                    .select()
+                    .join(ChainPreset, on=ChainPreset.reverb_pedal)
+                    .where(ChainPreset.reverb_pedal.id == record.pedal_parameter.id)
+                    .count())
+
+    if gate_count == 0 and comp_count == 0 and drive_count == 0 and amp_count == 0 and mod_count == 0 and delay_count == 0 and reverb_count == 0:
+        record.pedal_parameter.delete_instance()
+    else:
+        record.pedal_parameter.pedal_preset_id = None
+        record.pedal_parameter.save()
+
+    record.delete_instance()
+
+    return True

@@ -18,6 +18,8 @@ class PedalParameter(BaseModel):
     on_off = CharField()
     _parameters = CharField()
     visible = BooleanField(default=True)
+    pedal_preset_id = IntegerField(null=True)
+    is_system_preset = BooleanField(default=False)
 
     def parameters(self):
         return [float(param) for param in self._parameters.split(',')]

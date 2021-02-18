@@ -9,7 +9,7 @@ from database.service import (create_update_chainpreset,
                               get_pedal_preset_by_id, get_pedal_presets,
                               get_pedal_presets_by_effect_name,
                               get_system_preset_by_id, sync_system_preset,
-                              verify_delete_chain_preset)
+                              verify_delete_chain_preset, verify_delete_pedal_preset)
 from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_change_effect, dict_change_parameter,
                         dict_change_pedal_preset, dict_connection_lost,
@@ -141,7 +141,7 @@ def delete_pedal_preset():
     preset_id = int(request.form[dict_preset_id])
     preset = get_pedal_preset_by_id(preset_id)
     effect_name = preset.effect_name
-    preset.delete_instance()
+    verify_delete_pedal_preset(preset_id)
     return render_template('effect_footer.html',
                            effect_name=effect_name,
                            effect_type=str(request.form[dict_effect_type]),
@@ -149,6 +149,15 @@ def delete_pedal_preset():
                                effect_name),
                            preset_selected=0)
 
+
+@app.route('/effectfooter', methods=['POST'])
+def effect_footer():    
+    effect_name = request.form[dict_effect]    
+    return render_template('effect_footer.html',
+                            effect_name=effect_name,
+                            effect_type=request.form[dict_effect_type],
+                            presets=get_pedal_presets_by_effect_name(effect_name),
+                            preset_selected = int(request.form[dict_preset_id]))
 
 @app.route('/', methods=['GET'])
 def index():
@@ -204,6 +213,7 @@ def update_pedal_preset():
     effect = amp.config.get_current_effect_by_type(effect_type)
 
     id = create_update_pedalpreset(preset_name, preset_id, effect)
+    amp.config.update_config(effect_type, dict_change_pedal_preset, id)
 
     return render_template('effect_footer.html',
                            effect_name=effect[dict_Name],

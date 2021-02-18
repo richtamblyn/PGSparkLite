@@ -23,8 +23,9 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_Name, dict_New_Effect, dict_new_effect,
                         dict_New_Preset, dict_Old_Effect, dict_old_effect,
                         dict_parameter, dict_Parameter, dict_preset_corrupt,
-                        dict_Preset_Number, dict_reverb, dict_state,
-                        dict_turn_on_off, dict_value, dict_Value, dict_visible)
+                        dict_preset_id, dict_Preset_Number, dict_reverb,
+                        dict_state, dict_turn_on_off, dict_value, dict_Value,
+                        dict_visible)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -82,6 +83,12 @@ class SparkAmpServer:
         self.socketio.emit('show-hide-content', {dict_effect_type: effect_type,
                                                 dict_effect:self.get_js_effect_name(pedal.effect_name),
                                                 dict_visible: pedal.visible})
+
+        # Update the effect footer (if necessary)
+        if pedal.pedal_preset_id != None:
+            self.socketio.emit('reload-effect-footer', {dict_effect_type: effect_type,
+                                                        dict_effect:self.get_js_effect_name(pedal.effect_name),
+                                                        dict_preset_id: pedal.pedal_preset_id })
 
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
