@@ -8,7 +8,6 @@
 #####################################################
 
 import threading
-import time
 
 import bluetooth
 from EventNotifier import Notifier
@@ -16,16 +15,14 @@ from EventNotifier import Notifier
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
                         dict_bias_reverb, dict_callback, dict_change_effect,
-                        dict_change_parameter, dict_comp, dict_connection_lost,
-                        dict_connection_message, dict_delay, dict_drive,
-                        dict_effect, dict_Effect, dict_effect_type, dict_gate,
-                        dict_log_change_only, dict_message, dict_mod,
-                        dict_Name, dict_New_Effect, dict_new_effect,
-                        dict_New_Preset, dict_Old_Effect, dict_old_effect,
-                        dict_parameter, dict_Parameter, dict_preset_corrupt,
-                        dict_preset_id, dict_Preset_Number, dict_reverb,
-                        dict_state, dict_turn_on_off, dict_value, dict_Value,
-                        dict_visible)
+                        dict_connection_lost, dict_connection_message,
+                        dict_db_id, dict_effect, dict_Effect, dict_effect_type,
+                        dict_log_change_only, dict_message, dict_Name,
+                        dict_New_Effect, dict_new_effect, dict_New_Preset,
+                        dict_Old_Effect, dict_old_effect, dict_OnOff,
+                        dict_parameter, dict_Parameter, dict_Parameters,
+                        dict_preset_corrupt, dict_Preset_Number, dict_state,
+                        dict_turn_on_off, dict_value, dict_Value, dict_visible)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -50,47 +47,6 @@ class SparkAmpServer:
         self.notifier.subscribe(dict_connection_lost,
                                 self.connection_lost_event)
         self.notifier.subscribe(dict_preset_corrupt, self.preset_corrupt_event)
-
-    def apply_preset_pedal(self, pedal, old_effect, effect_type):
-        # Change the effect
-        self.socketio.emit('update-effect', {dict_effect_type:effect_type, 
-                                            dict_old_effect:old_effect, 
-                                            dict_new_effect:pedal.effect_name,
-                                            dict_log_change_only:False})
-        
-        time.sleep(0.2) # Wait for the DOM to catchup
-
-        # Apply parameters
-        count = 0
-        for param in pedal.parameters():
-            #Update the UI
-            self.socketio.emit('update-parameter', {dict_effect:pedal.effect_name,
-                                                    dict_parameter:count,
-                                                    dict_value:param})
-
-            #Update the amp             
-            self.change_effect_parameter(self.get_amp_effect_name(pedal.effect_name), count, param)
-            self.config.update_config(pedal.effect_name, dict_change_parameter, param, count)
-            
-            count +=1        
-
-        time.sleep(0.2) # More waiting
-
-        # Apply the OnOff status
-        self.socketio.emit('update-onoff', {dict_state:pedal.on_off,
-                                            dict_effect:pedal.effect_name,
-                                            dict_effect_type:effect_type})
-
-        # Show/Hide the content DIV
-        self.socketio.emit('show-hide-content', {dict_effect_type: effect_type,
-                                                dict_effect:self.get_js_effect_name(pedal.effect_name),
-                                                dict_visible: pedal.visible})
-
-        # Update the effect footer (if necessary)
-        if pedal.pedal_preset_id != None:
-            self.socketio.emit('reload-effect-footer', {dict_effect_type: effect_type,
-                                                        dict_effect:self.get_js_effect_name(pedal.effect_name),
-                                                        dict_preset_id: pedal.pedal_preset_id })
 
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
@@ -155,19 +111,89 @@ class SparkAmpServer:
 
         self.connected = False
     
-    def load_chain_preset(self, preset):
-        # Ok, now to replay the preset...        
-        self.apply_preset_pedal(preset.gate_pedal, self.config.gate[dict_Name], dict_gate)
-        self.apply_preset_pedal(preset.comp_pedal, self.config.comp[dict_Name], dict_comp)
-        self.apply_preset_pedal(preset.drive_pedal, self.config.drive[dict_Name], dict_drive)
-        self.apply_preset_pedal(preset.amp_pedal, self.config.amp[dict_Name], dict_amp)
-        self.apply_preset_pedal(preset.mod_pedal, self.config.modulation[dict_Name], dict_mod)
-        self.apply_preset_pedal(preset.delay_pedal, self.config.delay[dict_Name], dict_delay)
-        self.apply_preset_pedal(preset.reverb_pedal, self.config.reverb[dict_Name], dict_reverb)
+    def send_preset(self, chain_preset):        
+        preset_json  = { "Preset Number": [0x00, 0x7f], 
+        "UUID": "CDE99591-C05D-4AE0-9E34-EC4A81F3F84F",
+        "Name": chain_preset.name,
+        "Version": "0.7",
+        "Description": chain_preset.name,
+        "Icon": "icon.png",
+        "BPM": chain_preset.bpm,
+        "Pedals": [ { dict_Name: dict_bias_noisegate,
+                    dict_OnOff: chain_preset.gate_pedal.on_off,
+                    dict_Parameters: chain_preset.gate_pedal.parameters() }, 
+                    { dict_Name: chain_preset.comp_pedal.effect_name,
+                    dict_OnOff: chain_preset.comp_pedal.on_off,
+                    dict_Parameters: chain_preset.comp_pedal.parameters() }, 
+                    { dict_Name: chain_preset.drive_pedal.effect_name,
+                    dict_OnOff: chain_preset.drive_pedal.on_off,
+                    dict_Parameters: chain_preset.drive_pedal.parameters() }, 
+                    { dict_Name: chain_preset.amp_pedal.effect_name,
+                    dict_OnOff: chain_preset.amp_pedal.on_off,
+                    dict_Parameters: chain_preset.amp_pedal.parameters() }, 
+                    { dict_Name: chain_preset.mod_pedal.effect_name,
+                    dict_OnOff: chain_preset.mod_pedal.on_off,
+                    dict_Parameters: chain_preset.mod_pedal.parameters() }, 
+                    { dict_Name: chain_preset.delay_pedal.effect_name,
+                    dict_OnOff: chain_preset.delay_pedal.on_off,
+                    dict_Parameters: chain_preset.delay_pedal.parameters() }, 
+                    { dict_Name: dict_bias_reverb,
+                    dict_OnOff: chain_preset.reverb_pedal.on_off,
+                    dict_Parameters: chain_preset.reverb_pedal.parameters() }],
+                     "End Filler": 0xeb}
+
+        preset = self.msg.create_preset(preset_json)
+
+        for i in preset:
+            self.bt_sock.send(i)            
+
+        change_user_preset = self.msg.change_hardware_preset(0x7f)
+        
+        self.bt_sock.send(change_user_preset[0])      
         
         # Update the config
-        self.config.update_chain_preset_database_ids(preset)
+        self.config.gate[dict_Parameters] = chain_preset.gate_pedal.parameters()
+        self.config.gate[dict_visible] = chain_preset.gate_pedal.visible
+        self.config.gate[dict_OnOff] = chain_preset.gate_pedal.on_off
+        self.config.gate[dict_db_id] = chain_preset.gate_pedal.id
+        
+        self.config.comp[dict_Name] = chain_preset.comp_pedal.effect_name
+        self.config.comp[dict_Parameters] = chain_preset.comp_pedal.parameters()
+        self.config.comp[dict_visible] = chain_preset.comp_pedal.visible
+        self.config.comp[dict_OnOff] = chain_preset.comp_pedal.on_off
+        self.config.comp[dict_db_id] = chain_preset.comp_pedal.id
 
+        self.config.drive[dict_Name] = chain_preset.drive_pedal.effect_name
+        self.config.drive[dict_Parameters] = chain_preset.drive_pedal.parameters()
+        self.config.drive[dict_visible] = chain_preset.drive_pedal.visible
+        self.config.drive[dict_OnOff] = chain_preset.drive_pedal.on_off
+        self.config.drive[dict_db_id] = chain_preset.drive_pedal.id
+
+        self.config.amp[dict_Name] = chain_preset.amp_pedal.effect_name
+        self.config.amp[dict_Parameters] = chain_preset.amp_pedal.parameters()
+        self.config.amp[dict_visible] = chain_preset.amp_pedal.visible
+        self.config.amp[dict_OnOff] = chain_preset.amp_pedal.on_off
+        self.config.amp[dict_db_id] = chain_preset.amp_pedal.id
+
+        self.config.modulation[dict_Name] = chain_preset.mod_pedal.effect_name
+        self.config.modulation[dict_Parameters] = chain_preset.mod_pedal.parameters()
+        self.config.modulation[dict_visible] = chain_preset.mod_pedal.visible
+        self.config.modulation[dict_OnOff] = chain_preset.mod_pedal.on_off
+        self.config.modulation[dict_db_id] = chain_preset.mod_pedal.id
+
+        self.config.delay[dict_Name] = chain_preset.delay_pedal.effect_name
+        self.config.delay[dict_Parameters] = chain_preset.delay_pedal.parameters()
+        self.config.delay[dict_visible] = chain_preset.delay_pedal.visible
+        self.config.delay[dict_OnOff] = chain_preset.delay_pedal.on_off
+        self.config.delay[dict_db_id] = chain_preset.delay_pedal.id
+
+        self.config.reverb[dict_Name] = chain_preset.reverb_pedal.effect_name
+        self.config.reverb[dict_Parameters] = chain_preset.reverb_pedal.parameters()
+        self.config.reverb[dict_visible] = chain_preset.reverb_pedal.visible
+        self.config.reverb[dict_OnOff] = chain_preset.reverb_pedal.on_off
+        self.config.reverb[dict_db_id] = chain_preset.reverb_pedal.id
+
+    
     def turn_effect_onoff(self, effect, state):
         cmd = self.msg.turn_effect_onoff(effect, state)
         self.comms.send_it(cmd[0])

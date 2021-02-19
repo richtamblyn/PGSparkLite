@@ -17,7 +17,7 @@
 {% endmacro %}
 
 {% macro chain_preset_selector(chain_presets, preset_selected) %}
-<select id="chain_preset_selector" class="chain_preset_selector">
+<select name="preset_id" id="chain_preset_selector" class="chain_preset_selector">
     <option value="0">No preset selected</option>
     {% for preset in chain_presets|sort(attribute='name') %}
         <option value="{{ preset.id }}" {% if preset.id==preset_selected %} selected {% endif %}>{{ preset.name }}</option>
@@ -98,7 +98,7 @@
         {{ onoff_buttons(type, name, onoff) }}
     </div>    
 </div>
-<div id="{{ name }}_content" class="effect_content">
+<div id="{{ name }}_content" class="effect_content" {% if not visible %} style="display:none;" {% endif %}>
     {% if topper|length %}
     <div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
         <span class="{{ badge }}">

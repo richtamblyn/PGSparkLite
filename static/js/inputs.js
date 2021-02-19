@@ -162,11 +162,13 @@ $(document).ready(function () {
     });
 
     // Chain Presets
-    $(document).on('click','#new_chain_preset', function(){
+    $(document).on('click','#new_chain_preset', function(e){
+        e.preventDefault();
         updateChainPreset(0, true);
     });
 
-    $(document).on('click','#save_chain_preset', function(){
+    $(document).on('click','#save_chain_preset', function(e){
+        e.preventDefault();
         var preset_id = $('#chain_preset_selector').val()
         var name_required = false;
         if(preset_id == 0){
@@ -175,7 +177,8 @@ $(document).ready(function () {
         updateChainPreset(preset_id, name_required);
     });
 
-    $(document).on('click', '#delete_chain_preset', function () {        
+    $(document).on('click', '#delete_chain_preset', function (e) {        
+        e.preventDefault();
         var preset_id = $('#chain_preset_selector').val();
         if(preset_id == 0){
             return;
@@ -200,7 +203,7 @@ $(document).ready(function () {
         }
         
         $('#loading').show();
-        socket.emit('change_chain_preset', {'preset_id':preset_id})
+        $('#chain_preset_form').submit();
     });
 
     // Pedal Presets
