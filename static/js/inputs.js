@@ -162,13 +162,11 @@ $(document).ready(function () {
     });
 
     // Chain Presets
-    $(document).on('click','#new_chain_preset', function(e){
-        e.preventDefault();
+    $(document).on('click','#new_chain_preset', function(){        
         updateChainPreset(0, true);
     });
 
-    $(document).on('click','#save_chain_preset', function(e){
-        e.preventDefault();
+    $(document).on('click','#save_chain_preset', function(){        
         var preset_id = $('#chain_preset_selector').val()
         var name_required = false;
         if(preset_id == 0){
@@ -177,8 +175,7 @@ $(document).ready(function () {
         updateChainPreset(preset_id, name_required);
     });
 
-    $(document).on('click', '#delete_chain_preset', function (e) {        
-        e.preventDefault();
+    $(document).on('click', '#delete_chain_preset', function () {                
         var preset_id = $('#chain_preset_selector').val();
         if(preset_id == 0){
             return;

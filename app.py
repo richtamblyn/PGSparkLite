@@ -11,16 +11,15 @@ from database.service import (create_update_chainpreset,
                               get_system_preset_by_id, sync_system_preset,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
-from lib.common import (dict_amp, dict_bias_noisegate_safe, dict_bias_reverb,
+from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_change_effect, dict_change_parameter,
-                        dict_change_pedal_preset, dict_comp,
-                        dict_connection_lost, dict_connection_message,
-                        dict_delay, dict_drive, dict_effect, dict_effect_type,
-                        dict_gate, dict_log_change_only, dict_message,
-                        dict_mod, dict_name, dict_Name, dict_new_effect,
-                        dict_old_effect, dict_parameter, dict_preset,
-                        dict_preset_id, dict_reverb, dict_show_hide_pedal,
-                        dict_state, dict_turn_on_off, dict_value, dict_visible)
+                        dict_change_pedal_preset, dict_connection_lost,
+                        dict_connection_message, dict_effect, dict_effect_type,
+                        dict_log_change_only, dict_message, dict_name,
+                        dict_Name, dict_new_effect, dict_old_effect,
+                        dict_parameter, dict_preset, dict_preset_id,
+                        dict_show_hide_pedal, dict_state, dict_turn_on_off,
+                        dict_value, dict_visible)
 from lib.messages import msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -145,20 +144,14 @@ def index():
         return redirect(url_for('connect'))
 
     if request.method == 'GET':
-        preset_id = 0
-        
-        sync_system_preset(amp.config)
-
-        # Now update database id references in the in-memory config
+        preset_id = 0        
+        sync_system_preset(amp.config)        
         amp.config.update_chain_preset_database_ids(
-            get_system_preset_by_id(amp.config.preset))
-        
+            get_system_preset_by_id(amp.config.preset))        
     else:
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)        
-        amp.send_preset(preset)
-
-        # TODO: Now update the amp config to render stuff
+        amp.send_preset(preset)                
 
     return render_template('main.html',
                            config=amp.config,
@@ -176,7 +169,7 @@ def static_file(path):
 def update_chain_preset():
     preset_id = int(request.form[dict_preset_id])
     if preset_id == 0:
-        amp.config.initialise_chain_preset(str(request.form[dict_name]))        
+        amp.config.initialise_chain_preset(str(request.form[dict_name]))            
 
     id = create_update_chainpreset(amp.config)    
     chain_presets = get_chain_presets()

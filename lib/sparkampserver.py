@@ -111,7 +111,15 @@ class SparkAmpServer:
 
         self.connected = False
     
-    def send_preset(self, chain_preset):        
+    def send_preset(self, chain_preset):      
+        gate_parameters = chain_preset.gate_pedal.parameters()
+        comp_parameters = chain_preset.comp_pedal.parameters()
+        drive_parameters = chain_preset.drive_pedal.parameters()
+        amp_parameters = chain_preset.amp_pedal.parameters()
+        mod_parameters = chain_preset.mod_pedal.parameters()
+        delay_parameters = chain_preset.delay_pedal.parameters()
+        reverb_parameters = chain_preset.reverb_pedal.parameters()
+
         preset_json  = { "Preset Number": [0x00, 0x7f], 
         "UUID": "CDE99591-C05D-4AE0-9E34-EC4A81F3F84F",
         "Name": chain_preset.name,
@@ -121,25 +129,25 @@ class SparkAmpServer:
         "BPM": chain_preset.bpm,
         "Pedals": [ { dict_Name: dict_bias_noisegate,
                     dict_OnOff: chain_preset.gate_pedal.on_off,
-                    dict_Parameters: chain_preset.gate_pedal.parameters() }, 
+                    dict_Parameters: gate_parameters }, 
                     { dict_Name: chain_preset.comp_pedal.effect_name,
                     dict_OnOff: chain_preset.comp_pedal.on_off,
-                    dict_Parameters: chain_preset.comp_pedal.parameters() }, 
+                    dict_Parameters: comp_parameters }, 
                     { dict_Name: chain_preset.drive_pedal.effect_name,
                     dict_OnOff: chain_preset.drive_pedal.on_off,
-                    dict_Parameters: chain_preset.drive_pedal.parameters() }, 
+                    dict_Parameters: drive_parameters }, 
                     { dict_Name: chain_preset.amp_pedal.effect_name,
                     dict_OnOff: chain_preset.amp_pedal.on_off,
-                    dict_Parameters: chain_preset.amp_pedal.parameters() }, 
+                    dict_Parameters: amp_parameters }, 
                     { dict_Name: chain_preset.mod_pedal.effect_name,
                     dict_OnOff: chain_preset.mod_pedal.on_off,
-                    dict_Parameters: chain_preset.mod_pedal.parameters() }, 
+                    dict_Parameters: mod_parameters }, 
                     { dict_Name: chain_preset.delay_pedal.effect_name,
                     dict_OnOff: chain_preset.delay_pedal.on_off,
-                    dict_Parameters: chain_preset.delay_pedal.parameters() }, 
+                    dict_Parameters: delay_parameters }, 
                     { dict_Name: dict_bias_reverb,
                     dict_OnOff: chain_preset.reverb_pedal.on_off,
-                    dict_Parameters: chain_preset.reverb_pedal.parameters() }],
+                    dict_Parameters: reverb_parameters }],
                      "End Filler": 0xeb}
 
         preset = self.msg.create_preset(preset_json)
@@ -152,46 +160,48 @@ class SparkAmpServer:
         self.bt_sock.send(change_user_preset[0])      
         
         # Update the config
-        self.config.gate[dict_Parameters] = chain_preset.gate_pedal.parameters()
+        self.config.gate[dict_Parameters] = gate_parameters
         self.config.gate[dict_visible] = chain_preset.gate_pedal.visible
         self.config.gate[dict_OnOff] = chain_preset.gate_pedal.on_off
         self.config.gate[dict_db_id] = chain_preset.gate_pedal.id
         
         self.config.comp[dict_Name] = chain_preset.comp_pedal.effect_name
-        self.config.comp[dict_Parameters] = chain_preset.comp_pedal.parameters()
+        self.config.comp[dict_Parameters] = comp_parameters
         self.config.comp[dict_visible] = chain_preset.comp_pedal.visible
         self.config.comp[dict_OnOff] = chain_preset.comp_pedal.on_off
         self.config.comp[dict_db_id] = chain_preset.comp_pedal.id
 
         self.config.drive[dict_Name] = chain_preset.drive_pedal.effect_name
-        self.config.drive[dict_Parameters] = chain_preset.drive_pedal.parameters()
+        self.config.drive[dict_Parameters] = drive_parameters
         self.config.drive[dict_visible] = chain_preset.drive_pedal.visible
         self.config.drive[dict_OnOff] = chain_preset.drive_pedal.on_off
         self.config.drive[dict_db_id] = chain_preset.drive_pedal.id
 
         self.config.amp[dict_Name] = chain_preset.amp_pedal.effect_name
-        self.config.amp[dict_Parameters] = chain_preset.amp_pedal.parameters()
+        self.config.amp[dict_Parameters] = amp_parameters
         self.config.amp[dict_visible] = chain_preset.amp_pedal.visible
         self.config.amp[dict_OnOff] = chain_preset.amp_pedal.on_off
         self.config.amp[dict_db_id] = chain_preset.amp_pedal.id
 
         self.config.modulation[dict_Name] = chain_preset.mod_pedal.effect_name
-        self.config.modulation[dict_Parameters] = chain_preset.mod_pedal.parameters()
+        self.config.modulation[dict_Parameters] = mod_parameters
         self.config.modulation[dict_visible] = chain_preset.mod_pedal.visible
         self.config.modulation[dict_OnOff] = chain_preset.mod_pedal.on_off
         self.config.modulation[dict_db_id] = chain_preset.mod_pedal.id
 
         self.config.delay[dict_Name] = chain_preset.delay_pedal.effect_name
-        self.config.delay[dict_Parameters] = chain_preset.delay_pedal.parameters()
+        self.config.delay[dict_Parameters] = delay_parameters
         self.config.delay[dict_visible] = chain_preset.delay_pedal.visible
         self.config.delay[dict_OnOff] = chain_preset.delay_pedal.on_off
         self.config.delay[dict_db_id] = chain_preset.delay_pedal.id
 
         self.config.reverb[dict_Name] = chain_preset.reverb_pedal.effect_name
-        self.config.reverb[dict_Parameters] = chain_preset.reverb_pedal.parameters()
+        self.config.reverb[dict_Parameters] = reverb_parameters
         self.config.reverb[dict_visible] = chain_preset.reverb_pedal.visible
         self.config.reverb[dict_OnOff] = chain_preset.reverb_pedal.on_off
         self.config.reverb[dict_db_id] = chain_preset.reverb_pedal.id
+
+        self.config.chain_preset_id = chain_preset.id        
 
     
     def turn_effect_onoff(self, effect, state):
