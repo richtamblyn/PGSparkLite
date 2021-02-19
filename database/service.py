@@ -16,7 +16,10 @@ def create_update_chainpreset(config, system_preset=False):
         preset = ChainPreset()
 
     preset.name = config.presetName
-    preset.system_preset_id = config.preset
+
+    if system_preset:
+        preset.system_preset_id = config.preset
+
     preset.uuid = config.uuid
     preset.bpm = config.bpm
     preset.gate_pedal = create_update_pedalparameter(
@@ -76,7 +79,7 @@ def create_update_pedalpreset(preset_name, preset_id, effect):
     record.pedal_parameter.pedal_preset_id = record.id
     record.pedal_parameter.save()
 
-    return record.id
+    return record
 
 
 def get_chain_presets():

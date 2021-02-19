@@ -16,25 +16,25 @@
 </div>
 
 <div id="GATE_container" class="effect_container {% if config.gate["OnOff"] == 'Off' %} grayscale {% endif %}">
-    {{ effect_container("GATE", config.gate, config.gates, False, pedal_presets["GATE"], 0) }}
+    {{ effect_container("GATE", config.gate, config.gates, False, pedal_presets["GATE"]) }}
 </div>
  <div id="COMP_container" class="effect_container {% if config.comp["OnOff"] == 'Off' %} grayscale {% endif %}">
-    {{ effect_container("COMP", config.comp, config.comps, True, pedal_presets["COMP"], 0) }}
+    {{ effect_container("COMP", config.comp, config.comps, True, pedal_presets["COMP"]) }}
 </div>
 <div id="DRIVE_container" class="effect_container {% if config.drive["OnOff"] == 'Off' %} grayscale {% endif %}">
-    {{ effect_container("DRIVE", config.drive, config.drives, True, pedal_presets["DRIVE"], 0) }}
+    {{ effect_container("DRIVE", config.drive, config.drives, True, pedal_presets["DRIVE"]) }}
 </div>
 <div id="AMP_container" class="effect_container {% if config.amp["OnOff"] == 'Off' %} grayscale {% endif %}">
-    {{ effect_container("AMP", config.amp, config.amps, True, pedal_presets["AMP"], 0) }}
+    {{ effect_container("AMP", config.amp, config.amps, True, pedal_presets["AMP"]) }}
 </div>
 <div id="MOD_container" class="effect_container {% if config.modulation["OnOff"] == 'Off' %} grayscale {% endif %}">
-    {{ effect_container("MOD", config.modulation, config.modulations, True, pedal_presets["MOD"], 0) }}
+    {{ effect_container("MOD", config.modulation, config.modulations, True, pedal_presets["MOD"]) }}
 </div>
 <div id="DELAY_container" class="effect_container {% if config.delay["OnOff"] == 'Off' %} grayscale {% endif %}">
-    {{ effect_container("DELAY", config.delay, config.delays, True, pedal_presets["DELAY"], 0) }}
+    {{ effect_container("DELAY", config.delay, config.delays, True, pedal_presets["DELAY"]) }}
 </div>
 <div id="REVERB_container" class="effect_container {% if config.reverb["OnOff"] == 'Off' %} grayscale {% endif %}">
-    {{ effect_container("REVERB", config.reverb, config.reverbs, True, pedal_presets["REVERB"], 0) }}
+    {{ effect_container("REVERB", config.reverb, config.reverbs, True, pedal_presets["REVERB"]) }}
 </div>
 <div class="eject">
     <button class="eject_button" id="eject">Eject</button>

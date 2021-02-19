@@ -245,15 +245,17 @@ $(document).ready(function () {
             return;
         }
 
-        var effecttype = $(this).data('type');
+        var effect_type = $(this).data('type');
+        var effect_name = $(this).data('id');
         var data = {
-            'effect_name': $(this).data('id'),
-            'effect_type': effecttype,
+            'effect_name': effect_name,
+            'effect_type': effect_type,
             'preset_id': preset_id,
         };
 
         $.post('/changepedalpreset', data, function (result) {
-            $('#' + effecttype + '_container').html(result);            
+            $('#' + effect_type + '_container').html(result.html);            
+            window.changeOnOffState(result.on_off, effect_name, effect_type);
         });
     })
 });

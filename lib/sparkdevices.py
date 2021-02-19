@@ -16,9 +16,10 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_delay, dict_drive, dict_effect, dict_gate,
                         dict_mod, dict_Name, dict_name, dict_Off, dict_On,
                         dict_OnOff, dict_parameters, dict_Parameters,
-                        dict_Pedals, dict_Preset_Number, dict_reverb,
-                        dict_show_hide_pedal, dict_switch_parameter,
-                        dict_turn_on_off, dict_UUID, dict_visible)
+                        dict_Pedals, dict_preset_id, dict_Preset_Number,
+                        dict_reverb, dict_show_hide_pedal,
+                        dict_switch_parameter, dict_turn_on_off, dict_UUID,
+                        dict_visible)
 
 
 class SparkDevices:
@@ -263,19 +264,26 @@ class SparkDevices:
 
         if action == dict_change_pedal_preset:
             if effect == dict_gate:
-                self.gate[dict_db_id] = value
+                self.gate[dict_preset_id] = value[0]
+                self.gate[dict_db_id] = value[1]
             elif effect == dict_comp:
-                self.comp[dict_db_id] = value
+                self.comp[dict_preset_id] = value[0]
+                self.comp[dict_db_id] = value[1]
             elif effect == dict_drive:
-                self.drive[dict_db_id] = value
+                self.drive[dict_preset_id] = value[0]
+                self.drive[dict_db_id] = value[1]
             elif effect == dict_amp:
-                self.amp[dict_db_id] = value
+                self.amp[dict_preset_id] = value[0]
+                self.amp[dict_db_id] = value[1]
             elif effect == dict_mod:
-                self.modulation[dict_db_id] = value
+                self.modulation[dict_preset_id] = value[0]
+                self.modulation[dict_db_id] = value[1]
             elif effect == dict_delay:
-                self.delay[dict_db_id] = value
+                self.delay[dict_preset_id] = value[0]
+                self.delay[dict_db_id] = value[1]
             elif effect == dict_reverb:
-                self.reverb[dict_db_id] = value
+                self.reverb[dict_preset_id] = value[0]
+                self.reverb[dict_db_id] = value[1]
             return
 
         if action == dict_turn_on_off:

@@ -1,6 +1,6 @@
 import threading
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, redirect, render_template, request, url_for, jsonify
 from flask_socketio import SocketIO
 
 from database.service import (create_update_chainpreset,
@@ -19,7 +19,7 @@ from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_Name, dict_new_effect, dict_old_effect,
                         dict_parameter, dict_preset, dict_preset_id,
                         dict_show_hide_pedal, dict_state, dict_turn_on_off,
-                        dict_value, dict_visible)
+                        dict_value, dict_visible, dict_OnOff)
 from lib.messages import msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -94,12 +94,15 @@ def change_pedal_preset():
     preset = get_pedal_preset_by_id(preset_id)
 
     update_pedal_state(preset.pedal_parameter, effect_type)
+    amp.config.update_config(effect_type, dict_change_pedal_preset, 
+                            (preset_id, preset.pedal_parameter.id))
     
     selector = True
     if preset.pedal_parameter.effect_name == dict_bias_noisegate_safe:
         selector = False
 
-    return render_effect(effect_type, selector, preset_id)
+    return jsonify(html = render_effect(effect_type, selector, preset_id),
+                on_off = preset.pedal_parameter.on_off)
 
 
 @app.route('/deletechainpreset', methods=['POST'])
@@ -192,8 +195,8 @@ def update_pedal_preset():
 
     effect = amp.config.get_current_effect_by_type(effect_type)
 
-    id = create_update_pedalpreset(preset_name, preset_id, effect)
-    amp.config.update_config(effect_type, dict_change_pedal_preset, id)
+    preset = create_update_pedalpreset(preset_name, preset_id, effect)    
+    amp.config.update_config(effect_type, dict_change_pedal_preset, (preset.id,preset.pedal_parameter.id))
 
     return render_template('effect_footer.html',
                            effect_name=effect[dict_Name],
@@ -300,8 +303,7 @@ def update_pedal_state(pedal_parameter, effect_type):
 
     amp.turn_effect_onoff(amp.get_amp_effect_name(pedal_parameter.effect_name), pedal_parameter.on_off)
     amp.config.update_config(pedal_parameter.effect_name, dict_turn_on_off, pedal_parameter.on_off)
-    amp.config.last_call = dict_turn_on_off
-    amp.config.update_config(effect_type, dict_change_pedal_preset, pedal_parameter.id)
+    amp.config.last_call = dict_turn_on_off    
 
 if __name__ == '__main__':
     socketio.run(app)

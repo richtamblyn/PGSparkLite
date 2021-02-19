@@ -75,7 +75,7 @@
 {% endfor %}
 {% endmacro %}
 
-{% macro effect_container(type, effect, effect_list, selector, presets, preset_selected) %}
+{% macro effect_container(type, effect, effect_list, selector, presets) %}
 {% set effect_config = effect_list[effect["Name"]] %}
 {% set topper = effect_config["topper"] %}
 {% set badge = effect_config["badge"] %}
@@ -85,6 +85,7 @@
 {% set name = effect["Name"] %}
 {% set onoff = effect["OnOff"] %}
 {% set visible = effect["visible"] %}
+{% set preset_id = effect["preset_id"] %}
 <div class="effect_header">
     <div class="effect_title">
         <div id="{{ type }}_showhidecontent" class="showhidecontent {% if visible %} collapse_open {% else %} collapse_closed {% endif %}" data-type="{{ type }}" data-id="{{ name }}"></div> {{ type }}
@@ -110,7 +111,7 @@
         {{ effect_parameters(name, effect_config["parameters"], effect["Parameters"], knob)}}
     </div>    
     <div id="{{ type }}_footer" class="effect_footer">
-        {{ effect_footer(name, type, presets, preset_selected)}}
+        {{ effect_footer(name, type, presets, preset_id)}}
     </div>
 </div>
 {% endmacro %}
