@@ -174,15 +174,14 @@ def update_chain_preset():
     if preset_id == 0:
         amp.config.initialise_chain_preset(str(request.form[dict_name]))            
 
-    id = create_update_chainpreset(amp.config)    
+    preset = create_update_chainpreset(amp.config)    
     chain_presets = get_chain_presets()
-
-    preset = get_chain_preset_by_id(id)
+    
     amp.config.update_chain_preset_database_ids(preset)
 
     return render_template('chain_preset_selector.html',
                            chain_presets=chain_presets,
-                           preset_selected=id)
+                           preset_selected=preset.id)
 
 
 @app.route('/updatepedalpreset', methods=['POST'])
