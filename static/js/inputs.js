@@ -12,6 +12,13 @@ function changeOnOffState(state, effect, type) {
   }
 }
 
+function notify_user(message) {
+  alerty.toasts(message, {
+    bgColor: "#ccc",
+    fontColor: "#000",
+  });
+}
+
 function showHideContent(effect_type, effect, visible) {
   if (visible) {
     $("#" + effect + "_content").slideDown("slow");
@@ -33,14 +40,7 @@ function knobChangeEventHandler(knob) {
   socket.emit("change_effect_parameter", data);
 }
 
-function updateChainPreset(preset_id, namerequired) {
-  if (namerequired) {
-    var name = prompt("Please enter a name for new preset");
-    if (name == null) {
-      return;
-    }
-  }
-
+function updateChainPreset(preset_id, name) {
   var data = {
     name: name,
     preset_id: preset_id,
@@ -48,18 +48,11 @@ function updateChainPreset(preset_id, namerequired) {
 
   $.post("/chainpreset/update", data, function (result) {
     $("#chain_preset_container").html(result);
-    alert("The preset was saved successfully.");
+    notify_user("The chain preset was saved successfully.");
   });
 }
 
-function updatePedalPreset(effecttype, preset_id, namerequired) {
-  if (namerequired) {
-    var name = prompt("Please enter a name for new preset");
-    if (name == null) {
-      return;
-    }
-  }
-
+function updatePedalPreset(effecttype, preset_id, name) {
   var data = {
     effect_type: effecttype,
     name: name,
@@ -68,7 +61,7 @@ function updatePedalPreset(effecttype, preset_id, namerequired) {
 
   $.post("/pedalpreset/update", data, function (result) {
     $("#" + effecttype + "_footer").html(result);
-    alert("The preset was saved successfully.");
+    notify_user("The pedal preset was saved successfully.");
   });
 }
 
@@ -167,16 +160,21 @@ $(document).ready(function () {
 
   // Chain Presets
   $(document).on("click", "#new_chain_preset", function () {
-    updateChainPreset(0, true);
+    alerty.prompt(
+      "Please enter a name for the chain preset.",
+      { inputType: "text", inputPlaceholder: "New chain preset name" },
+      function (name) {
+        updateChainPreset(0, name);
+      }
+    );
   });
 
   $(document).on("click", "#save_chain_preset", function () {
     var preset_id = $("#chain_preset_selector").val();
-    var name_required = false;
     if (preset_id == 0) {
-      name_required = true;
+      return;
     }
-    updateChainPreset(preset_id, name_required);
+    updateChainPreset(preset_id, null);
   });
 
   $(document).on("click", "#delete_chain_preset", function () {
@@ -185,16 +183,24 @@ $(document).ready(function () {
       return;
     }
 
-    if (confirm("Are you sure you want to delete this preset?")) {
-      var data = {
-        preset_id: preset_id,
-      };
+    alerty.confirm(
+      "Are you sure you want to delete this preset?",
+      {
+        title: "Confirm Chain Preset Delete",
+        cancelLabel: "No",
+        okLabel: "Yes",
+      },
+      function () {
+        var data = {
+          preset_id: preset_id,
+        };
 
-      $.post("/chainpreset/delete", data, function (result) {
-        $("#chain_preset_container").html(result);
-        alert("The preset was deleted successfully.");
-      });
-    }
+        $.post("/chainpreset/delete", data, function (result) {
+          $("#chain_preset_container").html(result);
+          notify_user("The chain preset was deleted successfully.");
+        });
+      }
+    );
   });
 
   $(document).on("change", "#chain_preset_selector", function () {
@@ -210,17 +216,22 @@ $(document).ready(function () {
   // Pedal Presets
 
   $(document).on("click", ".new_pedal_preset", function () {
-    updatePedalPreset($(this).data("type"), 0, true);
+    alerty.prompt(
+      "Please enter a name for the pedal preset.",
+      { inputType: "text", inputPlaceholder: "New pedal preset name" },
+      function (name) {
+        updatePedalPreset($(this).data("type"), 0, name);
+      }
+    );
   });
 
   $(document).on("click", ".save_pedal_preset", function () {
     var effecttype = $(this).data("type");
     var preset_id = $("#" + effecttype + "_pedal_preset_selector").val();
-    var name_required = false;
     if (preset_id == 0) {
-      name_required = true;
+      return;
     }
-    updatePedalPreset(effecttype, preset_id, name_required);
+    updatePedalPreset(effecttype, preset_id, null);
   });
 
   $(document).on("click", ".delete_pedal_preset", function () {
@@ -238,7 +249,7 @@ $(document).ready(function () {
 
       $.post("/pedalpreset/delete", data, function (result) {
         $("#" + effecttype + "_footer").html(result);
-        alert("The preset was deleted successfully.");
+        notify_user("The pedal preset was deleted successfully.");
       });
     }
   });
