@@ -7,8 +7,7 @@ from database.service import (create_update_chainpreset,
                               create_update_pedalpreset, database,
                               get_chain_preset_by_id, get_chain_presets,
                               get_pedal_preset_by_id, get_pedal_presets,
-                              get_pedal_presets_by_effect_name,
-                              get_system_preset_by_id, sync_system_preset,
+                              get_pedal_presets_by_effect_name,                              
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
 from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
@@ -148,10 +147,7 @@ def index():
         return redirect(url_for('connect'))
 
     if request.method == 'GET':
-        preset_id = 0
-        sync_system_preset(amp.config)
-        amp.config.update_chain_preset_database_ids(
-            get_system_preset_by_id(amp.config.preset))
+        preset_id = 0        
     else:
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)

@@ -7,13 +7,11 @@ from database.model import ChainPreset, PedalParameter, PedalPreset, database
 
 
 def _cleanup_orphan_pedal(old_pedal, new_pedal):
-    if old_pedal.is_system_preset:
-        return
-    elif old_pedal.pedal_preset_id == None and new_pedal[dict_preset_id] != None:
+    if old_pedal.pedal_preset_id == None and new_pedal[dict_preset_id] != None:
         old_pedal.delete_instance()
 
 
-def create_update_chainpreset(config, system_preset=False):
+def create_update_chainpreset(config):
     update = False
 
     if config.chain_preset_id != 0:
@@ -26,10 +24,6 @@ def create_update_chainpreset(config, system_preset=False):
         preset = ChainPreset()
 
     preset.name = config.presetName
-
-    if system_preset:
-        preset.system_preset_id = config.preset
-
     preset.uuid = config.uuid
     preset.bpm = config.bpm
 
@@ -43,40 +37,39 @@ def create_update_chainpreset(config, system_preset=False):
         _cleanup_orphan_pedal(preset.reverb_pedal, config.reverb)
 
     preset.gate_pedal = create_update_pedalparameter(
-        config.gate, chain_preset=True, system_preset=system_preset)
+        config.gate, chain_preset=True)
 
     preset.comp_pedal = create_update_pedalparameter(
-        config.comp, chain_preset=True, system_preset=system_preset)
+        config.comp, chain_preset=True)
 
     preset.drive_pedal = create_update_pedalparameter(
-        config.drive, chain_preset=True, system_preset=system_preset)
+        config.drive, chain_preset=True)
 
     preset.amp_pedal = create_update_pedalparameter(
-        config.amp, chain_preset=True, system_preset=system_preset)
+        config.amp, chain_preset=True)
 
     preset.mod_pedal = create_update_pedalparameter(
-        config.modulation, chain_preset=True, system_preset=system_preset)
+        config.modulation, chain_preset=True)
 
     preset.delay_pedal = create_update_pedalparameter(
-        config.delay, chain_preset=True, system_preset=system_preset)
+        config.delay, chain_preset=True)
 
     preset.reverb_pedal = create_update_pedalparameter(
-        config.reverb, chain_preset=True, system_preset=system_preset)
+        config.reverb, chain_preset=True)
 
     preset.save()
 
     return preset
 
 
-def create_update_pedalparameter(pedal, chain_preset=False, system_preset=False):
+def create_update_pedalparameter(pedal, chain_preset=False):
     record = PedalParameter()
-    record.is_system_preset = system_preset
 
     if pedal[dict_db_id] != 0:
         try:
             record = PedalParameter.get(PedalParameter.id == pedal[dict_db_id])
             if chain_preset:
-                if record.is_system_preset or record.pedal_preset_id != None and update_pedalparameter(pedal, record, False):
+                if record.pedal_preset_id != None and update_pedalparameter(pedal, record, False):
                     record = PedalParameter()
         except DoesNotExist:
             pass
@@ -110,7 +103,7 @@ def create_update_pedalpreset(preset_name, preset_id, effect):
 
 
 def get_chain_presets():
-    return ChainPreset.select().where(ChainPreset.system_preset_id == None)
+    return ChainPreset.select()
 
 
 def get_chain_preset_by_id(id):
@@ -142,7 +135,7 @@ def get_pedal_presets(config):
 
 
 def get_pedal_presets_by_effect_name(name):
-    return (PedalPreset.select().where(PedalPreset.effect_name == name).order_by(+PedalPreset.effect_name))
+    return (PedalPreset.select().where(PedalPreset.effect_name == name))
 
 
 def get_pedal_preset_by_id(id):
@@ -150,29 +143,6 @@ def get_pedal_preset_by_id(id):
         return PedalPreset.get(PedalPreset.id == id)
     except DoesNotExist:
         return None
-
-
-def get_system_preset_by_id(id):
-    try:
-        return ChainPreset.get(ChainPreset.system_preset_id == id)
-    except DoesNotExist:
-        return None
-
-
-def sync_system_preset(config):
-    preset = get_system_preset_by_id(config.preset)
-
-    if preset == None:
-        create_update_chainpreset(config, system_preset=True)
-        return
-
-    update_pedalparameter(config.gate, preset.gate_pedal)
-    update_pedalparameter(config.comp, preset.comp_pedal)
-    update_pedalparameter(config.drive, preset.drive_pedal)
-    update_pedalparameter(config.amp, preset.amp_pedal)
-    update_pedalparameter(config.modulation, preset.mod_pedal)
-    update_pedalparameter(config.delay, preset.delay_pedal)
-    update_pedalparameter(config.reverb, preset.reverb_pedal)
 
 
 def update_pedalparameter(pedal, pedal_parameter, apply_changes=True):

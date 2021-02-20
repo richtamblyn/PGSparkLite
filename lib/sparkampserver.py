@@ -255,6 +255,10 @@ class SparkAmpServer:
 
         # Parse inbound preset changes
         if dict_Preset_Number in data:
+            if self.config != None and self.config.last_call == dict_turn_on_off:
+                self.config.last_call = ''
+                return
+
             if self.config == None or self.config.preset != data[
                     dict_Preset_Number]:
 

@@ -1,5 +1,3 @@
-import json
-
 from peewee import (BooleanField, CharField, ForeignKeyField, IntegerField,
                     Model, SqliteDatabase)
 
@@ -18,8 +16,7 @@ class PedalParameter(BaseModel):
     on_off = CharField()
     _parameters = CharField()
     visible = BooleanField(default=True)
-    pedal_preset_id = IntegerField(null=True)
-    is_system_preset = BooleanField(default=False)
+    pedal_preset_id = IntegerField(null=True)    
 
     def parameters(self):
         return [float(param) for param in self._parameters.split(',')]
@@ -38,8 +35,7 @@ class PedalPreset(BaseModel):
 class ChainPreset(BaseModel):
     name = CharField()
     uuid = CharField()
-    bpm = IntegerField(default=120)
-    system_preset_id = IntegerField(null=True, unique=True)
+    bpm = IntegerField(default=120)    
     gate_pedal = ForeignKeyField(PedalParameter)
     comp_pedal = ForeignKeyField(PedalParameter)
     drive_pedal = ForeignKeyField(PedalParameter)

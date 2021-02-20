@@ -86,6 +86,7 @@ class SparkDevices:
     def initialise_effect(self, effect_id, effect, onoff, parameters=None):
         effect[dict_Name] = effect_id
         effect[dict_OnOff] = onoff
+        effect[dict_preset_id] = 0
         effect[dict_db_id] = 0
         effect[dict_visible] = True
 
@@ -102,6 +103,27 @@ class SparkDevices:
         self.chain_preset_id = 0
         self.presetName = name
         self.preset = None
+        
+        if self.gate[dict_preset_id] == 0 or self.gate[dict_preset_id] == None:
+            self.gate[dict_db_id] = 0
+
+        if self.comp[dict_preset_id] == 0 or self.comp[dict_preset_id] == None:
+            self.comp[dict_db_id] = 0
+
+        if self.drive[dict_preset_id] == 0 or self.drive[dict_preset_id] == None:
+            self.drive[dict_db_id] = 0
+
+        if self.amp[dict_preset_id] == 0 or self.amp[dict_preset_id] == None:
+            self.amp[dict_db_id] = 0
+
+        if self.modulation[dict_preset_id] == 0 or self.modulation[dict_preset_id] == None:
+            self.modulation[dict_db_id] = 0
+
+        if self.delay[dict_preset_id] == 0 or self.delay[dict_preset_id] == None:
+            self.delay[dict_db_id] = 0
+
+        if self.reverb[dict_preset_id] == 0 or self.reverb[dict_preset_id] == None:
+            self.reverb[dict_db_id] = 0
 
     def load(self):
         for configDir in self.configDirs:
@@ -175,18 +197,25 @@ class SparkDevices:
         # Initialise database ids and visibility
         self.gate[dict_db_id] = 0
         self.gate[dict_visible] = True
+        self.gate[dict_preset_id] = 0
         self.comp[dict_db_id] = 0
         self.comp[dict_visible] = True
+        self.comp[dict_preset_id] = 0
         self.amp[dict_db_id] = 0
         self.amp[dict_visible] = True
+        self.amp[dict_preset_id] = 0
         self.drive[dict_db_id] = 0
         self.drive[dict_visible] = True
+        self.drive[dict_preset_id] = 0
         self.modulation[dict_db_id] = 0
         self.modulation[dict_visible] = True
+        self.modulation[dict_preset_id] = 0
         self.delay[dict_db_id] = 0
         self.delay[dict_visible] = True
+        self.delay[dict_preset_id] = 0
         self.reverb[dict_db_id] = 0
         self.reverb[dict_visible] = True
+        self.reverb[dict_preset_id] = 0
 
     def reset_static(self):
         self.amps = {}
@@ -345,8 +374,7 @@ class SparkDevices:
         if chainPreset == None:
             return
 
-        self.chain_preset_id = chainPreset.id
-        self.preset = chainPreset.system_preset_id
+        self.chain_preset_id = chainPreset.id        
         self.presetName = chainPreset.name
         self.gate[dict_db_id] = chainPreset.gate_pedal.id
         self.gate[dict_visible] = chainPreset.gate_pedal.visible
