@@ -14,20 +14,22 @@ function changeOnOffState(state, effect, type) {
 
 function notify_user(message) {
   alerty.toasts(message, {
-    bgColor: "#ccc",
-    fontColor: "#000",
+    bgColor: "green",
+    fontColor: "white",
   });
 }
 
 function showHideContent(effect_type, effect, visible) {
+  var chevron = $("#" + effect_type + "_showhidecontent");
+  var content = $("#" + effect + "_content");
   if (visible) {
-    $("#" + effect + "_content").slideDown("slow");
-    $("#" + effect_type + "_showhidecontent").removeClass("collapse_closed");
-    $("#" + effect_type + "_showhidecontent").addClass("collapse_open");
+    content.slideDown("slow");
+    chevron.removeClass("collapse_closed");
+    chevron.addClass("collapse_open");
   } else {
-    $("#" + effect + "_content").slideUp("slow");
-    $("#" + effect_type + "_showhidecontent").removeClass("collapse_open");
-    $("#" + effect_type + "_showhidecontent").addClass("collapse_closed");
+    content.slideUp("slow");
+    chevron.removeClass("collapse_open");
+    chevron.addClass("collapse_closed");
     visible = false;
   }
 }
@@ -164,7 +166,20 @@ $(document).ready(function () {
       "Please enter a name for the chain preset.",
       { inputType: "text", inputPlaceholder: "New chain preset name" },
       function (name) {
-        updateChainPreset(0, name);
+        if (name == null || name == "") {
+          alerty.alert(
+            "You must enter a name!",
+            {
+              title: "Error",
+              time: 3000,
+            },
+            function () {
+              return;
+            }
+          );
+        } else {
+          updateChainPreset(0, name);
+        }
       }
     );
   });
@@ -216,11 +231,25 @@ $(document).ready(function () {
   // Pedal Presets
 
   $(document).on("click", ".new_pedal_preset", function () {
+    var effect_type = $(this).data("type");
     alerty.prompt(
       "Please enter a name for the pedal preset.",
       { inputType: "text", inputPlaceholder: "New pedal preset name" },
       function (name) {
-        updatePedalPreset($(this).data("type"), 0, name);
+        if (name == null || name == "") {
+          alerty.alert(
+            "You must enter a name!",
+            {
+              title: "Error",
+              time: 3000,
+            },
+            function () {
+              return;
+            }
+          );
+        } else {
+          updatePedalPreset(effect_type, 0, name);
+        }
       }
     );
   });
