@@ -8,10 +8,8 @@
     <button id="preset_2" class="preset_button {% if config.preset == 2 %} selected {% endif %}" name="preset" value="2">3</button>
     <button id="preset_3" class="preset_button {% if config.preset == 3 %} selected {% endif %}" name="preset" value="3">4</button>
 
-    <div id="chain_preset_container">
-        <form id="chain_preset_form" action="/" method="POST">
-            {{ chain_preset_selector(chain_presets, preset_selected) }}
-        </form>        
+    <div id="chain_preset_container">        
+        {{ chain_preset_selector(chain_presets, preset_selected) }}        
     </div>
 </div>
 

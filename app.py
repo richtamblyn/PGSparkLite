@@ -1,24 +1,24 @@
 import threading
 
-from flask import Flask, redirect, render_template, request, url_for, jsonify
+from flask import Flask, jsonify, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 
 from database.service import (create_update_chainpreset,
                               create_update_pedalpreset, database,
                               get_chain_preset_by_id, get_chain_presets,
                               get_pedal_preset_by_id, get_pedal_presets,
-                              get_pedal_presets_by_effect_name,                              
+                              get_pedal_presets_by_effect_name,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
-from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
-                        dict_change_effect, dict_change_parameter,
-                        dict_change_pedal_preset, dict_connection_lost,
-                        dict_connection_message, dict_effect, dict_effect_type,
-                        dict_log_change_only, dict_message, dict_name,
-                        dict_Name, dict_new_effect, dict_old_effect,
-                        dict_parameter, dict_preset, dict_preset_id,
-                        dict_show_hide_pedal, dict_state, dict_turn_on_off,
-                        dict_value, dict_visible, dict_OnOff)
+from lib.common import (dict_apply_chain_preset, dict_bias_noisegate_safe,
+                        dict_bias_reverb, dict_change_effect,
+                        dict_change_parameter, dict_change_pedal_preset,
+                        dict_connection_lost, dict_connection_message,
+                        dict_effect, dict_effect_type, dict_log_change_only,
+                        dict_message, dict_name, dict_Name, dict_new_effect,
+                        dict_old_effect, dict_parameter, dict_preset,
+                        dict_preset_id, dict_show_hide_pedal, dict_state,
+                        dict_turn_on_off, dict_value, dict_visible)
 from lib.messages import msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -152,6 +152,7 @@ def index():
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
         amp.send_preset(preset)
+        amp.config.last_call = dict_apply_chain_preset
 
     return render_template('main.html',
                            config=amp.config,
