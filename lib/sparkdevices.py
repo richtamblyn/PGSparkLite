@@ -98,10 +98,10 @@ class SparkDevices:
 
         return effect
 
-    def initialise_chain_preset(self, name):        
+    def initialise_chain_preset(self, name):
         self.chain_preset_id = 0
         self.presetName = name
-        self.preset = None        
+        self.preset = None
 
     def load(self):
         for configDir in self.configDirs:
@@ -146,12 +146,12 @@ class SparkDevices:
         self.presetName = preset[dict_Name]
         self.uuid = preset[dict_UUID]
         self.bpm = preset[dict_BPM]
-        
+
         try:
             self.preset = preset[dict_Preset_Number]
         except:
             self.preset = None
-            
+
         self.gate = preset[dict_Pedals][0]
 
         # Fix the gate ID with an underscore
@@ -263,6 +263,7 @@ class SparkDevices:
             return
 
         if action == dict_change_pedal_preset:
+            # Value returned as a tuple
             if effect == dict_gate:
                 self.gate[dict_preset_id] = value[0]
                 self.gate[dict_db_id] = value[1]

@@ -10,6 +10,7 @@
 from ast import literal_eval
 from lib.common import dict_callback, dict_preset_corrupt, dict_connection_lost
 
+
 class SparkListener:
 
     def __init__(self, reader, comms, notifier):
@@ -18,30 +19,30 @@ class SparkListener:
         self.comms = comms
         self.notifier = notifier
 
-    def start(self):          
+    def start(self):
 
         self.listening = True
 
         while self.listening:
             try:
-                dat = self.comms.get_data()            
+                dat = self.comms.get_data()
                 self.reader.set_message(dat)
-                self.reader.read_message()                       
-            
+                self.reader.read_message()
+
                 if self.reader.python is None:
                     continue
-                
-                self.notifier.raise_event(dict_callback, data=literal_eval(self.reader.python))
-                
+
+                self.notifier.raise_event(
+                    dict_callback, data=literal_eval(self.reader.python))
+
             except AttributeError as att_err:
                 print(att_err)
                 self.notifier.raise_event(dict_preset_corrupt)
                 break
             except Exception as err:
                 print(err)
-                self.notifier.raise_event(dict_connection_lost)                
-                break        
+                self.notifier.raise_event(dict_connection_lost)
+                break
 
     def stop(self):
         self.listening = False
-        

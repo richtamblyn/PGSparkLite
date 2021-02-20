@@ -9,8 +9,8 @@ from database.model import ChainPreset, PedalParameter, PedalPreset, database
 def _cleanup_orphan_pedal(old_pedal, new_pedal):
     if old_pedal.is_system_preset:
         return
-    elif old_pedal.pedal_preset_id == None and new_pedal[dict_preset_id] != None:        
-        old_pedal.delete_instance()   
+    elif old_pedal.pedal_preset_id == None and new_pedal[dict_preset_id] != None:
+        old_pedal.delete_instance()
 
 
 def create_update_chainpreset(config, system_preset=False):

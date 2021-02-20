@@ -24,14 +24,15 @@ class PedalParameter(BaseModel):
     def parameters(self):
         return [float(param) for param in self._parameters.split(',')]
 
-    def store_parameters(self, parameters):        
-        self._parameters = ','.join(format(param, "1.4f") for param in parameters)
+    def store_parameters(self, parameters):
+        self._parameters = ','.join(format(param, "1.4f")
+                                    for param in parameters)
 
 
 class PedalPreset(BaseModel):
     name = CharField()
     pedal_parameter = ForeignKeyField(PedalParameter)
-    effect_name = CharField(index=True)    
+    effect_name = CharField(index=True)
 
 
 class ChainPreset(BaseModel):

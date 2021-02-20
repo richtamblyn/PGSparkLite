@@ -52,7 +52,7 @@ def _db_close(exc):
         database.close()
 
 
-@app.route('/changeeffect', methods=['POST'])
+@app.route('/effect/change', methods=['POST'])
 def change_effect():
     old_effect = request.form[dict_old_effect]
     new_effect = request.form[dict_new_effect]
@@ -60,7 +60,7 @@ def change_effect():
     log_change_only = request.form[dict_log_change_only]
 
     if log_change_only == 'false':
-        change_effect(old_effect, new_effect)        
+        change_effect(old_effect, new_effect)
 
     amp.config.update_config(old_effect, dict_change_effect, new_effect)
 
@@ -86,38 +86,38 @@ def connect():
         return 'ok'
 
 
-@app.route('/changepedalpreset', methods=['POST'])
+@app.route('/pedalpreset/change', methods=['POST'])
 def change_pedal_preset():
-    preset_id = int(request.form[dict_preset_id])    
+    preset_id = int(request.form[dict_preset_id])
     effect_type = str(request.form[dict_effect_type])
 
     preset = get_pedal_preset_by_id(preset_id)
 
-    update_pedal_state(preset.pedal_parameter, effect_type)
-    amp.config.update_config(effect_type, dict_change_pedal_preset, 
-                            (preset_id, preset.pedal_parameter.id))
-    
+    update_pedal_state(preset.pedal_parameter)
+    amp.config.update_config(effect_type, dict_change_pedal_preset,
+                             (preset_id, preset.pedal_parameter.id))
+
     selector = True
     if preset.pedal_parameter.effect_name == dict_bias_noisegate_safe:
         selector = False
 
-    return jsonify(html = render_effect(effect_type, selector, preset_id),
-                on_off = preset.pedal_parameter.on_off)
+    return jsonify(html=render_effect(effect_type, selector, preset_id),
+                   on_off=preset.pedal_parameter.on_off)
 
 
-@app.route('/deletechainpreset', methods=['POST'])
+@app.route('/chainpreset/delete', methods=['POST'])
 def delete_chain_preset():
     preset_id = int(request.form[dict_preset_id])
     if verify_delete_chain_preset(preset_id):
         chain_presets = get_chain_presets()
         return render_template('chain_preset_selector.html',
-                           chain_presets=chain_presets,
-                           preset_selected=0)
+                               chain_presets=chain_presets,
+                               preset_selected=0)
 
     return 'error'
 
 
-@app.route('/deletepedalpreset', methods=['POST'])
+@app.route('/pedalpreset/delete', methods=['POST'])
 def delete_pedal_preset():
     preset_id = int(request.form[dict_preset_id])
     preset = get_pedal_preset_by_id(preset_id)
@@ -131,30 +131,31 @@ def delete_pedal_preset():
                            preset_selected=0)
 
 
-@app.route('/effectfooter', methods=['POST'])
-def effect_footer():    
-    effect_name = request.form[dict_effect]    
+@app.route('/effect/footer', methods=['POST'])
+def effect_footer():
+    effect_name = request.form[dict_effect]
     return render_template('effect_footer.html',
-                            effect_name=effect_name,
-                            effect_type=request.form[dict_effect_type],
-                            presets=get_pedal_presets_by_effect_name(effect_name),
-                            preset_selected = int(request.form[dict_preset_id]))
+                           effect_name=effect_name,
+                           effect_type=request.form[dict_effect_type],
+                           presets=get_pedal_presets_by_effect_name(
+                               effect_name),
+                           preset_selected=int(request.form[dict_preset_id]))
 
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/', methods=['GET', 'POST'])
 def index():
     if amp.connected == False:
         return redirect(url_for('connect'))
 
     if request.method == 'GET':
-        preset_id = 0        
-        sync_system_preset(amp.config)        
+        preset_id = 0
+        sync_system_preset(amp.config)
         amp.config.update_chain_preset_database_ids(
-            get_system_preset_by_id(amp.config.preset))        
+            get_system_preset_by_id(amp.config.preset))
     else:
         preset_id = int(request.form[dict_preset_id])
-        preset = get_chain_preset_by_id(preset_id)        
-        amp.send_preset(preset)                
+        preset = get_chain_preset_by_id(preset_id)
+        amp.send_preset(preset)
 
     return render_template('main.html',
                            config=amp.config,
@@ -168,15 +169,15 @@ def static_file(path):
     return app.send_static_file(path)
 
 
-@app.route('/updatechainpreset', methods=['POST'])
+@app.route('/chainpreset/update', methods=['POST'])
 def update_chain_preset():
     preset_id = int(request.form[dict_preset_id])
     if preset_id == 0:
-        amp.config.initialise_chain_preset(str(request.form[dict_name]))            
+        amp.config.initialise_chain_preset(str(request.form[dict_name]))
 
-    preset = create_update_chainpreset(amp.config)    
+    preset = create_update_chainpreset(amp.config)
     chain_presets = get_chain_presets()
-    
+
     amp.config.update_chain_preset_database_ids(preset)
 
     return render_template('chain_preset_selector.html',
@@ -184,7 +185,7 @@ def update_chain_preset():
                            preset_selected=preset.id)
 
 
-@app.route('/updatepedalpreset', methods=['POST'])
+@app.route('/pedalpreset/update', methods=['POST'])
 def update_pedal_preset():
     preset_id = int(request.form[dict_preset_id])
     effect_type = str(request.form[dict_effect_type])
@@ -194,29 +195,20 @@ def update_pedal_preset():
 
     effect = amp.config.get_current_effect_by_type(effect_type)
 
-    preset = create_update_pedalpreset(preset_name, preset_id, effect)    
-    amp.config.update_config(effect_type, dict_change_pedal_preset, (preset.id,preset.pedal_parameter.id))
+    preset = create_update_pedalpreset(preset_name, preset_id, effect)
+    amp.config.update_config(
+        effect_type, dict_change_pedal_preset, (preset.id, preset.pedal_parameter.id))
 
     return render_template('effect_footer.html',
                            effect_name=effect[dict_Name],
                            effect_type=effect_type,
                            presets=get_pedal_presets_by_effect_name(
                                effect[dict_Name]),
-                           preset_selected=id)
+                           preset_selected=preset.id)
 
 ###########################
 # SocketIO EventListeners
 ###########################
-
-@socketio.event
-def change_chain_preset(data):
-    preset_id = int(data[dict_preset_id])
-    preset = get_chain_preset_by_id(preset_id)
-    if preset == None:
-        return
-
-    amp.load_chain_preset(preset)
-    socketio.emit('done-loading',{dict_state:True})
 
 
 @socketio.event
@@ -267,6 +259,7 @@ def reset_config():
 # Utility Functions
 ####################
 
+
 def change_effect(old_effect, new_effect):
     if old_effect.isdigit():
         # Changing Reverb just requires change of value on parameter 6
@@ -274,7 +267,7 @@ def change_effect(old_effect, new_effect):
                                     float('0.' + new_effect))
     else:
         amp.change_effect(amp.get_amp_effect_name(old_effect),
-                            amp.get_amp_effect_name(new_effect))
+                          amp.get_amp_effect_name(new_effect))
 
     # Prevent loop when changing amp remotely and receiving update from amp
     amp.config.last_call = dict_change_effect
@@ -293,16 +286,22 @@ def render_effect(effect_type, selector, preset_selected=0):
                            presets=presets,
                            preset_selected=preset_selected)
 
-def update_pedal_state(pedal_parameter, effect_type):
+
+def update_pedal_state(pedal_parameter):
     parameters = pedal_parameter.parameters()
     for parameter in range(len(parameters)):
         value = float(parameters[parameter])
-        amp.change_effect_parameter(amp.get_amp_effect_name(pedal_parameter.effect_name), parameter, value)
-        amp.config.update_config(pedal_parameter.effect_name, dict_change_parameter, value, parameter)   
+        amp.change_effect_parameter(amp.get_amp_effect_name(
+            pedal_parameter.effect_name), parameter, value)
+        amp.config.update_config(
+            pedal_parameter.effect_name, dict_change_parameter, value, parameter)
 
-    amp.turn_effect_onoff(amp.get_amp_effect_name(pedal_parameter.effect_name), pedal_parameter.on_off)
-    amp.config.update_config(pedal_parameter.effect_name, dict_turn_on_off, pedal_parameter.on_off)
-    amp.config.last_call = dict_turn_on_off    
+    amp.turn_effect_onoff(amp.get_amp_effect_name(
+        pedal_parameter.effect_name), pedal_parameter.on_off)
+    amp.config.update_config(pedal_parameter.effect_name,
+                             dict_turn_on_off, pedal_parameter.on_off)
+    amp.config.last_call = dict_turn_on_off
+
 
 if __name__ == '__main__':
     socketio.run(app)
