@@ -241,17 +241,25 @@ $(document).ready(function () {
       return;
     }
 
-    if (confirm("Are you sure you want to delete this preset?")) {
-      var data = {
-        effect_type: effecttype,
-        preset_id: preset_id,
-      };
+    alerty.confirm(
+      "Are you sure you want to delete this preset?",
+      {
+        title: "Confirm Pedal Preset Delete",
+        cancelLabel: "No",
+        okLabel: "Yes",
+      },
+      function () {
+        var data = {
+          effect_type: effecttype,
+          preset_id: preset_id,
+        };
 
-      $.post("/pedalpreset/delete", data, function (result) {
-        $("#" + effecttype + "_footer").html(result);
-        notify_user("The pedal preset was deleted successfully.");
-      });
-    }
+        $.post("/pedalpreset/delete", data, function (result) {
+          $("#" + effecttype + "_footer").html(result);
+          notify_user("The pedal preset was deleted successfully.");
+        });
+      }
+    );
   });
 
   $(document).on("change", ".pedal_preset_selector", function () {
