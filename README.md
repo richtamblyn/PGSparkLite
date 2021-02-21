@@ -31,4 +31,3 @@ This project uses CDN servers to retrieve JQuery 3.5.1 and SocketIO 3.0.4 JavaSc
 
 ## Future Development Ideas
 - Storage of modified Amp presets on the amp and also in re-callable format via the web interface
-- Implement light-weight backend database (SQLite) to support storage of presets for individual pedals.
