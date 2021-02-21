@@ -122,7 +122,7 @@ class SparkAmpServer:
         reverb_parameters = chain_preset.reverb_pedal.parameters()
 
         preset_json = {"Preset Number": [0x00, 0x7f],
-                       "UUID": "CDE99591-C05D-4AE0-9E34-EC4A81F3F84F",
+                       "UUID": chain_preset.uuid,
                        "Name": chain_preset.name,
                        "Version": "0.7",
                        "Description": chain_preset.name,
