@@ -10,7 +10,7 @@ from database.service import (create_update_chainpreset,
                               get_pedal_presets_by_effect_name,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
-from lib.common import (dict_apply_chain_preset, dict_bias_noisegate_safe,
+from lib.common import (dict_bias_noisegate_safe,
                         dict_bias_reverb, dict_change_effect,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_connection_lost, dict_connection_message,
@@ -151,8 +151,7 @@ def index():
     else:
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
-        amp.send_preset(preset)
-        amp.config.last_call = dict_apply_chain_preset
+        amp.send_preset(preset)        
 
     return render_template('main.html',
                            config=amp.config,

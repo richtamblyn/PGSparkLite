@@ -1,8 +1,6 @@
 # Dictionary helpers
 dict_AC_Boost = 'AC Boost'
 dict_AC_Boost_safe = 'AC_Boost'
-dict_apply_chain_preset = 'apply_chain_preset'
-dict_apply_chain_preset_pt2 = 'apply_chain_preset_pt2'
 dict_amp = 'AMP'
 dict_bias_noisegate_safe = 'bias_noisegate'
 dict_bias_noisegate = 'bias.noisegate'

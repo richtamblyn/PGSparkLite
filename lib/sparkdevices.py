@@ -8,6 +8,7 @@ import glob
 from ast import literal_eval
 from collections import OrderedDict
 from operator import getitem
+import uuid
 
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
@@ -102,7 +103,7 @@ class SparkDevices:
     def initialise_chain_preset(self, name):
         self.chain_preset_id = 0
         self.presetName = name
-        self.preset = None
+        self.uuid = str(uuid.uuid4())
         
         if self.gate[dict_preset_id] == 0 or self.gate[dict_preset_id] == None:
             self.gate[dict_db_id] = 0

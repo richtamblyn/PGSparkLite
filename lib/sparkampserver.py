@@ -13,7 +13,6 @@ import bluetooth
 from EventNotifier import Notifier
 
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
-                        dict_apply_chain_preset, dict_apply_chain_preset_pt2,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
                         dict_bias_reverb, dict_callback, dict_change_effect,
                         dict_connection_lost, dict_connection_message,
@@ -258,15 +257,7 @@ class SparkAmpServer:
         if dict_Preset_Number in data:
             if self.config != None and self.config.last_call == dict_turn_on_off:
                 self.config.last_call = ''
-                return
-
-            if self.config != None and self.config.last_call == dict_apply_chain_preset:
-                self.config.last_call = dict_apply_chain_preset_pt2
-                return
-
-            if self.config != None and self.config.last_call == dict_apply_chain_preset_pt2:
-                self.config.last_call = ''
-                return
+                return           
 
             if self.config == None or self.config.preset != data[
                     dict_Preset_Number]:
@@ -275,6 +266,7 @@ class SparkAmpServer:
                 self.socketio.emit('connection-success', {'url': '/'})
                 return
             else:
+                print('Ignoring amp input')
                 return
 
         # Change of amp
