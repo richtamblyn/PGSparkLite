@@ -1,0 +1,18 @@
+@media only screen and (max-width: 500px) {
+    .effect_selector {
+        width:33%;
+    }
+
+    .effect_selector_placeholder {
+        width:33%;
+    }
+    
+    .effect_title {
+        width:26%;            
+        font-size:large;    
+    }
+
+    .effect_onoff {
+        width:28%;
+    }
+}

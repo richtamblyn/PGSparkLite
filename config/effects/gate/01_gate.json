@@ -8,7 +8,8 @@
         "knob-diameter": 50,
         "parameters": [
             {"name":"THRESHOLD", "id": 0, "width": 49, "diameter":70},
-            {"name":"DECAY", "id": 1, "width": 49, "diameter":70}        
+            {"name":"DECAY", "id": 1, "width": 49, "diameter":70},
+            {"id":2, "hidden":"true"}        
         ]
     }    
 }
