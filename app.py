@@ -75,13 +75,7 @@ def connect():
     if request.method == 'GET':
         return render_template('connect.html')
     else:
-        # Start a separate thread to connect to the amp, keep user posted via SocketIO
-        socketio.emit(dict_connection_message,
-                      {dict_message: msg_attempting_connect})
-
-        connection = threading.Thread(target=amp.connect, args=(), daemon=True)
-        connection.start()
-
+        do_connect()
         return 'ok'
 
 
@@ -206,6 +200,10 @@ def update_pedal_preset():
 # SocketIO EventListeners
 ###########################
 
+@socketio.event
+def pedal_connect(data):
+    if amp.connected == False:
+        do_connect()
 
 @socketio.event
 def change_effect_parameter(data):
@@ -254,6 +252,14 @@ def reset_config():
 ####################
 # Utility Functions
 ####################
+
+def do_connect():
+    # Start a separate thread to connect to the amp, keep user posted via SocketIO
+    socketio.emit(dict_connection_message,
+                {dict_message: msg_attempting_connect})
+
+    connection = threading.Thread(target=amp.connect, args=(), daemon=True)
+    connection.start()
 
 
 def change_effect(old_effect, new_effect):

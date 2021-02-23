@@ -10,3 +10,5 @@ msg_connection_failed = 'Connection failed.'
 
 msg_attempting_connect = 'Attempting to connect...'
 
+msg_amp_connected = 'Connected.'
+

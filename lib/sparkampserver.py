@@ -28,7 +28,7 @@ from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
 from lib.messages import (msg_connection_failed, msg_preset_error,
-                          msg_retrieving_config)
+                          msg_retrieving_config, msg_amp_connected)
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 
@@ -92,6 +92,9 @@ class SparkAmpServer:
             self.socketio.emit(dict_connection_message,
                                {dict_message: msg_retrieving_config})
             self.initialise()
+
+            self.socketio.emit(dict_connection_message,
+                                {dict_message: msg_amp_connected})
 
         except Exception as e:
             print(e)
