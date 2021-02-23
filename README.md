@@ -4,7 +4,7 @@
 
 This is a Python based project that allows the user to send and receive configuration changes to and from a Positive Grid Spark 40 Amp (https://www.positivegrid.com/spark/) via a web browser. 
 
-![PGSparkLite Interface](https://richtamblyn.co.uk/wp-content/uploads/2021/02/NewStyles.jpg)
+![PGSparkLite Interface](https://richtamblyn.co.uk/wp-content/uploads/2021/02/StoreRecallPT.jpg)
 
 Written using the Flask framework and SocketIO, the intended target for this code is a Raspberry Pi Zero W that can host the interface, allowing other networked computers remote control of the connected Spark. It can also be setup on a Windows PC and accessed locally.
 
@@ -49,8 +49,6 @@ This project uses CDN servers to retrieve JQuery 3.5.1 and SocketIO 3.0.4 JavaSc
 
 ## Future Development Ideas
 - Storage of modified Amp presets on the amp and also in re-callable format via the web interface
-- Implement light-weight backend database (SQLite) to support storage of presets for individual pedals.
-
 ## Thanks
 
 This project was inspired by the amazing work of:
