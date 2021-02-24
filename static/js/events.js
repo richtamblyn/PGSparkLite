@@ -46,6 +46,11 @@ $(document).ready(function () {
     socket.emit("turn_effect_onoff", data);
   });
 
+  // Refresh OnOff status from Pedal change
+  socket.on("refresh-onoff", function (data) {
+    window.changeOnOffState(data.state, data.effect, data.effect_type);
+  })
+
   socket.on("show-hide-content", function (data) {
     window.showHideContent(data.effect_type, data.effect, data.visible);
   });

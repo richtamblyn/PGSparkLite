@@ -15,20 +15,22 @@ from EventNotifier import Notifier
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
                         dict_bias_reverb, dict_callback, dict_change_effect,
-                        dict_connection_lost, dict_connection_message,
-                        dict_db_id, dict_effect, dict_Effect, dict_effect_type,
-                        dict_log_change_only, dict_message, dict_Name,
-                        dict_New_Effect, dict_new_effect, dict_New_Preset,
-                        dict_Old_Effect, dict_old_effect, dict_OnOff,
-                        dict_parameter, dict_Parameter, dict_Parameters,
-                        dict_preset_corrupt, dict_preset_id,
-                        dict_Preset_Number, dict_state, dict_turn_on_off,
-                        dict_value, dict_Value, dict_visible)
+                        dict_comp, dict_connection_lost,
+                        dict_connection_message, dict_db_id, dict_delay,
+                        dict_drive, dict_effect, dict_Effect, dict_effect_type,
+                        dict_gate, dict_log_change_only, dict_message,
+                        dict_mod, dict_Name, dict_New_Effect, dict_new_effect,
+                        dict_New_Preset, dict_Off, dict_Old_Effect,
+                        dict_old_effect, dict_On, dict_OnOff, dict_parameter,
+                        dict_Parameter, dict_Parameters, dict_preset_corrupt,
+                        dict_preset_id, dict_Preset_Number, dict_reverb,
+                        dict_state, dict_turn_on_off, dict_value, dict_Value,
+                        dict_visible)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
-from lib.messages import (msg_connection_failed, msg_preset_error,
-                          msg_retrieving_config, msg_amp_connected)
+from lib.messages import (msg_amp_connected, msg_connection_failed,
+                          msg_preset_error, msg_retrieving_config)
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 
@@ -94,7 +96,7 @@ class SparkAmpServer:
             self.initialise()
 
             self.socketio.emit(dict_connection_message,
-                                {dict_message: msg_amp_connected})
+                               {dict_message: msg_amp_connected})
 
         except Exception as e:
             print(e)
@@ -215,6 +217,44 @@ class SparkAmpServer:
         self.config.chain_preset_id = chain_preset.id
         self.config.presetName = chain_preset.name
 
+    def toggle_effect_onoff(self, effect_type):
+        effect = None
+
+        # Ordered by priority for Pedal switching
+        # Gate, comp and amp are optional hardware switches
+        if effect_type == dict_drive:
+            effect = self.config.drive
+        elif effect_type == dict_mod:
+            effect = self.config.modulation
+        elif effect_type == dict_delay:
+            effect = self.config.delay
+        elif effect_type == dict_reverb:
+            effect = self.config.reverb
+        elif effect_type == dict_gate:
+            effect = self.config.gate
+        elif effect_type == dict_comp:
+            effect = self.config.comp
+        elif effect_type == dict_amp:
+            effect = self.config.amp
+
+        if effect == None:
+            return
+
+        state = dict_Off
+
+        if effect[dict_OnOff] == dict_Off:
+            state = dict_On
+
+        self.turn_effect_onoff(
+            self.get_amp_effect_name(effect[dict_Name]), state)
+
+        self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
+        self.config.last_call = dict_turn_on_off
+
+        return {dict_effect: self.get_js_effect_name(effect[dict_Name]),
+                dict_state: state,
+                dict_effect_type: effect_type}
+
     def turn_effect_onoff(self, effect, state):
         cmd = self.msg.turn_effect_onoff(effect, state)
         self.comms.send_it(cmd[0])
@@ -260,7 +300,7 @@ class SparkAmpServer:
         if dict_Preset_Number in data:
             if self.config != None and self.config.last_call == dict_turn_on_off:
                 self.config.last_call = ''
-                return           
+                return
 
             if self.config == None or self.config.preset != data[
                     dict_Preset_Number]:
