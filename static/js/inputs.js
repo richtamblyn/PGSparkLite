@@ -110,10 +110,10 @@ $(document).ready(function () {
     var effect = $(this).data('id');
     var state = $(this).val();
     var type = $(this).data('type');
-    var data = { effect: effect, state: state };
+    var data = { effect_type: type };
 
     window.changeOnOffState(state, effect, type);
-    socket.emit('turn_effect_onoff', data);
+    socket.emit('toggle_effect_onoff', data);
   });
 
   $(document).on('change', '[type=checkbox]', function () {

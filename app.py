@@ -242,18 +242,8 @@ def show_hide_pedal(data):
 @socketio.event
 def toggle_effect_onoff(data):
     effect_type = data[dict_effect_type]
-    result = amp.toggle_effect_onoff(effect_type)    
+    result = amp.toggle_effect_onoff(effect_type)
     socketio.emit('refresh-onoff', result)
-
-
-@socketio.event
-def turn_effect_onoff(data):
-    effect = str(data[dict_effect])
-    state = data[dict_state]
-
-    amp.turn_effect_onoff(amp.get_amp_effect_name(effect), state)
-    amp.config.update_config(effect, dict_turn_on_off, state)
-    amp.config.last_call = dict_turn_on_off
 
 
 @socketio.event
