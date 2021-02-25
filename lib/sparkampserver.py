@@ -22,10 +22,10 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_mod, dict_Name, dict_New_Effect, dict_new_effect,
                         dict_New_Preset, dict_Off, dict_Old_Effect,
                         dict_old_effect, dict_On, dict_OnOff, dict_parameter,
-                        dict_Parameter, dict_Parameters, dict_preset_corrupt,
-                        dict_preset_id, dict_Preset_Number, dict_reverb,
-                        dict_state, dict_turn_on_off, dict_value, dict_Value,
-                        dict_visible)
+                        dict_Parameter, dict_Parameters, dict_pedal_status,
+                        dict_preset, dict_preset_corrupt, dict_preset_id,
+                        dict_Preset_Number, dict_reverb, dict_state,
+                        dict_turn_on_off, dict_value, dict_Value, dict_visible)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -307,6 +307,10 @@ class SparkAmpServer:
 
                 self.config = SparkDevices(data)
                 self.socketio.emit('connection-success', {'url': '/'})
+                self.socketio.emit(dict_pedal_status, {dict_drive: self.config.drive[dict_OnOff],
+                                                    dict_delay: self.config.delay[dict_OnOff],
+                                                    dict_mod: self.config.modulation[dict_OnOff],
+                                                    dict_preset: self.config.preset})
                 return
             else:
                 print('Ignoring amp input')
