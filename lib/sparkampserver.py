@@ -308,9 +308,9 @@ class SparkAmpServer:
                 self.config = SparkDevices(data)
                 self.socketio.emit('connection-success', {'url': '/'})
                 self.socketio.emit(dict_pedal_status, {dict_drive: self.config.drive[dict_OnOff],
-                                                    dict_delay: self.config.delay[dict_OnOff],
-                                                    dict_mod: self.config.modulation[dict_OnOff],
-                                                    dict_preset: self.config.preset})
+                                                       dict_delay: self.config.delay[dict_OnOff],
+                                                       dict_mod: self.config.modulation[dict_OnOff],
+                                                       dict_preset: self.config.preset})
                 return
             else:
                 print('Ignoring amp input')
