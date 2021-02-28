@@ -12,6 +12,8 @@ class SparkPreset:
         self.delay = {}
         self.mod = {}
         self.reverb = {}
+        
+        self.preset = None
 
         if type == dict_chain_preset:
             self._map_chain_preset_to_amp_preset(config)
@@ -19,7 +21,15 @@ class SparkPreset:
             self._map_current_config_to_amp_preset(config)
 
     def _map_current_config_to_amp_preset(self, config):
-        self.preset = config.preset
+        if config.preset == 0:
+            self.preset = [0x00, 0x00]
+        elif config.preset == 1:
+            self.preset = [0x00, 0x01]
+        elif config.preset == 2:
+            self.preset = [0x00, 0x02]
+        elif config.preset == 3:
+            self.preset = [0x00, 0x03]
+        
         self.uuid = config.uuid
         self.name = config.presetName
         self.bpm = config.bpm
@@ -44,7 +54,7 @@ class SparkPreset:
         self.reverb[dict_Parameters] = config.reverb[dict_Parameters]
 
     def _map_chain_preset_to_amp_preset(self, config):
-        self.preset = config.preset
+        self.preset = [0x00, 0x7f]
         self.uuid = config.uuid
         self.name = config.name
         self.bpm = config.bpm

@@ -173,13 +173,12 @@ class SparkMessage:
         return self.end_message ()    
 
 
-    def create_preset (self, preset, preset_id = b'\x00\x7f'):
+    def create_preset (self, preset):
         cmd = 0x01
-        sub_cmd = 0x01
-        this_chunk = 0
+        sub_cmd = 0x01        
 
         self.start_message (cmd, sub_cmd, True)
-        self.add_bytes (b'\x00' + preset_id)       
+        self.add_bytes (bytes(preset["Preset Number"]))       
         self.add_long_string (preset["UUID"])
         self.add_string (preset["Name"])
         self.add_string (preset["Version"])
