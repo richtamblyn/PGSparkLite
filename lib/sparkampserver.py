@@ -15,19 +15,22 @@ from EventNotifier import Notifier
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
                         dict_bias_reverb, dict_callback, dict_chain_preset,
-                        dict_change_effect, dict_connection_lost,
-                        dict_connection_message, dict_effect, dict_Effect,
+                        dict_change_effect, dict_change_parameter,
+                        dict_connection_lost, dict_connection_message,
+                        dict_connection_success, dict_effect, dict_Effect,
                         dict_effect_type, dict_log_change_only, dict_message,
                         dict_Name, dict_New_Effect, dict_new_effect,
                         dict_New_Preset, dict_Old_Effect, dict_old_effect,
                         dict_parameter, dict_Parameter, dict_preset_corrupt,
-                        dict_Preset_Number, dict_state,
-                        dict_turn_on_off, dict_value, dict_Value)
+                        dict_Preset_Number, dict_preset_stored, dict_state,
+                        dict_turn_on_off, dict_update_effect,
+                        dict_update_onoff, dict_update_parameter,
+                        dict_update_preset, dict_value, dict_Value)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
-from lib.messages import (msg_connection_failed, msg_preset_error,
-                          msg_retrieving_config)
+from lib.messages import (msg_amp_preset_stored, msg_connection_failed,
+                          msg_preset_error, msg_retrieving_config)
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 from lib.sparkpreset import SparkPreset
@@ -177,13 +180,13 @@ class SparkAmpServer:
         # Preset button changed
         if dict_New_Preset in data:
             preset = data[dict_New_Preset]
-            self.socketio.emit('update-preset', {dict_value: preset})
+            self.socketio.emit(dict_update_preset, {dict_value: preset})
             self.request_preset(preset)
             return
 
         # Parse inbound preset changes
         if dict_Preset_Number in data:
-            if self.config != None:
+            if self.config != None and self.config.last_call != '':
                 # Check for updates we need to ignore
                 cancel = False
                 if self.config.last_call == dict_turn_on_off:
@@ -192,11 +195,12 @@ class SparkAmpServer:
                     cancel = True
                 elif self.config.last_call == dict_chain_preset:
                     self.update_count += 1
-                    if self.update_count < 3:
+                    if self.update_count == 3:
+                        cancel = True
+                        self.update_count = 0
+                    else:
                         return
-                    cancel = True
-                    self.update_count = 0
-
+                    
                 if cancel == True:
                     self.config.last_call = ''
                     return
@@ -205,14 +209,14 @@ class SparkAmpServer:
                     dict_Preset_Number]:
 
                 self.config = SparkDevices(data)
-                self.socketio.emit('connection-success', {'url': '/'})
+                self.socketio.emit(dict_connection_success, {'url': '/'})
                 return
             else:
                 self.update_count += 1
                 if self.update_count == 3:
                     # User has stored preset on amp
                     self.socketio.emit(
-                        'preset-stored', {dict_message: 'Preset was stored on Amp successfully.'})
+                        dict_preset_stored, {dict_message: msg_amp_preset_stored})
                     self.update_count = 0
                 return
 
@@ -226,7 +230,7 @@ class SparkAmpServer:
             new_effect = self.get_js_effect_name(data[dict_New_Effect])
 
             self.socketio.emit(
-                'update-effect', {
+                dict_update_effect, {
                     dict_old_effect: old_effect,
                     dict_effect_type: dict_amp,
                     dict_new_effect: new_effect,
@@ -248,9 +252,9 @@ class SparkAmpServer:
             parameter = data[dict_Parameter]
             value = data[dict_Value]
 
-            self.config.update_config(effect, 'change_parameter', value,
+            self.config.update_config(effect, dict_change_parameter, value,
                                       parameter)
-            self.socketio.emit('update-parameter', {
+            self.socketio.emit(dict_update_parameter, {
                 dict_effect: effect,
                 dict_parameter: parameter,
                 dict_value: value
@@ -263,7 +267,7 @@ class SparkAmpServer:
             if state == None:
                 return
 
-            self.socketio.emit('update-onoff', {
+            self.socketio.emit(dict_update_onoff, {
                 dict_effect: effect,
                 dict_state: state[1],
                 dict_effect_type: state[0]
