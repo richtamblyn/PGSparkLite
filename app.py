@@ -229,12 +229,20 @@ def eject():
     amp.eject()
     socketio.emit(dict_connection_lost, {'url': url_for('connect')})
 
+@socketio.event
+def import_amp_preset(data):
+    amp.store_amp_preset(data)
 
 @socketio.event
 def show_hide_pedal(data):
     amp.config.update_config(
         data[dict_effect_type], dict_show_hide_pedal, data[dict_visible])
 
+
+@socketio.event
+def store_amp_preset():
+    amp.store_amp_preset()
+    
 
 @socketio.event
 def turn_effect_onoff(data):

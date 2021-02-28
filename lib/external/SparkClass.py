@@ -173,13 +173,13 @@ class SparkMessage:
         return self.end_message ()    
 
 
-    def create_preset (self, preset):
+    def create_preset (self, preset, preset_id = b'\x00\x7f'):
         cmd = 0x01
         sub_cmd = 0x01
         this_chunk = 0
 
         self.start_message (cmd, sub_cmd, True)
-        self.add_bytes (b'\x00\x7f')       
+        self.add_bytes (b'\x00' + preset_id)       
         self.add_long_string (preset["UUID"])
         self.add_string (preset["Name"])
         self.add_string (preset["Version"])
@@ -189,7 +189,7 @@ class SparkMessage:
         else:
             self.add_string (descr)
         self.add_string (preset["Icon"])
-        self.add_float (120.0) #preset["BPM"])
+        self.add_float (preset["BPM"])
         self.add_bytes (bytes([0x90 + 7]))        # always 7 pedals
         for i in range (0, 7):
             self.add_string (preset["Pedals"][i]["Name"])
