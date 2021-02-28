@@ -21,8 +21,8 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_Name, dict_New_Effect, dict_new_effect,
                         dict_New_Preset, dict_Old_Effect, dict_old_effect,
                         dict_parameter, dict_Parameter, dict_preset_corrupt,
-                        dict_Preset_Number, dict_state, dict_turn_on_off,
-                        dict_value, dict_Value)
+                        dict_Preset_Number, dict_state,
+                        dict_turn_on_off, dict_value, dict_Value)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -48,6 +48,8 @@ class SparkAmpServer:
         self.notifier.subscribe(dict_connection_lost,
                                 self.connection_lost_event)
         self.notifier.subscribe(dict_preset_corrupt, self.preset_corrupt_event)
+
+        self.update_count = 0
 
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
@@ -113,7 +115,7 @@ class SparkAmpServer:
         self.connected = False
 
     def send_preset(self, chain_preset):
-        chain_preset.preset = self.config.preset        
+        chain_preset.preset = self.config.preset
         spark_preset = SparkPreset(chain_preset, type=dict_chain_preset)
         preset = self.msg.create_preset(spark_preset.json())
 
@@ -126,14 +128,15 @@ class SparkAmpServer:
 
         self.config.parse_chain_preset(chain_preset)
 
-    def store_amp_preset(self):           
-        spark_preset = SparkPreset(self.config)                
+    def store_amp_preset(self):
+        spark_preset = SparkPreset(self.config)
         preset = self.msg.create_preset(spark_preset.json())
-        
+
         for i in preset:
             self.bt_sock.send(i)
 
-        change_user_preset = self.msg.change_hardware_preset(self.config.preset)
+        change_user_preset = self.msg.change_hardware_preset(
+            self.config.preset)
 
         self.bt_sock.send(change_user_preset[self.config.preset])
 
@@ -180,9 +183,23 @@ class SparkAmpServer:
 
         # Parse inbound preset changes
         if dict_Preset_Number in data:
-            if self.config != None and self.config.last_call == dict_turn_on_off:
-                self.config.last_call = ''
-                return
+            if self.config != None:
+                # Check for updates we need to ignore
+                cancel = False
+                if self.config.last_call == dict_turn_on_off:
+                    cancel = True
+                elif self.config.last_call == dict_change_effect:
+                    cancel = True
+                elif self.config.last_call == dict_chain_preset:
+                    self.update_count += 1
+                    if self.update_count < 3:
+                        return
+                    cancel = True
+                    self.update_count = 0
+
+                if cancel == True:
+                    self.config.last_call = ''
+                    return
 
             if self.config == None or self.config.preset != data[
                     dict_Preset_Number]:
@@ -191,7 +208,12 @@ class SparkAmpServer:
                 self.socketio.emit('connection-success', {'url': '/'})
                 return
             else:
-                print('Ignoring amp input')
+                self.update_count += 1
+                if self.update_count == 3:
+                    # User has stored preset on amp
+                    self.socketio.emit(
+                        'preset-stored', {dict_message: 'Preset was stored on Amp successfully.'})
+                    self.update_count = 0
                 return
 
         # Change of amp

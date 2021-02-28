@@ -10,8 +10,8 @@ from database.service import (create_update_chainpreset,
                               get_pedal_presets_by_effect_name,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
-from lib.common import (dict_bias_noisegate_safe,
-                        dict_bias_reverb, dict_change_effect,
+from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
+                        dict_chain_preset, dict_change_effect,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_connection_lost, dict_connection_message,
                         dict_effect, dict_effect_type, dict_log_change_only,
@@ -147,11 +147,12 @@ def index():
         return redirect(url_for('connect'))
 
     if request.method == 'GET':
-        preset_id = 0        
+        preset_id = 0
     else:
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
-        amp.send_preset(preset)        
+        amp.send_preset(preset)
+        amp.config.last_call = dict_chain_preset        
 
     return render_template('main.html',
                            config=amp.config,
@@ -175,6 +176,7 @@ def update_chain_preset():
     chain_presets = get_chain_presets()
 
     amp.config.update_chain_preset_database_ids(preset)
+    amp.config.last_call = dict_chain_preset
 
     return render_template('chain_preset_selector.html',
                            chain_presets=chain_presets,
@@ -229,9 +231,6 @@ def eject():
     amp.eject()
     socketio.emit(dict_connection_lost, {'url': url_for('connect')})
 
-@socketio.event
-def import_amp_preset(data):
-    amp.store_amp_preset(data)
 
 @socketio.event
 def show_hide_pedal(data):
@@ -242,7 +241,7 @@ def show_hide_pedal(data):
 @socketio.event
 def store_amp_preset():
     amp.store_amp_preset()
-    
+
 
 @socketio.event
 def turn_effect_onoff(data):
