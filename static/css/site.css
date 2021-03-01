@@ -69,7 +69,7 @@ a, a:visited {
 }
 
 .flash { 
-    animation: flasher 0.5s linear infinite;
+    animation: flasher 1.5s linear infinite;
   }    
 
 @keyframes flasher {
