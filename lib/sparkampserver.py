@@ -52,7 +52,8 @@ class SparkAmpServer:
                                 self.connection_lost_event)
         self.notifier.subscribe(dict_preset_corrupt, self.preset_corrupt_event)
 
-        self.update_count = 0
+        self.amp_update_count = 0
+        self.chain_update_count = 0
 
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
@@ -141,7 +142,7 @@ class SparkAmpServer:
         change_user_preset = self.msg.change_hardware_preset(
             self.config.preset)
 
-        self.bt_sock.send(change_user_preset[self.config.preset])
+        self.bt_sock.send(change_user_preset[0])
 
     def turn_effect_onoff(self, effect, state):
         cmd = self.msg.turn_effect_onoff(effect, state)
@@ -187,20 +188,19 @@ class SparkAmpServer:
         # Parse inbound preset changes
         if dict_Preset_Number in data:
             if self.config != None and self.config.last_call != '':
-                # Check for updates we need to ignore
+                # Check for updates we need to ignore or notify on
                 cancel = False
                 if self.config.last_call == dict_turn_on_off:
                     cancel = True
                 elif self.config.last_call == dict_change_effect:
                     cancel = True
                 elif self.config.last_call == dict_chain_preset:
-                    self.update_count += 1
-                    if self.update_count == 3:
-                        cancel = True
-                        self.update_count = 0
-                    else:
-                        return
-                    
+                    cancel = True
+                elif self.config.last_call == dict_preset_stored:
+                    self.socketio.emit(dict_preset_stored, {
+                                       dict_message: msg_amp_preset_stored})
+                    cancel = True
+
                 if cancel == True:
                     self.config.last_call = ''
                     return
@@ -212,12 +212,6 @@ class SparkAmpServer:
                 self.socketio.emit(dict_connection_success, {'url': '/'})
                 return
             else:
-                self.update_count += 1
-                if self.update_count == 3:
-                    # User has stored preset on amp
-                    self.socketio.emit(
-                        dict_preset_stored, {dict_message: msg_amp_preset_stored})
-                    self.update_count = 0
                 return
 
         # Change of amp

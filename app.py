@@ -17,8 +17,9 @@ from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_effect, dict_effect_type, dict_log_change_only,
                         dict_message, dict_name, dict_Name, dict_new_effect,
                         dict_old_effect, dict_parameter, dict_preset,
-                        dict_preset_id, dict_show_hide_pedal, dict_state,
-                        dict_turn_on_off, dict_value, dict_visible)
+                        dict_preset_id, dict_preset_stored,
+                        dict_show_hide_pedal, dict_state, dict_turn_on_off,
+                        dict_value, dict_visible)
 from lib.messages import msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -240,6 +241,7 @@ def show_hide_pedal(data):
 
 @socketio.event
 def store_amp_preset():
+    amp.config.last_call = dict_preset_stored
     amp.store_amp_preset()
 
 

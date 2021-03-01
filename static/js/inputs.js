@@ -17,7 +17,9 @@ $(document).ready(function () {
     end = Date.now();
     diff = end - start + 1;
     if (diff > clickTime) {
-      socket.emit("store_amp_preset");      
+      $(".loading").show();
+      socket.emit("store_amp_preset");
+      window.amp_preset_stored();      
     } else {
       if ($(this).hasClass("selected")) {
         return;

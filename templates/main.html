@@ -3,10 +3,10 @@
 {% block content %}
 
 <div class="preset_container">    
-    <button id="preset_0" class="preset_button {% if config.preset == 0 %} selected {% endif %}" name="preset" value="0">1</button>
-    <button id="preset_1" class="preset_button {% if config.preset == 1 %} selected {% endif %}" name="preset" value="1">2</button>
-    <button id="preset_2" class="preset_button {% if config.preset == 2 %} selected {% endif %}" name="preset" value="2">3</button>
-    <button id="preset_3" class="preset_button {% if config.preset == 3 %} selected {% endif %}" name="preset" value="3">4</button>
+    <button id="preset_0" class="preset_button {% if config.preset == 0 %} selected {% endif %} {% if config.preset == 0 and preset_selected != 0 %} flash {% endif %}" name="preset" value="0">1</button>
+    <button id="preset_1" class="preset_button {% if config.preset == 1 %} selected {% endif %} {% if config.preset == 1 and preset_selected != 0 %} flash {% endif %}" name="preset" value="1">2</button>
+    <button id="preset_2" class="preset_button {% if config.preset == 2 %} selected {% endif %} {% if config.preset == 2 and preset_selected != 0 %} flash {% endif %}" name="preset" value="2">3</button>
+    <button id="preset_3" class="preset_button {% if config.preset == 3 %} selected {% endif %} {% if config.preset == 3 and preset_selected != 0 %} flash {% endif %}" name="preset" value="3">4</button>
 
     <div id="chain_preset_container">        
         {{ chain_preset_selector(chain_presets, preset_selected) }}        
