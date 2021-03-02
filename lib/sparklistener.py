@@ -29,6 +29,10 @@ class SparkListener:
                 self.reader.set_message(dat)
                 self.reader.read_message()
 
+                if self.reader.message[0][0] == 4 and self.reader.message[0][1] == 0:
+                    #Acknowledgement
+                    continue
+
                 if self.reader.python is None:
                     continue
 

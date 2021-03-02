@@ -165,6 +165,58 @@ class SparkDevices:
         self.reverbs = OrderedDict(
             sorted(self.reverbs.items(), key=lambda x: getitem(x[1], dict_name)))
 
+    def parse_chain_preset(self, chain_preset):        
+        self.gate[dict_Parameters] = chain_preset.gate_pedal.parameters()
+        self.gate[dict_visible] = chain_preset.gate_pedal.visible
+        self.gate[dict_OnOff] = chain_preset.gate_pedal.on_off
+        self.gate[dict_db_id] = chain_preset.gate_pedal.id
+        self.gate[dict_preset_id] = chain_preset.gate_pedal.pedal_preset_id
+
+        self.comp[dict_Name] = chain_preset.comp_pedal.effect_name
+        self.comp[dict_Parameters] = chain_preset.comp_pedal.parameters()
+        self.comp[dict_visible] = chain_preset.comp_pedal.visible
+        self.comp[dict_OnOff] = chain_preset.comp_pedal.on_off
+        self.comp[dict_db_id] = chain_preset.comp_pedal.id
+        self.comp[dict_preset_id] = chain_preset.comp_pedal.pedal_preset_id
+
+        self.drive[dict_Name] = chain_preset.drive_pedal.effect_name
+        self.drive[dict_Parameters] = chain_preset.drive_pedal.parameters()
+        self.drive[dict_visible] = chain_preset.drive_pedal.visible
+        self.drive[dict_OnOff] = chain_preset.drive_pedal.on_off
+        self.drive[dict_db_id] = chain_preset.drive_pedal.id
+        self.drive[dict_preset_id] = chain_preset.drive_pedal.pedal_preset_id
+
+        self.amp[dict_Name] = chain_preset.amp_pedal.effect_name
+        self.amp[dict_Parameters] = chain_preset.amp_pedal.parameters()
+        self.amp[dict_visible] = chain_preset.amp_pedal.visible
+        self.amp[dict_OnOff] = chain_preset.amp_pedal.on_off
+        self.amp[dict_db_id] = chain_preset.amp_pedal.id
+        self.amp[dict_preset_id] = chain_preset.amp_pedal.pedal_preset_id
+
+        self.modulation[dict_Name] = chain_preset.mod_pedal.effect_name
+        self.modulation[dict_Parameters] = chain_preset.mod_pedal.parameters()
+        self.modulation[dict_visible] = chain_preset.mod_pedal.visible
+        self.modulation[dict_OnOff] = chain_preset.mod_pedal.on_off
+        self.modulation[dict_db_id] = chain_preset.mod_pedal.id
+        self.modulation[dict_preset_id] = chain_preset.mod_pedal.pedal_preset_id
+
+        self.delay[dict_Name] = chain_preset.delay_pedal.effect_name
+        self.delay[dict_Parameters] = chain_preset.delay_pedal.parameters()
+        self.delay[dict_visible] = chain_preset.delay_pedal.visible
+        self.delay[dict_OnOff] = chain_preset.delay_pedal.on_off
+        self.delay[dict_db_id] = chain_preset.delay_pedal.id
+        self.delay[dict_preset_id] = chain_preset.delay_pedal.pedal_preset_id
+
+        self.reverb[dict_Name] = chain_preset.reverb_pedal.effect_name
+        self.reverb[dict_Parameters] = chain_preset.reverb_pedal.parameters()
+        self.reverb[dict_visible] = chain_preset.reverb_pedal.visible
+        self.reverb[dict_OnOff] = chain_preset.reverb_pedal.on_off
+        self.reverb[dict_db_id] = chain_preset.reverb_pedal.id
+        self.reverb[dict_preset_id] = chain_preset.reverb_pedal.pedal_preset_id
+
+        self.chain_preset_id = chain_preset.id
+        self.presetName = chain_preset.name
+
     def parse_preset(self, preset):
         self.presetName = preset[dict_Name]
         self.uuid = preset[dict_UUID]
