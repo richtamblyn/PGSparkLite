@@ -14,7 +14,7 @@ The realistic knobs and switch controls are possible thanks to the awesome G200K
 The PGSparkLite web interface offers the current functionality:
 
 #### 4 preset selection buttons
-These mirror the functionality of the buttons on the amp. NOTE: Long pressing the preset button to save changes to the amp is not yet supported.
+These mirror the functionality of the buttons on the amp. Long pressing the preset button to save changes to the amp is also supported.
 
 #### Create/update/delete Chain Presets
 The user can create their own Chain Presets. Chain Presets store the parameters for all the selected Pedals in the chain, their On/Off status and their visibility.
@@ -48,7 +48,7 @@ This project was developed on a Raspberry Pi 4 (4GB RAM version) using the aweso
 This project uses CDN servers to retrieve JQuery 3.5.1 and SocketIO 3.0.4 JavaScript libraries. If you wish to download the libraries separately to remove the requirement for an external internet connection, the references can then be modified in the /templates/layout.html file.
 
 ## Future Development Ideas
-- Storage of modified Amp presets on the amp and also in re-callable format via the web interface
+- Support for a physical pedal to control preset changes and pedal On/Off state.
 ## Thanks
 
 This project was inspired by the amazing work of:

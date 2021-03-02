@@ -68,6 +68,16 @@ a, a:visited {
     text-align:center;
 }
 
+.flash { 
+    animation: flasher 1.5s linear infinite;
+  }    
+
+@keyframes flasher {
+  50% {
+    opacity: 0;
+  }
+}
+
 .effect_container {
     margin:10px 0px 10px 0px;
     border:1px solid #302f2f;

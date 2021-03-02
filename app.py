@@ -11,14 +11,15 @@ from database.service import (create_update_chainpreset,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
 from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
-                        dict_change_effect, dict_change_parameter,
-                        dict_change_pedal_preset, dict_connection_lost,
-                        dict_connection_message, dict_delay, dict_drive,
-                        dict_effect, dict_effect_type, dict_log_change_only,
-                        dict_message, dict_mod, dict_name, dict_Name,
-                        dict_new_effect, dict_old_effect, dict_OnOff,
-                        dict_parameter, dict_pedal_status, dict_preset,
-                        dict_preset_id, dict_show_hide_pedal, dict_turn_on_off,
+                        dict_chain_preset, dict_change_effect,
+                        dict_change_parameter, dict_change_pedal_preset,
+                        dict_connection_lost, dict_connection_message,
+                        dict_delay, dict_drive, dict_effect, dict_effect_type,
+                        dict_log_change_only, dict_message, dict_mod,
+                        dict_name, dict_Name, dict_new_effect, dict_old_effect,
+                        dict_OnOff, dict_parameter, dict_pedal_status,
+                        dict_preset, dict_preset_id, dict_preset_stored,
+                        dict_show_hide_pedal, dict_state, dict_turn_on_off,
                         dict_value, dict_visible)
 from lib.messages import msg_amp_connected, msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
@@ -147,6 +148,7 @@ def index():
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
         amp.send_preset(preset)
+        amp.config.last_call = dict_chain_preset        
 
     return render_template('main.html',
                            config=amp.config,
@@ -249,6 +251,21 @@ def toggle_effect_onoff(data):
     effect_type = data[dict_effect_type]
     result = amp.toggle_effect_onoff(effect_type)
     socketio.emit('refresh-onoff', result)
+
+    
+def store_amp_preset():
+    amp.config.last_call = dict_preset_stored
+    amp.store_amp_preset()
+
+
+@socketio.event
+def turn_effect_onoff(data):
+    effect = str(data[dict_effect])
+    state = data[dict_state]
+
+    amp.turn_effect_onoff(amp.get_amp_effect_name(effect), state)
+    amp.config.update_config(effect, dict_turn_on_off, state)
+    amp.config.last_call = dict_turn_on_off
 
 
 @socketio.event

@@ -25,6 +25,7 @@ $(document).ready(function () {
 
   // Change of effect
   socket.on("update-effect", function (data) {
+    window.amp_preset_modified();
     $("#" + data.effect_type + "_selector").val(data.new_effect);
     var update = {
       old_effect: data.old_effect,
@@ -37,11 +38,13 @@ $(document).ready(function () {
 
   // Change of parameter
   socket.on("update-parameter", function (data) {
+    window.amp_preset_modified();
     $("#" + data.effect + "_" + data.parameter).val(data.value);
   });
 
   // Change OnOff status
   socket.on("update-onoff", function (data) {
+    window.amp_preset_modified();
     window.changeOnOffState(data.state, data.effect, data.effect_type);
     socket.emit("turn_effect_onoff", data);
   });
@@ -54,4 +57,13 @@ $(document).ready(function () {
   socket.on("show-hide-content", function (data) {
     window.showHideContent(data.effect_type, data.effect, data.visible);
   });
+
+  socket.on("preset-changed", function(data){
+    window.amp_preset_modified();
+  });
+
+  socket.on("preset-stored", function(data){
+    window.amp_preset_stored(data);
+  });
+  
 });
