@@ -177,7 +177,6 @@ def update_chain_preset():
     chain_presets = get_chain_presets()
 
     amp.config.update_chain_preset_database_ids(preset)
-    amp.config.last_call = dict_chain_preset
 
     return render_template('chain_preset_selector.html',
                            chain_presets=chain_presets,
