@@ -10,5 +10,7 @@ msg_connection_failed = 'Connection failed.'
 
 msg_attempting_connect = 'Attempting to connect...'
 
+msg_amp_connected = 'Connected.'
+
 msg_amp_preset_stored = 'The amp preset was stored successfully.'
 
