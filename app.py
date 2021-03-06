@@ -148,7 +148,7 @@ def index():
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
         amp.send_preset(preset)
-        amp.config.last_call = dict_chain_preset        
+        amp.config.last_call = dict_chain_preset
 
     return render_template('main.html',
                            config=amp.config,
@@ -232,12 +232,12 @@ def pedal_connect(data):
     if amp.connected == False:
         do_connect()
     else:
-        socketio.emit(dict_connection_message,
-                      {dict_message: msg_amp_connected})
-        socketio.emit(dict_pedal_status, {dict_drive: amp.config.drive[dict_OnOff],
-                                          dict_delay: amp.config.delay[dict_OnOff],
-                                          dict_mod: amp.config.modulation[dict_OnOff],
-                                          dict_preset: amp.config.preset})
+        config_request()
+
+
+@socketio.event
+def pedal_config_request(data):
+    config_request()
 
 
 @socketio.event
@@ -252,7 +252,7 @@ def toggle_effect_onoff(data):
     result = amp.toggle_effect_onoff(effect_type)
     socketio.emit('refresh-onoff', result)
 
-    
+
 def store_amp_preset():
     amp.config.last_call = dict_preset_stored
     amp.store_amp_preset()
@@ -298,6 +298,16 @@ def change_effect(old_effect, new_effect):
 
     # Prevent loop when changing amp remotely and receiving update from amp
     amp.config.last_call = dict_change_effect
+
+
+def config_request():
+    # Pedal has asked for the last known config after being disconnected
+    socketio.emit(dict_connection_message,
+                  {dict_message: msg_amp_connected})
+    socketio.emit(dict_pedal_status, {dict_drive: amp.config.drive[dict_OnOff],
+                                      dict_delay: amp.config.delay[dict_OnOff],
+                                      dict_mod: amp.config.modulation[dict_OnOff],
+                                      dict_preset: amp.config.preset})
 
 
 def render_effect(effect_type, selector, preset_selected=0):
