@@ -252,7 +252,7 @@ def toggle_effect_onoff(data):
     result = amp.toggle_effect_onoff(effect_type)
     socketio.emit('refresh-onoff', result)
 
-
+@socketio.event
 def store_amp_preset():
     amp.config.last_call = dict_preset_stored
     amp.store_amp_preset()

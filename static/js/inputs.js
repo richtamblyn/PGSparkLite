@@ -18,8 +18,7 @@ $(document).ready(function () {
     diff = end - start + 1;
     if (diff > clickTime) {
       $(".loading").show();
-      socket.emit("store_amp_preset");
-      window.amp_preset_stored();      
+      socket.emit("store_amp_preset");    
     } else {
       if ($(this).hasClass("selected")) {
         return;
