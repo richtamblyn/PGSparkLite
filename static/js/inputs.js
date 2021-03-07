@@ -18,8 +18,7 @@ $(document).ready(function () {
     diff = end - start + 1;
     if (diff > clickTime) {
       $(".loading").show();
-      socket.emit("store_amp_preset");
-      window.amp_preset_stored();      
+      socket.emit("store_amp_preset");    
     } else {
       if ($(this).hasClass("selected")) {
         return;
@@ -45,11 +44,11 @@ $(document).ready(function () {
 
     var effect = $(this).data("id");
     var state = $(this).val();
-    var type = $(this).data("type");
-    var data = { effect: effect, state: state };
+    var type = $(this).data('type');
+    var data = { effect_type: type };
 
     window.changeOnOffState(state, effect, type);
-    socket.emit("turn_effect_onoff", data);
+    socket.emit('toggle_effect_onoff', data);
   });
 
   $(document).on("change", "[type=checkbox]", function () {
