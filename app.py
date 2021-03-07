@@ -72,15 +72,6 @@ def change_effect():
     return render_effect(effect_type, selector)
 
 
-@app.route('/connect', methods=['GET', 'POST'])
-def connect():
-    if request.method == 'GET':
-        return render_template('connect.html')
-    else:
-        do_connect()
-        return 'ok'
-
-
 @app.route('/pedalpreset/change', methods=['POST'])
 def change_pedal_preset():
     preset_id = int(request.form[dict_preset_id])
@@ -98,6 +89,15 @@ def change_pedal_preset():
 
     return jsonify(html=render_effect(effect_type, selector, preset_id),
                    on_off=preset.pedal_parameter.on_off)
+
+
+@app.route('/connect', methods=['GET', 'POST'])
+def connect():
+    if request.method == 'GET':
+        return render_template('connect.html')
+    else:
+        do_connect()
+        return 'ok'
 
 
 @app.route('/chainpreset/delete', methods=['POST'])
@@ -241,9 +241,21 @@ def pedal_config_request(data):
 
 
 @socketio.event
+def reset_config():
+    amp.config.reset_static()
+    amp.config.load()
+
+
+@socketio.event
 def show_hide_pedal(data):
     amp.config.update_config(
         data[dict_effect_type], dict_show_hide_pedal, data[dict_visible])
+
+
+@socketio.event
+def store_amp_preset():
+    amp.config.last_call = dict_preset_stored
+    amp.store_amp_preset()
 
 
 @socketio.event
@@ -251,11 +263,6 @@ def toggle_effect_onoff(data):
     effect_type = data[dict_effect_type]
     result = amp.toggle_effect_onoff(effect_type)
     socketio.emit('refresh-onoff', result)
-
-@socketio.event
-def store_amp_preset():
-    amp.config.last_call = dict_preset_stored
-    amp.store_amp_preset()
 
 
 @socketio.event
@@ -267,11 +274,6 @@ def turn_effect_onoff(data):
     amp.config.update_config(effect, dict_turn_on_off, state)
     amp.config.last_call = dict_turn_on_off
 
-
-@socketio.event
-def reset_config():
-    amp.config.reset_static()
-    amp.config.load()
 
 ####################
 # Utility Functions
