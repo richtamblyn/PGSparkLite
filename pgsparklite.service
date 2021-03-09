@@ -1,0 +1,11 @@
+[Unit]
+Description=Starts PGSParkLite Software
+
+[Service]
+ExecStart=/home/pi/PGSparkLite/pgsparklite.sh
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=PGSparkLite
+
+[Install]
+WantedBy=basic.target
