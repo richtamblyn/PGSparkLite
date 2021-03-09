@@ -14,13 +14,14 @@ from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_chain_preset, dict_change_effect,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_connection_lost, dict_connection_message,
-                        dict_effect, dict_effect_type, dict_log_change_only,
-                        dict_message, dict_name, dict_Name, dict_new_effect,
-                        dict_old_effect, dict_parameter, dict_preset,
-                        dict_preset_id, dict_preset_stored,
+                        dict_delay, dict_drive, dict_effect, dict_effect_type,
+                        dict_log_change_only, dict_message, dict_mod,
+                        dict_name, dict_Name, dict_new_effect, dict_old_effect,
+                        dict_OnOff, dict_parameter, dict_pedal_status,
+                        dict_preset, dict_preset_id, dict_preset_stored,
                         dict_show_hide_pedal, dict_state, dict_turn_on_off,
                         dict_value, dict_visible)
-from lib.messages import msg_attempting_connect
+from lib.messages import msg_amp_connected, msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
 #####################
@@ -71,21 +72,6 @@ def change_effect():
     return render_effect(effect_type, selector)
 
 
-@app.route('/connect', methods=['GET', 'POST'])
-def connect():
-    if request.method == 'GET':
-        return render_template('connect.html')
-    else:
-        # Start a separate thread to connect to the amp, keep user posted via SocketIO
-        socketio.emit(dict_connection_message,
-                      {dict_message: msg_attempting_connect})
-
-        connection = threading.Thread(target=amp.connect, args=(), daemon=True)
-        connection.start()
-
-        return 'ok'
-
-
 @app.route('/pedalpreset/change', methods=['POST'])
 def change_pedal_preset():
     preset_id = int(request.form[dict_preset_id])
@@ -103,6 +89,15 @@ def change_pedal_preset():
 
     return jsonify(html=render_effect(effect_type, selector, preset_id),
                    on_off=preset.pedal_parameter.on_off)
+
+
+@app.route('/connect', methods=['GET', 'POST'])
+def connect():
+    if request.method == 'GET':
+        return render_template('connect.html')
+    else:
+        do_connect()
+        return 'ok'
 
 
 @app.route('/chainpreset/delete', methods=['POST'])
@@ -153,7 +148,7 @@ def index():
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
         amp.send_preset(preset)
-        amp.config.last_call = dict_chain_preset        
+        amp.config.last_call = dict_chain_preset
 
     return render_template('main.html',
                            config=amp.config,
@@ -233,6 +228,25 @@ def eject():
 
 
 @socketio.event
+def pedal_connect(data):
+    if amp.connected == False:
+        do_connect()
+    else:
+        config_request()
+
+
+@socketio.event
+def pedal_config_request(data):
+    config_request()
+
+
+@socketio.event
+def reset_config():
+    amp.config.reset_static()
+    amp.config.load()
+
+
+@socketio.event
 def show_hide_pedal(data):
     amp.config.update_config(
         data[dict_effect_type], dict_show_hide_pedal, data[dict_visible])
@@ -245,6 +259,13 @@ def store_amp_preset():
 
 
 @socketio.event
+def toggle_effect_onoff(data):
+    effect_type = data[dict_effect_type]
+    result = amp.toggle_effect_onoff(effect_type)
+    socketio.emit('refresh-onoff', result)
+
+
+@socketio.event
 def turn_effect_onoff(data):
     effect = str(data[dict_effect])
     state = data[dict_state]
@@ -254,14 +275,18 @@ def turn_effect_onoff(data):
     amp.config.last_call = dict_turn_on_off
 
 
-@socketio.event
-def reset_config():
-    amp.config.reset_static()
-    amp.config.load()
-
 ####################
 # Utility Functions
 ####################
+
+
+def do_connect():
+    # Start a separate thread to connect to the amp, keep user posted via SocketIO
+    socketio.emit(dict_connection_message,
+                  {dict_message: msg_attempting_connect})
+
+    connection = threading.Thread(target=amp.connect, args=(), daemon=True)
+    connection.start()
 
 
 def change_effect(old_effect, new_effect):
@@ -275,6 +300,16 @@ def change_effect(old_effect, new_effect):
 
     # Prevent loop when changing amp remotely and receiving update from amp
     amp.config.last_call = dict_change_effect
+
+
+def config_request():
+    # Pedal has asked for the last known config after being disconnected
+    socketio.emit(dict_connection_message,
+                  {dict_message: msg_amp_connected})
+    socketio.emit(dict_pedal_status, {dict_drive: amp.config.drive[dict_OnOff],
+                                      dict_delay: amp.config.delay[dict_OnOff],
+                                      dict_mod: amp.config.modulation[dict_OnOff],
+                                      dict_preset: amp.config.preset})
 
 
 def render_effect(effect_type, selector, preset_selected=0):
