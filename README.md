@@ -48,7 +48,9 @@ This project was developed on a Raspberry Pi 4 (4GB RAM version) using the aweso
 This project uses CDN servers to retrieve JQuery 3.5.1 and SocketIO 3.0.4 JavaScript libraries. If you wish to download the libraries separately to remove the requirement for an external internet connection, the references can then be modified in the /templates/layout.html file.
 
 ## Future Development Ideas
-- Support for a physical pedal to control preset changes and pedal On/Off state.
+- Allow user to backup / restore Preset database
+- Allow user to import / export single ChainPresets / PedalPresets
+
 ## Thanks
 
 This project was inspired by the amazing work of:
