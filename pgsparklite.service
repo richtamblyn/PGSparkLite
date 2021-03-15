@@ -1,11 +1,10 @@
 [Unit]
-Description=Starts PGSParkLite Software
+Description=PGSParkLite Server
 
 [Service]
+Type=simple
 ExecStart=/home/pi/PGSparkLite/pgsparklite.sh
-StandardOutput=syslog
-StandardError=syslog
-SyslogIdentifier=PGSparkLite
+Restart=always
 
 [Install]
-WantedBy=basic.target
+WantedBy=multi-user.target
