@@ -84,6 +84,22 @@ class SparkDevices:
         elif type == dict_reverb:
             return self.reverbs
 
+    def get_type_by_effect_name(self, effect):        
+        if effect in self.amps:
+            return dict_amp
+        elif effect in self.comps:
+            return dict_comp
+        elif effect in self.drives:
+            return dict_drive
+        elif effect in self.modulations:
+            return dict_mod
+        elif effect in self.delays:
+            return dict_delay
+        elif effect in self.reverbs:
+            return dict_reverb
+        elif effect in self.gates:
+            return dict_gate
+
     def initialise_effect(self, effect_id, effect, onoff, parameters=None):
         effect[dict_Name] = effect_id
         effect[dict_OnOff] = onoff
