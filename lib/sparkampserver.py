@@ -112,7 +112,7 @@ class SparkAmpServer:
                                {dict_message: msg_connection_failed})
 
     def initialise(self):
-        return self.change_to_preset(0)
+        return self.comms.send_state_request()
 
     def eject(self):
         self.listener.stop()
