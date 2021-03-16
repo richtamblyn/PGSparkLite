@@ -33,6 +33,10 @@ class SparkListener:
                     #Acknowledgement
                     continue
 
+                if self.reader.message[0][0] == 3 and self.reader.message[0][1] == 16:
+                    #Current Preset Notification
+                    continue
+
                 if self.reader.python is None:
                     continue
 

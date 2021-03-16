@@ -24,6 +24,25 @@ class SparkComms:
                "00000000000000000000000000000000" + "0000f7")
         self.send_it(bytes.fromhex(arg))
 
+    def send_state_request(self):
+        # Request the current preset number
+        arg = ("01fe000053fe3c000000000000000000" +
+               "f0010400" + "0210" +
+               "00" + "0000" +
+               "0000000000000000000000000000000000" +
+               "000000000000000000000000000000" +
+               "0000f7")
+        self.send_it(bytes.fromhex(arg))
+
+        # Now request the effects and parameters
+        arg = ("01fe000053fe3c000000000000000000" +
+               "f0010400" + "0201" +
+               "00" + "0100" +
+               "0000000000000000000000000000000000" +
+               "000000000000000000000000000000" +
+               "0000f7")
+        self.send_it(bytes.fromhex(arg))
+
     # core function to read a block from serial or bluetooth
 
     def get_block(self):
