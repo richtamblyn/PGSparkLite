@@ -15,18 +15,18 @@ from EventNotifier import Notifier
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
                         dict_bias_reverb, dict_callback, dict_chain_preset,
-                        dict_change_effect, dict_change_parameter, dict_comp,
-                        dict_connection_lost, dict_connection_message,
-                        dict_connection_success, dict_delay, dict_drive,
-                        dict_effect, dict_Effect, dict_effect_type, dict_gate,
-                        dict_log_change_only, dict_message, dict_mod,
-                        dict_Name, dict_New_Effect, dict_new_effect,
-                        dict_New_Preset, dict_Off, dict_Old_Effect,
-                        dict_old_effect, dict_On, dict_OnOff, dict_parameter,
-                        dict_Parameter, dict_pedal_status, dict_preset,
-                        dict_preset_corrupt, dict_Preset_Number,
-                        dict_preset_stored, dict_reverb, dict_state,
-                        dict_turn_on_off, dict_update_effect,
+                        dict_change_effect, dict_Change_Effect_State,
+                        dict_change_parameter, dict_comp, dict_connection_lost,
+                        dict_connection_message, dict_connection_success,
+                        dict_delay, dict_drive, dict_effect, dict_Effect,
+                        dict_effect_type, dict_gate, dict_log_change_only,
+                        dict_message, dict_mod, dict_Name, dict_New_Effect,
+                        dict_new_effect, dict_New_Preset, dict_Off,
+                        dict_Old_Effect, dict_old_effect, dict_On, dict_OnOff,
+                        dict_parameter, dict_Parameter, dict_pedal_status,
+                        dict_preset, dict_preset_corrupt, dict_Preset_Number,
+                        dict_preset_stored, dict_refresh_onoff, dict_reverb,
+                        dict_state, dict_turn_on_off, dict_update_effect,
                         dict_update_onoff, dict_update_parameter,
                         dict_update_preset, dict_value, dict_Value)
 from lib.external.SparkClass import SparkMessage
@@ -283,6 +283,20 @@ class SparkAmpServer:
             self.config.update_config(
                 old_effect, dict_change_effect, new_effect)
             return
+
+        # Mod / Delay knob changes to effect OnOff state
+        if dict_Change_Effect_State in data:
+            effect = data[dict_Change_Effect_State]
+            effect_type = self.config.get_type_by_effect_name(effect)
+            state = data[dict_OnOff]
+
+            self.socketio.emit(dict_refresh_onoff, {
+                dict_effect: effect,
+                dict_state: state,
+                dict_effect_type: effect_type
+            })
+
+            self.config.update_config(effect, dict_turn_on_off, state)
 
         # Effect / Amp changes
         if dict_Effect in data:

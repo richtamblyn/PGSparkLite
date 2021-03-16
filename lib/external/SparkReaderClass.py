@@ -243,7 +243,7 @@ class SparkReadMessage:
         self.start_str()
         effect = self.read_prefixed_string ()
         onoff = self.read_onoff ()
-        self.add_str ("Effect", effect)
+        self.add_str ("ChangeEffectState", effect)
         self.add_str ("OnOff", onoff)
         self.end_str()
 
@@ -329,6 +329,8 @@ class SparkReadMessage:
                 self.read_effect()
             elif sub_cmd == 0x10:                
                 self.read_current_preset_number()                
+            elif sub_cmd == 0x15:
+                self.read_effect_onoff()
             elif sub_cmd == 0x27:
                 self.read_store_hardware_preset()
             elif sub_cmd == 0x37:
