@@ -24,6 +24,7 @@ class SparkReadMessage:
     def __init__(self):
         self.data = b''
         self.message = []
+        self.current_preset = None
 
     def set_message(self, msg):
         self.data = msg
@@ -219,6 +220,11 @@ class SparkReadMessage:
         self.add_str ("NewEffect", effect2)
         self.end_str()
 
+    def read_current_preset_number(self):        
+        # Cache this preset value, apply it to the next inbound Preset message
+        self.read_byte()
+        self.current_preset = self.read_byte()        
+
     def read_hardware_preset (self):
         self.start_str()
         self.read_byte ()
@@ -244,8 +250,15 @@ class SparkReadMessage:
     def read_preset (self):
         self.start_str()
         self.read_byte ()
+
         preset = self.read_byte()
+
+        if self.current_preset != None:
+            preset = self.current_preset
+            self.current_preset = None
+
         self.add_int ("PresetNumber", preset)
+
         uuid = self.read_string ()
         self.add_str ("UUID", uuid)
         name = self.read_string ()
@@ -314,6 +327,8 @@ class SparkReadMessage:
                 self.read_preset()
             elif sub_cmd == 0x06:
                 self.read_effect()
+            elif sub_cmd == 0x10:                
+                self.read_current_preset_number()                
             elif sub_cmd == 0x27:
                 self.read_store_hardware_preset()
             elif sub_cmd == 0x37:
