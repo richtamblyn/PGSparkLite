@@ -9,7 +9,7 @@ Flask==1.0.2
 Flask-SocketIO==5.0.1
 idna==2.6
 itsdangerous==1.1.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 keyring==17.1.1
 keyrings.alt==3.1.1
 MarkupSafe==1.1.1
