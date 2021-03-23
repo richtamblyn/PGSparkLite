@@ -137,6 +137,11 @@ def effect_footer():
                            preset_selected=int(request.form[dict_preset_id]))
 
 
+@app.route('/chainpreset/getlist', methods=['GET'])
+def get_chainpreset_list():    
+    return jsonify(get_chain_presets())
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if amp.connected == False:
