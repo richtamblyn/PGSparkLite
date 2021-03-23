@@ -138,8 +138,11 @@ def effect_footer():
 
 
 @app.route('/chainpreset/getlist', methods=['GET'])
-def get_chainpreset_list():    
-    return jsonify(get_chain_presets())
+def get_chainpreset_list():
+    presets = []
+    for preset in get_chain_presets():
+        presets.append({'id':preset.id, 'name':preset.name})
+    return jsonify(presets)
 
 
 @app.route('/', methods=['GET', 'POST'])
