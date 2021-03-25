@@ -23,7 +23,8 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_message, dict_mod, dict_Name, dict_New_Effect,
                         dict_new_effect, dict_New_Preset, dict_Off,
                         dict_Old_Effect, dict_old_effect, dict_On, dict_OnOff,
-                        dict_parameter, dict_Parameter, dict_pedal_status,
+                        dict_parameter, dict_Parameter,
+                        dict_pedal_chain_preset, dict_pedal_status,
                         dict_preset, dict_preset_corrupt, dict_Preset_Number,
                         dict_preset_stored, dict_refresh_onoff, dict_reverb,
                         dict_state, dict_turn_on_off, dict_update_effect,
@@ -218,6 +219,14 @@ class SparkAmpServer:
             effect = self.config.reverb[dict_Name]
         return effect
 
+    def load_inbound_data(self, data):
+        self.config = SparkDevices(data)
+        self.socketio.emit(dict_connection_success, {'url': '/'})
+        self.socketio.emit(dict_pedal_status, {dict_drive: self.config.drive[dict_OnOff],
+                                               dict_delay: self.config.delay[dict_OnOff],
+                                               dict_mod: self.config.modulation[dict_OnOff],
+                                               dict_preset: self.config.preset})
+
     ##################
     # Event Handling
     ##################
@@ -245,6 +254,9 @@ class SparkAmpServer:
                     self.socketio.emit(dict_preset_stored, {
                                        dict_message: msg_amp_preset_stored})
                     cancel = True
+                elif self.config.last_call == dict_pedal_chain_preset:
+                    self.load_inbound_data(data)
+                    cancel = True
 
                 if cancel == True:
                     self.config.last_call = ''
@@ -252,14 +264,7 @@ class SparkAmpServer:
 
             if self.config == None or self.config.preset != data[
                     dict_Preset_Number]:
-
-                self.config = SparkDevices(data)
-                self.socketio.emit(dict_connection_success, {'url': '/'})
-                self.socketio.emit(dict_pedal_status, {dict_drive: self.config.drive[dict_OnOff],
-                                                       dict_delay: self.config.delay[dict_OnOff],
-                                                       dict_mod: self.config.modulation[dict_OnOff],
-                                                       dict_preset: self.config.preset})
-                
+                self.load_inbound_data(data)
                 return
             else:
                 return

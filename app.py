@@ -17,8 +17,9 @@ from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_delay, dict_drive, dict_effect, dict_effect_type,
                         dict_log_change_only, dict_message, dict_mod,
                         dict_name, dict_Name, dict_new_effect, dict_old_effect,
-                        dict_OnOff, dict_parameter, dict_pedal_status,
-                        dict_preset, dict_preset_id, dict_preset_stored,
+                        dict_OnOff, dict_parameter, dict_pedal_chain_preset,
+                        dict_pedal_status, dict_preset, dict_preset_id,
+                        dict_preset_stored, dict_reload_client_interface,
                         dict_show_hide_pedal, dict_state, dict_turn_on_off,
                         dict_value, dict_visible)
 from lib.messages import msg_amp_connected, msg_attempting_connect
@@ -151,7 +152,12 @@ def index():
         return redirect(url_for('connect'))
 
     if request.method == 'GET':
-        preset_id = 0
+        preset_query = request.args.get(dict_preset_id)
+        if preset_query == None:
+            preset_id = 0
+        else:
+            preset_id = int(preset_query)
+            amp.config.last_call = dict_pedal_chain_preset            
     else:
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
@@ -246,6 +252,11 @@ def pedal_connect(data):
 @socketio.event
 def pedal_config_request(data):
     config_request()
+
+
+@socketio.event
+def reload_interface(data):
+    socketio.emit(dict_reload_client_interface, data)
 
 
 @socketio.event

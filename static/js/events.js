@@ -66,4 +66,8 @@ $(document).ready(function () {
     window.amp_preset_stored(data);
   });
   
+  socket.on("reload-client-interface", function(data){
+    window.location = window.location.href + '/?preset_id=' + data.preset_id;
+  })
+
 });
