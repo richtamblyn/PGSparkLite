@@ -10,7 +10,7 @@ from database.service import (create_update_chainpreset,
                               get_pedal_presets_by_effect_name,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
-from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
+from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb, dict_BPM,
                         dict_chain_preset, dict_change_effect,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_connection_lost, dict_connection_message,
@@ -325,11 +325,7 @@ def config_request():
     # Pedal has asked for the last known config after being disconnected
     socketio.emit(dict_connection_message,
                   {dict_message: msg_amp_connected})
-    socketio.emit(dict_pedal_status, {dict_drive: amp.config.drive[dict_OnOff],
-                                      dict_delay: amp.config.delay[dict_OnOff],
-                                      dict_mod: amp.config.modulation[dict_OnOff],
-                                      dict_reverb: amp.config.reverb[dict_OnOff],
-                                      dict_preset: amp.config.preset})
+    socketio.emit(dict_pedal_status, amp.get_pedal_status())
 
 
 def render_effect(effect_type, selector, preset_selected=0):
