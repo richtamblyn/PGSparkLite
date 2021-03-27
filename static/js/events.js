@@ -69,7 +69,8 @@ $(document).ready(function () {
   socket.on("reload-client-interface", function(data){    
       var searchParams = new URLSearchParams(window.location.search);
       searchParams.set("preset_id", data.preset_id);
-      window.location.href = window.location
+      window.location.search = searchParams.toString();
+      window.location.reload();
   })
 
 });
