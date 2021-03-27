@@ -66,8 +66,10 @@ $(document).ready(function () {
     window.amp_preset_stored(data);
   });
   
-  socket.on("reload-client-interface", function(data){
-    window.location = window.location.href + '/?preset_id=' + data.preset_id;
+  socket.on("reload-client-interface", function(data){    
+      var searchParams = new URLSearchParams(window.location.search);
+      searchParams.set("preset_id", data.preset_id);
+      window.location.reload()
   })
 
 });
