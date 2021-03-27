@@ -58,19 +58,17 @@ $(document).ready(function () {
     window.showHideContent(data.effect_type, data.effect, data.visible);
   });
 
-  socket.on("preset-changed", function(data){
+  socket.on("preset-changed", function (data) {
     window.amp_preset_modified();
   });
 
-  socket.on("preset-stored", function(data){
+  socket.on("preset-stored", function (data) {
     window.amp_preset_stored(data);
   });
-  
-  socket.on("reload-client-interface", function(data){    
-      var searchParams = new URLSearchParams(window.location.search);
-      searchParams.set("preset_id", data.preset_id);
-      window.location.search = searchParams.toString();
-      window.location.reload();
-  })
 
+  socket.on("reload-client-interface", function (data) {
+    let params = (new URL(document.location)).searchParams;
+    params.set("preset_id", data.preset_id);
+    window.location.search = params.toString();
+  })
 });
