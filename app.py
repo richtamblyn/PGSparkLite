@@ -20,8 +20,8 @@ from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_OnOff, dict_parameter, dict_pedal_chain_preset,
                         dict_pedal_status, dict_preset, dict_preset_id,
                         dict_preset_stored, dict_reload_client_interface,
-                        dict_show_hide_pedal, dict_state, dict_turn_on_off,
-                        dict_value, dict_visible)
+                        dict_reverb, dict_show_hide_pedal, dict_state,
+                        dict_turn_on_off, dict_value, dict_visible)
 from lib.messages import msg_amp_connected, msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -328,6 +328,7 @@ def config_request():
     socketio.emit(dict_pedal_status, {dict_drive: amp.config.drive[dict_OnOff],
                                       dict_delay: amp.config.delay[dict_OnOff],
                                       dict_mod: amp.config.modulation[dict_OnOff],
+                                      dict_reverb: amp.config.reverb[dict_OnOff],
                                       dict_preset: amp.config.preset})
 
 
