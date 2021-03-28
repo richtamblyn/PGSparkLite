@@ -239,10 +239,11 @@ class SparkDevices:
         self.bpm = preset[dict_BPM]
 
         try:
-            self.preset = preset[dict_Preset_Number]
+            self.preset = preset[dict_Preset_Number]            
         except:
             self.preset = None
 
+        self.chain_preset_id = 0
         self.gate = preset[dict_Pedals][0]
 
         # Fix the gate ID with an underscore

@@ -163,6 +163,7 @@ def index():
         preset = get_chain_preset_by_id(preset_id)
         amp.send_preset(preset)
         amp.config.last_call = dict_chain_preset
+        config_request()
 
     return render_template('main.html',
                            config=amp.config,
@@ -322,7 +323,7 @@ def change_effect(old_effect, new_effect):
 
 
 def config_request():
-    # Pedal has asked for the last known config after being disconnected
+    # Send the latest config to attached Pedal clients
     socketio.emit(dict_connection_message,
                   {dict_message: msg_amp_connected})
     socketio.emit(dict_pedal_status, amp.get_pedal_status())

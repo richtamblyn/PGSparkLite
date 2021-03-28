@@ -227,7 +227,8 @@ class SparkAmpServer:
                 dict_reverb: self.config.reverb[dict_OnOff],
                 dict_preset: self.config.preset,
                 dict_BPM: str(int(self.config.bpm)),
-                dict_Name: self.config.presetName}
+                dict_Name: self.config.presetName,
+                dict_chain_preset: self.config.chain_preset_id}
 
     def load_inbound_data(self, data):
         self.config = SparkDevices(data)
