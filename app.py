@@ -10,17 +10,18 @@ from database.service import (create_update_chainpreset,
                               get_pedal_presets_by_effect_name,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
-from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
+from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb, dict_BPM,
                         dict_chain_preset, dict_change_effect,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_connection_lost, dict_connection_message,
                         dict_delay, dict_drive, dict_effect, dict_effect_type,
                         dict_log_change_only, dict_message, dict_mod,
                         dict_name, dict_Name, dict_new_effect, dict_old_effect,
-                        dict_OnOff, dict_parameter, dict_pedal_status,
-                        dict_preset, dict_preset_id, dict_preset_stored,
-                        dict_show_hide_pedal, dict_state, dict_turn_on_off,
-                        dict_value, dict_visible)
+                        dict_OnOff, dict_parameter, dict_pedal_chain_preset,
+                        dict_pedal_status, dict_preset, dict_preset_id,
+                        dict_preset_stored, dict_reload_client_interface,
+                        dict_reverb, dict_show_hide_pedal, dict_state,
+                        dict_turn_on_off, dict_value, dict_visible)
 from lib.messages import msg_amp_connected, msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -137,18 +138,32 @@ def effect_footer():
                            preset_selected=int(request.form[dict_preset_id]))
 
 
+@app.route('/chainpreset/getlist', methods=['GET'])
+def get_chainpreset_list():
+    presets = []
+    for preset in get_chain_presets():
+        presets.append({'id':preset.id, 'name':preset.name})
+    return jsonify(presets)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if amp.connected == False:
         return redirect(url_for('connect'))
 
     if request.method == 'GET':
-        preset_id = 0
+        preset_query = request.args.get(dict_preset_id)
+        if preset_query == None:
+            preset_id = 0
+        else:
+            preset_id = int(preset_query)
+            amp.config.last_call = dict_pedal_chain_preset            
     else:
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
         amp.send_preset(preset)
         amp.config.last_call = dict_chain_preset
+        config_request()
 
     return render_template('main.html',
                            config=amp.config,
@@ -241,6 +256,11 @@ def pedal_config_request(data):
 
 
 @socketio.event
+def reload_interface(data):
+    socketio.emit(dict_reload_client_interface, data)
+
+
+@socketio.event
 def reset_config():
     amp.config.reset_static()
     amp.config.load()
@@ -303,13 +323,10 @@ def change_effect(old_effect, new_effect):
 
 
 def config_request():
-    # Pedal has asked for the last known config after being disconnected
+    # Send the latest config to attached Pedal clients
     socketio.emit(dict_connection_message,
                   {dict_message: msg_amp_connected})
-    socketio.emit(dict_pedal_status, {dict_drive: amp.config.drive[dict_OnOff],
-                                      dict_delay: amp.config.delay[dict_OnOff],
-                                      dict_mod: amp.config.modulation[dict_OnOff],
-                                      dict_preset: amp.config.preset})
+    socketio.emit(dict_pedal_status, amp.get_pedal_status())
 
 
 def render_effect(effect_type, selector, preset_selected=0):
