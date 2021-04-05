@@ -10,18 +10,17 @@ from database.service import (create_update_chainpreset,
                               get_pedal_presets_by_effect_name,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
-from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb, dict_BPM,
+from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_chain_preset, dict_change_effect,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_connection_lost, dict_connection_message,
-                        dict_delay, dict_drive, dict_effect, dict_effect_type,
-                        dict_log_change_only, dict_message, dict_mod,
-                        dict_name, dict_Name, dict_new_effect, dict_old_effect,
-                        dict_OnOff, dict_parameter, dict_pedal_chain_preset,
-                        dict_pedal_status, dict_preset, dict_preset_id,
-                        dict_preset_stored, dict_reload_client_interface,
-                        dict_reverb, dict_show_hide_pedal, dict_state,
-                        dict_turn_on_off, dict_value, dict_visible)
+                        dict_effect, dict_effect_type, dict_log_change_only,
+                        dict_message, dict_name, dict_Name, dict_new_effect,
+                        dict_old_effect, dict_parameter,
+                        dict_pedal_chain_preset, dict_pedal_status,
+                        dict_preset, dict_preset_id, dict_preset_stored,
+                        dict_reload_client_interface, dict_show_hide_pedal,
+                        dict_state, dict_turn_on_off, dict_value, dict_visible)
 from lib.messages import msg_amp_connected, msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
