@@ -17,7 +17,7 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_reverb, dict_BPM, dict_callback,
                         dict_chain_preset, dict_change_effect,
                         dict_Change_Effect_State, dict_change_parameter,
-                        dict_comp, dict_connection_lost,
+                        dict_change_preset, dict_comp, dict_connection_lost,
                         dict_connection_message, dict_connection_success,
                         dict_delay, dict_drive, dict_effect, dict_Effect,
                         dict_effect_type, dict_gate, dict_log_change_only,
@@ -262,7 +262,7 @@ class SparkAmpServer:
                     self.socketio.emit(dict_preset_stored, {
                                        dict_message: msg_amp_preset_stored})
                     cancel = True
-                elif self.config.last_call == dict_pedal_chain_preset:
+                elif self.config.last_call == dict_pedal_chain_preset or self.config.last_call == dict_change_preset:
                     self.load_inbound_data(data)
                     cancel = True
 
