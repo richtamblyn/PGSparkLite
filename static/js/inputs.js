@@ -20,10 +20,7 @@ $(document).ready(function () {
       $(".loading").show();
       socket.emit("store_amp_preset");    
     } else {
-      if ($(this).hasClass("selected")) {
-        return;
-      }
-
+      
       var preset = $(this).val();
 
       $(".preset_button").removeClass("selected");
