@@ -221,6 +221,9 @@ class SparkAmpServer:
         return effect
 
     def get_pedal_status(self):
+        if self.config == None:
+            return {}
+            
         return {dict_drive: self.config.drive[dict_OnOff],
                 dict_delay: self.config.delay[dict_OnOff],
                 dict_mod: self.config.modulation[dict_OnOff],
