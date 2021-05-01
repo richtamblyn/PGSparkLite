@@ -234,9 +234,14 @@ class SparkAmpServer:
                 dict_chain_preset: self.config.chain_preset_id}
 
     def load_inbound_data(self, data):
-        self.config = SparkDevices(data)
-        self.socketio.emit(dict_connection_success, {'url': '/'})
+        if self.config == None:
+            self.config = SparkDevices(data)
+        else:
+            self.config.parse_preset(data)
+            
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
+        self.socketio.emit(dict_connection_success, {'url': '/'})
+        
 
     ##################
     # Event Handling
