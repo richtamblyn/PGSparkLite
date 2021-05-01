@@ -221,10 +221,8 @@ class SparkReadMessage:
         self.end_str()
 
     def read_bpm(self):
-        self.start_str()
-        self.read_byte()
-        self.read_byte()        
-        bpm = self.read_byte()                          
+        self.start_str()        
+        bpm = self.read_float()                
         self.add_float("BPM", bpm)
         self.end_str()
 
