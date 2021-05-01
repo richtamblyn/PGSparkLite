@@ -4,7 +4,7 @@
 
 This is a Python based project that allows the user to send and receive configuration changes to and from a Positive Grid Spark 40 Amp (https://www.positivegrid.com/spark/) via a web browser. 
 
-![PGSparkLite Interface](https://richtamblyn.co.uk/wp-content/uploads/2021/02/StoreRecallPT.jpg)
+![PGSparkLite Interface](https://richtamblyn.co.uk/wp-content/uploads/2021/05/DAW_Example.jpg)
 
 Written using the Flask framework and SocketIO, the intended target for this code is a Raspberry Pi Zero W that can host the interface, allowing other networked computers remote control of the connected Spark. It can also be setup on a Windows PC and accessed locally.
 
@@ -15,6 +15,9 @@ The PGSparkLite web interface offers the current functionality:
 
 #### 4 preset selection buttons
 These mirror the functionality of the buttons on the amp. Long pressing the preset button to save changes to the amp is also supported.
+
+#### Set BPM tempo
+The user can enter and set the BPM tempo for the delay effect.
 
 #### Create/update/delete Chain Presets
 The user can create their own Chain Presets. Chain Presets store the parameters for all the selected Pedals in the chain, their On/Off status and their visibility.
