@@ -220,6 +220,12 @@ class SparkReadMessage:
         self.add_str ("NewEffect", effect2)
         self.end_str()
 
+    def read_bpm(self):
+        self.start_str()        
+        bpm = self.read_float()                
+        self.add_float("BPM", bpm)
+        self.end_str()
+
     def read_current_preset_number(self):        
         # Cache this preset value, apply it to the next inbound Preset message
         self.read_byte()
@@ -310,7 +316,7 @@ class SparkReadMessage:
 
     def run_interpreter (self, cmd, sub_cmd):
         if cmd == 0x01:
-            if   sub_cmd == 0x01:
+            if sub_cmd == 0x01:
                 self.read_preset()
             elif sub_cmd == 0x04:
                 self.read_effect_parameter()
@@ -323,7 +329,7 @@ class SparkReadMessage:
             else:
                 print(hex(cmd), hex(sub_cmd), "not handled")
         elif cmd == 0x03:
-            if   sub_cmd == 0x01:
+            if sub_cmd == 0x01:
                 self.read_preset()
             elif sub_cmd == 0x06:
                 self.read_effect()
@@ -337,6 +343,8 @@ class SparkReadMessage:
                 self.read_effect_parameter()
             elif sub_cmd == 0x38:
                 self.read_hardware_preset()
+            elif sub_cmd == 0x63:
+                self.read_bpm()
             else:
                 print(hex(cmd), hex(sub_cmd), "not handled")       
         elif cmd == 0x04:

@@ -18,9 +18,8 @@ $(document).ready(function () {
     diff = end - start + 1;
     if (diff > clickTime) {
       $(".loading").show();
-      socket.emit("store_amp_preset");    
+      socket.emit("store_amp_preset");
     } else {
-      
       var preset = $(this).val();
 
       $(".preset_button").removeClass("selected");
@@ -41,11 +40,11 @@ $(document).ready(function () {
 
     var effect = $(this).data("id");
     var state = $(this).val();
-    var type = $(this).data('type');
+    var type = $(this).data("type");
     var data = { effect_type: type };
 
     window.changeOnOffState(state, effect, type);
-    socket.emit('toggle_effect_onoff', data);
+    socket.emit("toggle_effect_onoff", data);
   });
 
   $(document).on("change", "[type=checkbox]", function () {
@@ -256,5 +255,34 @@ $(document).ready(function () {
       $("#" + effect_type + "_container").html(result.html);
       window.changeOnOffState(result.on_off, effect_name, effect_type);
     });
+  });
+
+  $("#set-bpm").on("click", function () {    
+    $.get("/bpm", function(data){      
+      alerty.prompt(
+        "Set the BPM.",
+        { inputType: "number", inputValue: data.bpm },
+        function (new_bpm) {
+          if (new_bpm == null || new_bpm == 0) {
+            alerty.alert(
+              "You must enter a BPM.",
+              {
+                title: "Error",
+                time: 3000,
+              },
+              function () {
+                return;
+              }
+            );
+          } else {
+            var payload = {
+              bpm: new_bpm
+            };
+
+            $.post("/bpm", payload);
+          }
+        }
+      );
+    });    
   });
 });

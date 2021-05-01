@@ -8,6 +8,11 @@
     <button id="preset_2" class="preset_button {% if config.preset == 2 %} selected {% endif %} {% if config.preset == 2 and preset_selected != 0 %} flash {% endif %}" name="preset" value="2">3</button>
     <button id="preset_3" class="preset_button {% if config.preset == 3 %} selected {% endif %} {% if config.preset == 3 and preset_selected != 0 %} flash {% endif %}" name="preset" value="3">4</button>
 
+    <div class="preset_details">
+        <div class="preset_name"><h2>{{ config.presetName }}</h2></div>
+        <div class="preset_bpm"><span id="preset-bpm">{{ config.bpm|round|int }}</span> BPM <button class="set_bpm_button" id="set-bpm">SET</button></div>        
+    </div>
+
     <div id="chain_preset_container">        
         {{ chain_preset_selector(chain_presets, preset_selected) }}        
     </div>

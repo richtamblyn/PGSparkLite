@@ -14,8 +14,8 @@ from EventNotifier import Notifier
 
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
-                        dict_bias_reverb, dict_BPM, dict_callback,
-                        dict_chain_preset, dict_change_effect,
+                        dict_bias_reverb, dict_BPM, dict_bpm, dict_bpm_change,
+                        dict_callback, dict_chain_preset, dict_change_effect,
                         dict_Change_Effect_State, dict_change_parameter,
                         dict_change_preset, dict_comp, dict_connection_lost,
                         dict_connection_message, dict_connection_success,
@@ -141,6 +141,18 @@ class SparkAmpServer:
 
         self.config.parse_chain_preset(chain_preset)
 
+    def set_bpm(self, bpm):
+        self.config.bpm = bpm
+        spark_preset = SparkPreset(self.config, bpm=True)
+        preset = self.msg.create_preset(spark_preset.json())
+
+        for i in preset:
+            self.bt_sock.send(i)
+
+        change_user_preset = self.msg.change_hardware_preset(0x7f)
+
+        self.bt_sock.send(change_user_preset[0])
+
     def store_amp_preset(self):
         spark_preset = SparkPreset(self.config)
         preset = self.msg.create_preset(spark_preset.json())
@@ -221,6 +233,9 @@ class SparkAmpServer:
         return effect
 
     def get_pedal_status(self):
+        if self.config == None:
+            return {}
+
         return {dict_drive: self.config.drive[dict_OnOff],
                 dict_delay: self.config.delay[dict_OnOff],
                 dict_mod: self.config.modulation[dict_OnOff],
@@ -231,9 +246,13 @@ class SparkAmpServer:
                 dict_chain_preset: self.config.chain_preset_id}
 
     def load_inbound_data(self, data):
-        self.config = SparkDevices(data)
-        self.socketio.emit(dict_connection_success, {'url': '/'})
+        if self.config == None:
+            self.config = SparkDevices(data)
+        else:
+            self.config.parse_preset(data)
+
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
+        self.socketio.emit(dict_connection_success, {'url': '/'})
 
     ##################
     # Event Handling
@@ -344,6 +363,11 @@ class SparkAmpServer:
                 dict_effect_type: state[0]
             })
             self.config.update_config(effect, dict_turn_on_off, state)
+
+        # BPM change
+        if dict_BPM in data:
+            self.config.bpm = data[dict_BPM]
+            self.socketio.emit(dict_bpm_change, {dict_bpm: int(data[dict_BPM])})
 
     def connection_lost_event(self):
         self.connected = False

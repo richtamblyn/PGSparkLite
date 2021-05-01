@@ -4,7 +4,7 @@ from lib.common import (dict_bias_noisegate, dict_bias_reverb,
 
 
 class SparkPreset:
-    def __init__(self, config, type=None):
+    def __init__(self, config, type=None, bpm=False):
         self.gate = {}
         self.comp = {}
         self.drive = {}
@@ -18,10 +18,12 @@ class SparkPreset:
         if type == dict_chain_preset:
             self._map_chain_preset_to_amp_preset(config)
         else:
-            self._map_current_config_to_amp_preset(config)
+            self._map_current_config_to_amp_preset(config, bpm)
 
-    def _map_current_config_to_amp_preset(self, config):
-        if config.preset == 0:
+    def _map_current_config_to_amp_preset(self, config, bpm):
+        if bpm == True:
+            self.preset = [0x00, 0x7f]
+        elif config.preset == 0:
             self.preset = [0x00, 0x00]
         elif config.preset == 1:
             self.preset = [0x00, 0x01]

@@ -10,7 +10,7 @@ from database.service import (create_update_chainpreset,
                               get_pedal_presets_by_effect_name,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
-from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
+from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb, dict_bpm,
                         dict_chain_preset, dict_change_effect,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_change_preset, dict_connection_lost,
@@ -21,7 +21,7 @@ from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb,
                         dict_pedal_status, dict_preset, dict_preset_id,
                         dict_preset_stored, dict_reload_client_interface,
                         dict_show_hide_pedal, dict_state, dict_turn_on_off,
-                        dict_value, dict_visible)
+                        dict_value, dict_visible, dict_bpm_change)
 from lib.messages import msg_amp_connected, msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -52,6 +52,17 @@ def _db_connect():
 def _db_close(exc):
     if not database.is_closed():
         database.close()
+
+
+@app.route('/bpm', methods=['GET', 'POST'])
+def bpm():
+    if request.method == 'GET':
+        return jsonify(bpm = int(amp.config.bpm))
+    else:
+        bpm = int(request.form[dict_bpm])
+        amp.set_bpm(bpm)
+        socketio.emit(dict_bpm_change, {dict_bpm: bpm})
+        return 'ok'
 
 
 @app.route('/effect/change', methods=['POST'])
