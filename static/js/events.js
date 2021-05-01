@@ -71,4 +71,8 @@ $(document).ready(function () {
     params.set("preset_id", data.preset_id);
     window.location.search = params.toString();
   })
+
+  socket.on("bpm-change", function(data){
+    $("#preset-bpm").html(data.bpm)
+  })
 });
