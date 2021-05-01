@@ -90,7 +90,7 @@
 {% set preset_id = effect["preset_id"] %}
 <div class="effect_header">
     <div class="effect_title">
-        <div id="{{ type }}_showhidecontent" class="showhidecontent {% if visible %} collapse_open {% else %} collapse_closed {% endif %}" data-type="{{ type }}" data-id="{{ name }}"></div> {{ type }}
+        <div id="{{ type }}_showhidecontent" class="showhidecontent {% if onoff =='On' and visible %} collapse_open {% else %} collapse_closed {% endif %}" data-type="{{ type }}" data-id="{{ name }}"></div> {{ type }}
     </div>    
     {% if selector %}
         {{ effect_selector(type, effect_list, name) }}
@@ -101,7 +101,7 @@
         {{ onoff_buttons(type, name, onoff) }}
     </div>    
 </div>
-<div id="{{ name }}_content" class="effect_content" {% if not visible %} style="display:none;" {% endif %}>
+<div id="{{ name }}_content" class="effect_content" {% if not visible or onoff == 'Off' %} style="display:none;" {% endif %}>
     {% if topper|length %}
     <div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
         <span class="{{ badge }}">
