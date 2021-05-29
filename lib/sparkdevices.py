@@ -232,6 +232,7 @@ class SparkDevices:
 
         self.chain_preset_id = chain_preset.id
         self.presetName = chain_preset.name
+        self.bpm = chain_preset.bpm
 
     def parse_preset(self, preset):
         self.presetName = preset[dict_Name]
