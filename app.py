@@ -11,7 +11,7 @@ from database.service import (create_update_chainpreset,
                               verify_delete_chain_preset,
                               verify_delete_pedal_preset)
 from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb, dict_bpm,
-                        dict_chain_preset, dict_change_effect,
+                        dict_bpm_change, dict_chain_preset, dict_change_effect,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_change_preset, dict_connection_lost,
                         dict_connection_message, dict_effect, dict_effect_type,
@@ -21,7 +21,7 @@ from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb, dict_bpm,
                         dict_pedal_status, dict_preset, dict_preset_id,
                         dict_preset_stored, dict_reload_client_interface,
                         dict_show_hide_pedal, dict_state, dict_turn_on_off,
-                        dict_value, dict_visible, dict_bpm_change)
+                        dict_value, dict_visible, get_amp_effect_name)
 from lib.messages import msg_amp_connected, msg_attempting_connect
 from lib.sparkampserver import SparkAmpServer
 
@@ -236,7 +236,7 @@ def change_effect_parameter(data):
     parameter = int(data[dict_parameter])
     value = float(data[dict_value])
 
-    amp.change_effect_parameter(amp.get_amp_effect_name(effect), parameter,
+    amp.change_effect_parameter(get_amp_effect_name(effect), parameter,
                                 value)
     amp.config.update_config(effect, dict_change_parameter, value, parameter)
 
@@ -302,7 +302,7 @@ def turn_effect_onoff(data):
     effect = str(data[dict_effect])
     state = data[dict_state]
 
-    amp.turn_effect_onoff(amp.get_amp_effect_name(effect), state)
+    amp.turn_effect_onoff(get_amp_effect_name(effect), state)
     amp.config.update_config(effect, dict_turn_on_off, state)
     amp.config.last_call = dict_turn_on_off
 
@@ -327,8 +327,8 @@ def change_effect(old_effect, new_effect):
         amp.change_effect_parameter(dict_bias_reverb, 6,
                                     float('0.' + new_effect))
     else:
-        amp.change_effect(amp.get_amp_effect_name(old_effect),
-                          amp.get_amp_effect_name(new_effect))
+        amp.change_effect(get_amp_effect_name(old_effect),
+                          get_amp_effect_name(new_effect))
 
     # Prevent loop when changing amp remotely and receiving update from amp
     amp.config.last_call = dict_change_effect
@@ -359,12 +359,12 @@ def update_pedal_state(pedal_parameter):
     parameters = pedal_parameter.parameters()
     for parameter in range(len(parameters)):
         value = float(parameters[parameter])
-        amp.change_effect_parameter(amp.get_amp_effect_name(
+        amp.change_effect_parameter(get_amp_effect_name(
             pedal_parameter.effect_name), parameter, value)
         amp.config.update_config(
             pedal_parameter.effect_name, dict_change_parameter, value, parameter)
 
-    amp.turn_effect_onoff(amp.get_amp_effect_name(
+    amp.turn_effect_onoff(get_amp_effect_name(
         pedal_parameter.effect_name), pedal_parameter.on_off)
     amp.config.update_config(pedal_parameter.effect_name,
                              dict_turn_on_off, pedal_parameter.on_off)

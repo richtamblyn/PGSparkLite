@@ -1,6 +1,6 @@
 from lib.common import (dict_bias_noisegate, dict_bias_reverb,
                         dict_chain_preset, dict_Name, dict_OnOff,
-                        dict_Parameters)
+                        dict_Parameters, get_amp_effect_name)
 
 
 class SparkPreset:
@@ -97,7 +97,7 @@ class SparkPreset:
                            {dict_Name: self.drive[dict_Name],
                             dict_OnOff: self.drive[dict_OnOff],
                             dict_Parameters: self.drive[dict_Parameters]},
-                           {dict_Name: self.amp[dict_Name],
+                           {dict_Name: get_amp_effect_name(self.amp[dict_Name]),
                             dict_OnOff: self.amp[dict_OnOff],
                             dict_Parameters: self.amp[dict_Parameters]},
                            {dict_Name: self.mod[dict_Name],

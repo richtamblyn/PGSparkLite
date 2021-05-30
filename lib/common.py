@@ -68,3 +68,14 @@ dict_UUID = 'UUID'
 dict_value = 'value'
 dict_Value = 'Value'
 dict_visible = 'visible'
+
+
+def get_amp_effect_name(effect):
+    # Special cases to match internal amp ID
+    if effect == dict_bias_noisegate_safe:
+        effect = dict_bias_noisegate
+    elif effect == dict_AC_Boost_safe:
+        effect = dict_AC_Boost
+    elif effect.isdigit():
+        effect = dict_bias_reverb
+    return effect

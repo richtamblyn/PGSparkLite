@@ -13,7 +13,6 @@ import bluetooth
 from EventNotifier import Notifier
 
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
-                        dict_bias_noisegate, dict_bias_noisegate_safe,
                         dict_bias_reverb, dict_BPM, dict_bpm, dict_bpm_change,
                         dict_callback, dict_chain_preset, dict_change_effect,
                         dict_Change_Effect_State, dict_change_parameter,
@@ -30,7 +29,8 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_preset_stored, dict_refresh_onoff, dict_reverb,
                         dict_state, dict_turn_on_off, dict_update_effect,
                         dict_update_onoff, dict_update_parameter,
-                        dict_update_preset, dict_value, dict_Value)
+                        dict_update_preset, dict_value, dict_Value,
+                        get_amp_effect_name)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -194,7 +194,7 @@ class SparkAmpServer:
             state = dict_On
 
         self.turn_effect_onoff(
-            self.get_amp_effect_name(effect[dict_Name]), state)
+            get_amp_effect_name(effect[dict_Name]), state)
 
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
         self.config.last_call = dict_turn_on_off
@@ -212,17 +212,7 @@ class SparkAmpServer:
 
     ##################
     # Utility Methods
-    ##################
-
-    def get_amp_effect_name(self, effect):
-        # Special cases to match internal amp ID
-        if effect == dict_bias_noisegate_safe:
-            effect = dict_bias_noisegate
-        elif effect == dict_AC_Boost_safe:
-            effect = dict_AC_Boost
-        elif effect.isdigit():
-            effect = dict_bias_reverb
-        return effect
+    ##################    
 
     def get_js_effect_name(self, effect):
         # Modify amp IDs to make them JS friendly
