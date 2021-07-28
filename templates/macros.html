@@ -62,6 +62,15 @@
         {% if parameter_values[parameter.id] == 1.0000 %} checked value="1.0000" {% else %} value="0.0000" {% endif %}/><br/>
         <span>{{ parameter.off }}</span>
     </div>
+    {% elif parameter.slide == "true" %}
+    <div class="parameter_label" style="margin-bottom:10px;">
+        {{ parameter.name }}
+    </div>
+    <div class="parameter_value" style="margin-bottom:10px;">                
+        <input class="input-slider" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-width="16" data-height="{{ parameter.height }}"        
+        data-fgcolor="gray" id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001" onchange="knobChangeEventHandler(this)"
+            value="{{ parameter_values[parameter.id] }}" />        
+    </div>    
     {% else %}
     <div class="parameter_value">        
         <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="{{ parameter.diameter }}" 
