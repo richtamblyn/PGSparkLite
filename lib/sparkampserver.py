@@ -148,8 +148,11 @@ class SparkAmpServer:
         plugin = self.plugins.get_plugin()
         params = plugin.calculate_params(increase)
 
+        if params == None:
+            return
+
         for param in params:
-            self.change_effect_parameter(plugin.name, param[0], param[1])
+            self.change_effect_parameter(get_amp_effect_name(plugin.name), param[0], param[1])
 
             self.socketio.emit(dict_update_parameter, {
                 dict_effect: plugin.name,
@@ -284,15 +287,14 @@ class SparkAmpServer:
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})
 
-
-    def update_plugins(self):
-        # Which plugins do we need to load?
+    def update_plugins(self):        
         self.plugins.clear()
 
         # Initialise Default Volume Pedal
         amp = self.config.get_current_effect_by_type(dict_amp)
         amp_volume = amp[dict_Parameters][4]
-        self.plugins.add(VolumePedal(amp[dict_Name],dict_amp,True, [amp_volume]))
+        self.plugins.add(VolumePedal(
+            amp[dict_Name], dict_amp, True, [amp_volume]))
 
         # Custom Config Plugins go here...
 
@@ -300,7 +302,7 @@ class SparkAmpServer:
         mod = self.config.get_current_effect_by_type(dict_mod)
         if (mod[dict_Name] == dict_WahBaby):
             # Load the Wah plugin
-            self.plugins.add(WahBaby(dict_WahBaby,dict_mod, False, None))
+            self.plugins.add(WahBaby(dict_WahBaby, dict_mod, False, None))
             # Is it already enabled?
             if mod[dict_OnOff] == dict_On:
                 self.plugins.enable_plugin(WahBaby)
