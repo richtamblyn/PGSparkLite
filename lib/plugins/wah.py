@@ -7,8 +7,8 @@ from lib.plugins.base import Plugin
 
 class WahBaby(Plugin):
     
-    def __init__(self):
-        super().__init__("volume", "MOD", False)        
+    def __init__(self, effect_name, type, enabled, params):
+        super().__init__(effect_name, type, enabled)        
 
         self.rate = 0.05        
         
@@ -24,5 +24,5 @@ class WahBaby(Plugin):
             #TODO: Work out the filter
             print('blah')
 
-        return ((self.low,0),(self.mid,0),(self.high,0))
+        return [(self.low,0),(self.mid,0),(self.high,0)]
     

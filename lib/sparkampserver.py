@@ -142,29 +142,23 @@ class SparkAmpServer:
 
         self.connected = False
 
-    def expression_process(self, increase):   
+    def expression_process(self, increase):
+        plugin = self.plugins.get_plugin()
+        params = plugin.calculate_params(increase)
 
-        #TODO: Which plugin is enabled?
+        for param in params:
+            self.change_effect_parameter(plugin.name, param[0], param[1])
 
-        mod = self.config.get_current_effect_by_type(dict_mod)
-        if (mod[dict_Name] == "GuitarEQ6_Wah"):
-            # TODO: Let's move the EQ band pass filter
-            print("TODO")
-        else:
-            amp = self.config.get_current_effect_by_type(dict_amp)
-            effect = amp[dict_Name]
-            self.change_effect_parameter(effect, 4, self.expression_value)
-        
             self.socketio.emit(dict_update_parameter, {
-                    dict_effect: effect,
-                    dict_parameter: 4,
-                    dict_value: self.expression_value
-                })
+                dict_effect: plugin.name,
+                dict_parameter: param[0],
+                dict_value: param[1]
+            })
 
-    def expression_up(self):        
+    def expression_up(self):
         self.expression_process(True)
 
-    def expression_down(self):        
+    def expression_down(self):
         self.expression_process(False)
 
     def send_preset(self, chain_preset):
@@ -285,16 +279,16 @@ class SparkAmpServer:
         self.plugins.clear()
 
         # Initialise Volume Pedal
-        amp = self.config.get_current_effect_by_type(dict_amp)        
+        amp = self.config.get_current_effect_by_type(dict_amp)
         amp_volume = amp[dict_Parameters][4]
-        self.plugins.add(VolumePedal(amp_volume))
+        self.plugins.add(VolumePedal(amp[dict_Name],dict_amp,True, [amp_volume]))
 
         # Does this config use our WahBaby?
         mod = self.config.get_current_effect_by_type(dict_mod)
         if (mod[dict_Name] == dict_WahBaby):
             # Load the Wah plugin
-            self.plugins.add(WahBaby())
-            # Is it already enabled?            
+            self.plugins.add(WahBaby(dict_WahBaby,dict_mod, False, None))
+            # Is it already enabled?
 
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})

@@ -8,3 +8,9 @@ class PluginManager:
     def add(self, plugin):
         #TODO: Prevent two plugins of same type being added
         self._plugins.append(plugin)
+
+    def get_plugin(self):        
+        for plugin in self._plugins:
+            if plugin.enabled == True:
+                return plugin
+        
