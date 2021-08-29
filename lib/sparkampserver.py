@@ -23,20 +23,23 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_message, dict_mod, dict_Name, dict_New_Effect,
                         dict_new_effect, dict_New_Preset, dict_Off,
                         dict_Old_Effect, dict_old_effect, dict_On, dict_OnOff,
-                        dict_parameter, dict_Parameter,
+                        dict_parameter, dict_Parameter, dict_Parameters,
                         dict_pedal_chain_preset, dict_pedal_status,
                         dict_preset, dict_preset_corrupt, dict_Preset_Number,
                         dict_preset_stored, dict_refresh_onoff, dict_reverb,
                         dict_state, dict_turn_on_off, dict_update_effect,
                         dict_update_onoff, dict_update_parameter,
                         dict_update_preset, dict_value, dict_Value,
-                        get_amp_effect_name)
+                        dict_WahBaby, get_amp_effect_name)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
 from lib.messages import (msg_amp_connected, msg_amp_preset_stored,
                           msg_connection_failed, msg_preset_error,
                           msg_retrieving_config)
+from lib.plugins.manager import PluginManager
+from lib.plugins.volume import VolumePedal
+from lib.plugins.wah import WahBaby
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 from lib.sparkpreset import SparkPreset
@@ -61,18 +64,30 @@ class SparkAmpServer:
         self.amp_update_count = 0
         self.chain_update_count = 0
 
+        self.plugins = PluginManager()
+
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
-        self.comms.send_it(cmd[0])
-        self.request_preset(hw_preset)
+        success = self.comms.send_it(cmd[0])
+
+        if not success:
+            self.connection_lost_event()
+        else:
+            self.request_preset(hw_preset)
 
     def change_effect(self, old_effect, new_effect):
         cmd = self.msg.change_effect(old_effect, new_effect)
-        self.comms.send_it(cmd[0])
+        success = self.comms.send_it(cmd[0])
+
+        if not success:
+            self.connection_lost_event()
 
     def change_effect_parameter(self, effect, parameter, value):
         cmd = self.msg.change_effect_parameter(effect, parameter, value)
-        self.comms.send_it(cmd[0])
+        success = self.comms.send_it(cmd[0])
+
+        if not success:
+            self.connection_lost_event()
 
     def connect(self):
         try:
@@ -126,6 +141,31 @@ class SparkAmpServer:
         self.bt_sock.close()
 
         self.connected = False
+
+    def expression_process(self, increase):   
+
+        #TODO: Which plugin is enabled?
+
+        mod = self.config.get_current_effect_by_type(dict_mod)
+        if (mod[dict_Name] == "GuitarEQ6_Wah"):
+            # TODO: Let's move the EQ band pass filter
+            print("TODO")
+        else:
+            amp = self.config.get_current_effect_by_type(dict_amp)
+            effect = amp[dict_Name]
+            self.change_effect_parameter(effect, 4, self.expression_value)
+        
+            self.socketio.emit(dict_update_parameter, {
+                    dict_effect: effect,
+                    dict_parameter: 4,
+                    dict_value: self.expression_value
+                })
+
+    def expression_up(self):        
+        self.expression_process(True)
+
+    def expression_down(self):        
+        self.expression_process(False)
 
     def send_preset(self, chain_preset):
         chain_preset.preset = self.config.preset
@@ -212,7 +252,7 @@ class SparkAmpServer:
 
     ##################
     # Utility Methods
-    ##################    
+    ##################
 
     def get_js_effect_name(self, effect):
         # Modify amp IDs to make them JS friendly
@@ -240,6 +280,21 @@ class SparkAmpServer:
             self.config = SparkDevices(data)
         else:
             self.config.parse_preset(data)
+
+        # Which plugins do we need to load?
+        self.plugins.clear()
+
+        # Initialise Volume Pedal
+        amp = self.config.get_current_effect_by_type(dict_amp)        
+        amp_volume = amp[dict_Parameters][4]
+        self.plugins.add(VolumePedal(amp_volume))
+
+        # Does this config use our WahBaby?
+        mod = self.config.get_current_effect_by_type(dict_mod)
+        if (mod[dict_Name] == dict_WahBaby):
+            # Load the Wah plugin
+            self.plugins.add(WahBaby())
+            # Is it already enabled?            
 
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})
@@ -357,7 +412,8 @@ class SparkAmpServer:
         # BPM change
         if dict_BPM in data:
             self.config.bpm = data[dict_BPM]
-            self.socketio.emit(dict_bpm_change, {dict_bpm: int(data[dict_BPM])})
+            self.socketio.emit(dict_bpm_change, {
+                               dict_bpm: int(data[dict_BPM])})
 
     def connection_lost_event(self):
         self.connected = False

@@ -1,5 +1,6 @@
 import threading
 
+from engineio.payload import Payload
 from flask import Flask, jsonify, redirect, render_template, request, url_for
 from flask_socketio import SocketIO
 
@@ -34,6 +35,8 @@ app.config['SECRET_KEY'] = 'sparksrock'
 
 config = None
 
+Payload.max_decode_packets = 50
+
 socketio = SocketIO(app)
 
 amp = SparkAmpServer(socketio)
@@ -57,7 +60,7 @@ def _db_close(exc):
 @app.route('/bpm', methods=['GET', 'POST'])
 def bpm():
     if request.method == 'GET':
-        return jsonify(bpm = int(amp.config.bpm))
+        return jsonify(bpm=int(amp.config.bpm))
     else:
         bpm = int(request.form[dict_bpm])
         amp.set_bpm(bpm)
@@ -153,7 +156,7 @@ def effect_footer():
 def get_chainpreset_list():
     presets = []
     for preset in get_chain_presets():
-        presets.append({'id':preset.id, 'name':preset.name})
+        presets.append({'id': preset.id, 'name': preset.name})
     return jsonify(presets)
 
 
@@ -168,7 +171,7 @@ def index():
             preset_id = 0
         else:
             preset_id = int(preset_query)
-            amp.config.last_call = dict_pedal_chain_preset            
+            amp.config.last_call = dict_pedal_chain_preset
     else:
         preset_id = int(request.form[dict_preset_id])
         preset = get_chain_preset_by_id(preset_id)
@@ -252,6 +255,16 @@ def eject():
     amp.config = None
     amp.eject()
     socketio.emit(dict_connection_lost, {'url': url_for('connect')})
+
+
+@socketio.event
+def expression_up(data):
+    amp.expression_up()
+
+
+@socketio.event
+def expression_down(data):
+    amp.expression_down()
 
 
 @socketio.event

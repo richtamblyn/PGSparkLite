@@ -3,7 +3,11 @@ class SparkComms:
         self.bt_sock = bt_sock
 
     def send_it(self, dat):
-        self.bt_sock.send(dat)
+        try:
+            self.bt_sock.send(dat)
+            return True
+        except:
+            return False
 
     def read_it(self, dat_len):
         dat = self.bt_sock.recv(dat_len)

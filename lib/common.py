@@ -27,6 +27,7 @@ dict_Effect = 'Effect'
 dict_effect_name = 'effect_name'
 dict_effect_type = 'effect_type'
 dict_gate = 'GATE'
+dict_GuitarEQ = 'GuitarEQ6'
 dict_id = 'id'
 dict_log_change_only = 'log_change_only'
 dict_message = 'message'
@@ -68,6 +69,8 @@ dict_UUID = 'UUID'
 dict_value = 'value'
 dict_Value = 'Value'
 dict_visible = 'visible'
+dict_WahBaby = 'GuitarEQ6_Wah'
+
 
 
 def get_amp_effect_name(effect):
@@ -78,4 +81,6 @@ def get_amp_effect_name(effect):
         effect = dict_AC_Boost
     elif effect.isdigit():
         effect = dict_bias_reverb
+    elif effect == dict_WahBaby:
+        effect = dict_GuitarEQ
     return effect
