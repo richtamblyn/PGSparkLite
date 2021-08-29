@@ -82,6 +82,8 @@ class SparkAmpServer:
         if not success:
             self.connection_lost_event()
 
+        self.update_plugins()
+
     def change_effect_parameter(self, effect, parameter, value):
         cmd = self.msg.change_effect_parameter(effect, parameter, value)
         success = self.comms.send_it(cmd[0])
@@ -233,6 +235,8 @@ class SparkAmpServer:
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
         self.config.last_call = dict_turn_on_off
 
+        self.update_plugins()
+
         return {dict_effect: self.get_js_effect_name(effect[dict_Name]),
                 dict_state: state,
                 dict_effect_type: effect_type}
@@ -275,13 +279,22 @@ class SparkAmpServer:
         else:
             self.config.parse_preset(data)
 
+        self.update_plugins()
+
+        self.socketio.emit(dict_pedal_status, self.get_pedal_status())
+        self.socketio.emit(dict_connection_success, {'url': '/'})
+
+
+    def update_plugins(self):
         # Which plugins do we need to load?
         self.plugins.clear()
 
-        # Initialise Volume Pedal
+        # Initialise Default Volume Pedal
         amp = self.config.get_current_effect_by_type(dict_amp)
         amp_volume = amp[dict_Parameters][4]
         self.plugins.add(VolumePedal(amp[dict_Name],dict_amp,True, [amp_volume]))
+
+        # Custom Config Plugins go here...
 
         # Does this config use our WahBaby?
         mod = self.config.get_current_effect_by_type(dict_mod)
@@ -289,9 +302,8 @@ class SparkAmpServer:
             # Load the Wah plugin
             self.plugins.add(WahBaby(dict_WahBaby,dict_mod, False, None))
             # Is it already enabled?
-
-        self.socketio.emit(dict_pedal_status, self.get_pedal_status())
-        self.socketio.emit(dict_connection_success, {'url': '/'})
+            if mod[dict_OnOff] == dict_On:
+                self.plugins.enable_plugin(WahBaby)
 
     ##################
     # Event Handling

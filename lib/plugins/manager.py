@@ -13,4 +13,11 @@ class PluginManager:
         for plugin in self._plugins:
             if plugin.enabled == True:
                 return plugin
+
+    def enable_plugin(self, class_name):
+        for plugin in self._plugins:
+            if plugin.__class__ == class_name:
+                plugin.enable()
+            else:
+                plugin.disable()
         
