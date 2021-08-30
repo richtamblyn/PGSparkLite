@@ -258,13 +258,8 @@ def eject():
 
 
 @socketio.event
-def expression_up(data):
-    amp.expression_up()
-
-
-@socketio.event
-def expression_down(data):
-    amp.expression_down()
+def expression_pedal(value):
+    amp.expression_pedal(value)
 
 
 @socketio.event

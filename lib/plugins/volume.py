@@ -14,14 +14,6 @@ class VolumePedal(Plugin):
         self._master_param = 4
         self._volume = params[0]
 
-    def calculate_params(self, increase):        
-        if increase == True:
-            self._volume += self._rate
-            if self._volume > Plugin.max:
-                self._volume = Plugin.max
-        else:
-            self._volume -= self._rate
-            if self._volume < Plugin.min:
-                self._volume = Plugin.min
-
+    def calculate_params(self, value):        
+        self._volume = value
         return [(self._master_param,self._volume)]

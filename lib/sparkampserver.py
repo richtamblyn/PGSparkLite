@@ -143,10 +143,11 @@ class SparkAmpServer:
         self.bt_sock.close()
 
         self.connected = False
+    
 
-    def expression_process(self, increase):
+    def expression_pedal(self, value):        
         plugin = self.plugins.get_plugin()
-        params = plugin.calculate_params(increase)
+        params = plugin.calculate_params(value)
 
         if params == None:
             return
@@ -159,12 +160,7 @@ class SparkAmpServer:
                 dict_parameter: param[0],
                 dict_value: param[1]
             })
-
-    def expression_up(self):
-        self.expression_process(True)
-
-    def expression_down(self):
-        self.expression_process(False)
+    
 
     def send_preset(self, chain_preset):
         chain_preset.preset = self.config.preset
