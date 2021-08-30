@@ -22,17 +22,16 @@ class WahBaby(Plugin):
         1: (0.5, 0.5, 0.75, 1, 0)  # Top
     }
 
-    def __init__(self, effect_name, type, enabled, params):
+    def __init__(self, effect_name, type, enabled, params=None):
         super().__init__(effect_name, type, enabled)
 
         self._low_param = 2
         self._low_mid_param = 3
         self._mid_param = 4
         self._high_param = 5
-        self._rolloff_param = 6        
+        self._rolloff_param = 6
 
     def calculate_params(self, value):        
-        # Get the closest setting to our value
-        new_step = self._steps.get(value) or self._steps[min(self._steps.key(), key = lambda key: abs(key-value))]
-        step = self._steps[new_step]
+        step = self._steps[min(
+            self._steps.keys(), key=lambda key: abs(key-value))]
         return [(self._low_param, step[0]), (self._low_mid_param, step[1]), (self._mid_param, step[2]), (self._high_param, step[3]), (self._rolloff_param, step[4])]
