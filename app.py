@@ -35,7 +35,7 @@ app.config['SECRET_KEY'] = 'sparksrock'
 
 config = None
 
-Payload.max_decode_packets = 50
+Payload.max_decode_packets = 150
 
 socketio = SocketIO(app)
 
