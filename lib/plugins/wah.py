@@ -8,31 +8,29 @@ from lib.plugins.base import Plugin
 
 class WahBaby(Plugin):
 
+    _low_param = 2
+    _low_mid_param = 3
+    _mid_param = 4
+    _high_mid_param = 5  
+
     _steps = {
-        0:    (0.5, 1,   0.5, 0.1),
-        0.1:  (0.4, 0.9, 0.6, 0.1),
-        0.2:  (0.3, 0.8, 0.7, 0.2),
-        0.3:  (0.2, 0.7, 0.8, 0.3),
-        0.45: (0.1, 0.6, 0.9, 0.4),
-        0.5:  (0.1, 0.5, 1,   0.5),
-        0.55: (0.1, 0.5, 1,   0.5),
-        0.6:  (0.1, 0.5, 1,   0.5),
-        0.65: (0.1, 0.4, 0.9, 0.6),
-        0.7:  (0.1, 0.3, 0.8, 0.7),
-        0.8:  (0.1, 0.2, 0.6, 0.8),
-        0.9:  (0.1, 0.1, 0.5, 0.9),
-        1:    (0.1, 0.1, 0.5, 1)
+        0:    [(_low_param, 0.5), (_low_mid_param, 1),   (_mid_param, 0.5)],
+        0.1:  [(_low_param, 0.4), (_low_mid_param, 0.9), (_mid_param, 0.6), (_high_mid_param, 0.1)],
+        0.2:  [(_low_param, 0.3), (_low_mid_param, 0.8), (_mid_param, 0.7), (_high_mid_param, 0.2)],
+        0.3:  [(_low_param, 0.2), (_low_mid_param, 0.7), (_mid_param, 0.8), (_high_mid_param, 0.3)],
+        0.4:  [(_low_param, 0.1), (_low_mid_param, 0.6), (_mid_param, 0.9), (_high_mid_param, 0.4)],        
+        0.6:  [(_low_mid_param, 0.5), (_mid_param, 1),   (_high_mid_param, 0.5)],
+        0.8:  [(_low_mid_param, 0.4), (_mid_param, 0.9), (_high_mid_param, 0.6)],
+        0.85: [(_low_mid_param, 0.3), (_mid_param, 0.8), (_high_mid_param, 0.7)],
+        0.9:  [(_low_mid_param, 0.2), (_mid_param, 0.6), (_high_mid_param, 0.8)],
+        0.95: [(_low_mid_param, 0.1), (_mid_param, 0.5), (_high_mid_param, 0.9)],
+        1:    [(_high_mid_param, 1)]
     }
 
     def __init__(self, effect_name, type, enabled, params=None):
-        super().__init__(effect_name, type, enabled)
-
-        self._low_param = 2
-        self._low_mid_param = 3
-        self._mid_param = 4
-        self._high_mid_param = 5        
+        super().__init__(effect_name, type, enabled)              
 
     def calculate_params(self, value):
         step = self._steps[min(
             self._steps.keys(), key=lambda key: abs(key-value))]
-        return [(self._low_param, step[0]), (self._low_mid_param, step[1]), (self._mid_param, step[2]), (self._high_mid_param, step[3])]
+        return step
