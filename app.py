@@ -287,6 +287,12 @@ def reset_config():
 
 
 @socketio.event
+def set_expression_param(data):    
+    effect = str(data[dict_effect])
+    amp.update_plugin(get_amp_effect_name(effect), data[dict_parameter])
+
+
+@socketio.event
 def show_hide_pedal(data):
     amp.config.update_config(
         data[dict_effect_type], dict_show_hide_pedal, data[dict_visible])

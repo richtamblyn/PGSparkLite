@@ -47,6 +47,26 @@ $(document).ready(function () {
     socket.emit("toggle_effect_onoff", data);
   });
 
+  $(document).on("dblclick", ".input-knob", function(){
+    var effect = $(this).data("id");
+    var param = $(this).data("parameter");
+    var expression = $(this).data("expression");
+    var enabled = true;
+
+    if(expression === undefined || expression === false){
+      $(this).data("expression", true);   
+      $(".parameter_value").removeClass("expression_param");
+      $(this).parent().addClass("expression_param");
+    } else {
+      $(this).data("expression", false);
+      $(this).parent().removeClass("expression_param");
+      enabled = false;
+    }
+
+    var data = { effect: effect, parameter: param, enabled: enabled}
+    socket.emit("set_expression_param", data);
+  });
+
   $(document).on("change", "[type=checkbox]", function () {
     window.amp_preset_modified();
     var effect = $(this).data("id");

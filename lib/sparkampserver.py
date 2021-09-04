@@ -37,9 +37,8 @@ from lib.external.SparkReaderClass import SparkReadMessage
 from lib.messages import (msg_amp_connected, msg_amp_preset_stored,
                           msg_connection_failed, msg_preset_error,
                           msg_retrieving_config)
-from lib.plugins.manager import PluginManager
 from lib.plugins.volume import VolumePedal
-from lib.plugins.wah import WahBaby
+from lib.plugins.custom import CustomExpression
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 from lib.sparkpreset import SparkPreset
@@ -64,7 +63,7 @@ class SparkAmpServer:
         self.amp_update_count = 0
         self.chain_update_count = 0
 
-        self.plugins = PluginManager()
+        self.plugin = None
 
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
@@ -145,18 +144,17 @@ class SparkAmpServer:
         self.connected = False
     
 
-    def expression_pedal(self, value):        
-        plugin = self.plugins.get_plugin()
-        params = plugin.calculate_params(value)
+    def expression_pedal(self, value):                
+        params = self.plugin.calculate_params(value)
 
         if params == None:
             return
 
         for param in params:
-            self.change_effect_parameter(get_amp_effect_name(plugin.name), param[0], param[1])
+            self.change_effect_parameter(self.plugin.name, param[0], param[1])
 
             self.socketio.emit(dict_update_parameter, {
-                dict_effect: plugin.name,
+                dict_effect: self.plugin.name,
                 dict_parameter: param[0],
                 dict_value: param[1]
             })
@@ -278,30 +276,20 @@ class SparkAmpServer:
         else:
             self.config.parse_preset(data)
 
-        self.update_plugins()
+        self.update_plugin()
 
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})
 
-    def update_plugins(self):        
-        self.plugins.clear()
-
-        # Initialise Default Volume Pedal
-        amp = self.config.get_current_effect_by_type(dict_amp)
-        amp_volume = amp[dict_Parameters][4]
-        self.plugins.add(VolumePedal(
-            amp[dict_Name], dict_amp, True, [amp_volume]))
-
-        # Custom Config Plugins go here...
-
-        # Does this config use our WahBaby?
-        mod = self.config.get_current_effect_by_type(dict_mod)
-        if (mod[dict_Name] == dict_WahBaby):
-            # Load the Wah plugin
-            self.plugins.add(WahBaby(dict_WahBaby, dict_mod, False, None))
-            # Is it already enabled?
-            if mod[dict_OnOff] == dict_On:
-                self.plugins.enable_plugin(WahBaby)
+    def update_plugin(self, effect_name = None, param = None):                
+        if effect_name == None:
+            # Initialise Default Volume Pedal
+            amp = self.config.get_current_effect_by_type(dict_amp)        
+            self.plugin = VolumePedal(amp[dict_Name])
+        else:
+            # Assign user selected effect and parameter
+            self.plugin = CustomExpression(effect_name, param)
+        
 
     ##################
     # Event Handling

@@ -7,13 +7,9 @@ from lib.plugins.base import Plugin
 
 class VolumePedal(Plugin):        
 
-    def __init__(self, effect_name, type, enabled, params):
-        super().__init__(effect_name, type, enabled)
-        
-        self._rate = 0.05
-        self._master_param = 4
-        self._volume = params[0]
+    def __init__(self, effect_name):
+        super().__init__(effect_name)                
+        self._master_param = 4        
 
-    def calculate_params(self, value):        
-        self._volume = value
-        return [(self._master_param,self._volume)]
+    def calculate_params(self, value):                
+        return [(self._master_param, value)]
