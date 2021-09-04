@@ -232,9 +232,7 @@ class SparkAmpServer:
             get_amp_effect_name(effect[dict_Name]), state)
 
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
-        self.config.last_call = dict_turn_on_off
-
-        self.update_plugin()
+        self.config.last_call = dict_turn_on_off        
 
         return {dict_effect: self.get_js_effect_name(effect[dict_Name]),
                 dict_state: state,
