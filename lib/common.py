@@ -70,9 +70,6 @@ dict_UUID = 'UUID'
 dict_value = 'value'
 dict_Value = 'Value'
 dict_visible = 'visible'
-dict_WahBaby = 'GuitarEQ6_Wah'
-
-
 
 def get_amp_effect_name(effect):
     # Special cases to match internal amp ID
@@ -81,7 +78,5 @@ def get_amp_effect_name(effect):
     elif effect == dict_AC_Boost_safe:
         effect = dict_AC_Boost
     elif effect.isdigit():
-        effect = dict_bias_reverb
-    elif effect == dict_WahBaby:
-        effect = dict_GuitarEQ
+        effect = dict_bias_reverb    
     return effect

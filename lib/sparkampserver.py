@@ -288,7 +288,7 @@ class SparkAmpServer:
             self.plugin = VolumePedal(amp[dict_Name])
         else:
             # Assign user selected effect and parameter
-            self.plugin = CustomExpression(effect_name, param)
+            self.plugin = CustomExpression(str(effect_name), param)
         
 
     ##################
