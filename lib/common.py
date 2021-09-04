@@ -26,7 +26,9 @@ dict_effect = 'effect'
 dict_Effect = 'Effect'
 dict_effect_name = 'effect_name'
 dict_effect_type = 'effect_type'
+dict_enabled = 'enabled'
 dict_gate = 'GATE'
+dict_GuitarEQ = 'GuitarEQ6'
 dict_id = 'id'
 dict_log_change_only = 'log_change_only'
 dict_message = 'message'
@@ -69,7 +71,6 @@ dict_value = 'value'
 dict_Value = 'Value'
 dict_visible = 'visible'
 
-
 def get_amp_effect_name(effect):
     # Special cases to match internal amp ID
     if effect == dict_bias_noisegate_safe:
@@ -77,5 +78,5 @@ def get_amp_effect_name(effect):
     elif effect == dict_AC_Boost_safe:
         effect = dict_AC_Boost
     elif effect.isdigit():
-        effect = dict_bias_reverb
+        effect = dict_bias_reverb    
     return effect

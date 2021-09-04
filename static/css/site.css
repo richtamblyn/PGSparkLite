@@ -152,6 +152,12 @@ a:visited {
   border-radius: 8px;
 }
 
+.expression_param {
+  border: black !important;
+  border-style: dashed !important;
+  border-width: 2px !important;
+}
+
 .grayscale {
   filter: grayscale(100%);
 }

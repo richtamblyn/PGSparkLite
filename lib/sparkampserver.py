@@ -37,6 +37,8 @@ from lib.external.SparkReaderClass import SparkReadMessage
 from lib.messages import (msg_amp_connected, msg_amp_preset_stored,
                           msg_connection_failed, msg_preset_error,
                           msg_retrieving_config)
+from lib.plugins.custom import CustomExpression
+from lib.plugins.volume import VolumePedal
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 from lib.sparkpreset import SparkPreset
@@ -61,18 +63,34 @@ class SparkAmpServer:
         self.amp_update_count = 0
         self.chain_update_count = 0
 
+        self.plugin = None
+
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
-        self.comms.send_it(cmd[0])
-        self.request_preset(hw_preset)
+        success = self.comms.send_it(cmd[0])
+
+        if not success:
+            self.connection_lost_event()
+        else:
+            self.request_preset(hw_preset)
 
     def change_effect(self, old_effect, new_effect):
         cmd = self.msg.change_effect(old_effect, new_effect)
-        self.comms.send_it(cmd[0])
+        success = self.comms.send_it(cmd[0])
+
+        if not success:
+            self.connection_lost_event()
+
+        # Have they unloaded effect that was controlled by expression?
+        if self.plugin.name == old_effect:
+            self.update_plugin(enabled=False)
 
     def change_effect_parameter(self, effect, parameter, value):
         cmd = self.msg.change_effect_parameter(effect, parameter, value)
-        self.comms.send_it(cmd[0])
+        success = self.comms.send_it(cmd[0])
+
+        if not success:
+            self.connection_lost_event()
 
     def connect(self):
         try:
@@ -126,6 +144,23 @@ class SparkAmpServer:
         self.bt_sock.close()
 
         self.connected = False
+    
+
+    def expression_pedal(self, value):                
+        params = self.plugin.calculate_params(value)
+
+        if params == None:
+            return
+
+        for param in params:
+            self.change_effect_parameter(get_amp_effect_name(self.plugin.name), param[0], param[1])
+
+            self.socketio.emit(dict_update_parameter, {
+                dict_effect: self.plugin.name,
+                dict_parameter: param[0],
+                dict_value: param[1]
+            })
+    
 
     def send_preset(self, chain_preset):
         chain_preset.preset = self.config.preset
@@ -197,7 +232,7 @@ class SparkAmpServer:
             get_amp_effect_name(effect[dict_Name]), state)
 
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
-        self.config.last_call = dict_turn_on_off
+        self.config.last_call = dict_turn_on_off        
 
         return {dict_effect: self.get_js_effect_name(effect[dict_Name]),
                 dict_state: state,
@@ -212,7 +247,7 @@ class SparkAmpServer:
 
     ##################
     # Utility Methods
-    ##################    
+    ##################
 
     def get_js_effect_name(self, effect):
         # Modify amp IDs to make them JS friendly
@@ -241,8 +276,20 @@ class SparkAmpServer:
         else:
             self.config.parse_preset(data)
 
+        self.update_plugin()
+
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})
+
+    def update_plugin(self, effect_name = None, param = None, enabled = None):                
+        if effect_name == None or enabled == False:
+            # Initialise Default Volume Pedal
+            amp = self.config.get_current_effect_by_type(dict_amp)        
+            self.plugin = VolumePedal(amp[dict_Name])
+        else:
+            # Assign user selected effect and parameter
+            self.plugin = CustomExpression(str(effect_name), param)
+        
 
     ##################
     # Event Handling
@@ -357,7 +404,8 @@ class SparkAmpServer:
         # BPM change
         if dict_BPM in data:
             self.config.bpm = data[dict_BPM]
-            self.socketio.emit(dict_bpm_change, {dict_bpm: int(data[dict_BPM])})
+            self.socketio.emit(dict_bpm_change, {
+                               dict_bpm: int(data[dict_BPM])})
 
     def connection_lost_event(self):
         self.connected = False
