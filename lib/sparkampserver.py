@@ -81,7 +81,9 @@ class SparkAmpServer:
         if not success:
             self.connection_lost_event()
 
-        self.update_plugins()
+        # Have they unloaded effect that was controlled by expression?
+        if self.plugin.name == old_effect:
+            self.update_plugin(enabled=False)
 
     def change_effect_parameter(self, effect, parameter, value):
         cmd = self.msg.change_effect_parameter(effect, parameter, value)
