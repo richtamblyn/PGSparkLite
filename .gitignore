@@ -36,3 +36,4 @@ lib/plugins/__pycache__/__init__.cpython-39.pyc
 lib/plugins/__pycache__/base.cpython-39.pyc
 lib/plugins/__pycache__/manager.cpython-39.pyc
 lib/plugins/__pycache__/volume.cpython-39.pyc
+lib/plugins/__pycache__/custom.cpython-39.pyc
