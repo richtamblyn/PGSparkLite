@@ -232,7 +232,7 @@ class SparkAmpServer:
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
         self.config.last_call = dict_turn_on_off
 
-        self.update_plugins()
+        self.update_plugin()
 
         return {dict_effect: self.get_js_effect_name(effect[dict_Name]),
                 dict_state: state,
@@ -281,8 +281,8 @@ class SparkAmpServer:
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})
 
-    def update_plugin(self, effect_name = None, param = None):                
-        if effect_name == None:
+    def update_plugin(self, effect_name = None, param = None, enabled = None):                
+        if effect_name == None or enabled == False:
             # Initialise Default Volume Pedal
             amp = self.config.get_current_effect_by_type(dict_amp)        
             self.plugin = VolumePedal(amp[dict_Name])

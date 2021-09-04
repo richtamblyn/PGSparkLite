@@ -16,8 +16,8 @@ from lib.common import (dict_bias_noisegate_safe, dict_bias_reverb, dict_bpm,
                         dict_change_parameter, dict_change_pedal_preset,
                         dict_change_preset, dict_connection_lost,
                         dict_connection_message, dict_effect, dict_effect_type,
-                        dict_log_change_only, dict_message, dict_name,
-                        dict_Name, dict_new_effect, dict_old_effect,
+                        dict_enabled, dict_log_change_only, dict_message,
+                        dict_name, dict_Name, dict_new_effect, dict_old_effect,
                         dict_parameter, dict_pedal_chain_preset,
                         dict_pedal_status, dict_preset, dict_preset_id,
                         dict_preset_stored, dict_reload_client_interface,
@@ -289,7 +289,7 @@ def reset_config():
 @socketio.event
 def set_expression_param(data):    
     effect = str(data[dict_effect])
-    amp.update_plugin(get_amp_effect_name(effect), data[dict_parameter])
+    amp.update_plugin(get_amp_effect_name(effect), data[dict_parameter], data[dict_enabled])
 
 
 @socketio.event
