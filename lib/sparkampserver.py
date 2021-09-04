@@ -153,7 +153,7 @@ class SparkAmpServer:
             return
 
         for param in params:
-            self.change_effect_parameter(self.plugin.name, param[0], param[1])
+            self.change_effect_parameter(get_amp_effect_name(self.plugin.name), param[0], param[1])
 
             self.socketio.emit(dict_update_parameter, {
                 dict_effect: self.plugin.name,

@@ -287,9 +287,8 @@ def reset_config():
 
 
 @socketio.event
-def set_expression_param(data):    
-    effect = str(data[dict_effect])
-    amp.update_plugin(get_amp_effect_name(effect), data[dict_parameter], data[dict_enabled])
+def set_expression_param(data):        
+    amp.update_plugin(data[dict_effect], data[dict_parameter], data[dict_enabled])
 
 
 @socketio.event
