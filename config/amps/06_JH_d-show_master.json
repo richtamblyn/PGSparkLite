@@ -6,7 +6,8 @@
 		"color": "white",
 		"knob": "blackface",
 		"topper": "duo",
-		"badge": "duo",
+		"invert_topper": "true",
+		"badge": "showmaster",
 		"parameters": [{
 				"name": "GAIN",
 				"id": 0,
@@ -36,7 +37,7 @@
 				"margin": "5px"
 			},
 			{
-				"name": "MASTER",
+				"name": "VOLUME",
 				"id": 4,
 				"width": 19,
 				"diameter": 60,

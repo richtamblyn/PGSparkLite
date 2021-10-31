@@ -1,12 +1,13 @@
 {
-	"Twin": {
+	"JH.Bassman50Silver": {
 		"name": "J.H. Bass Master",
 		"effect": "amp",
-		"background": "linear-gradient(0deg, rgba(0,0,0,1) 89%, rgba(255,255,255,1) 100%)",
-		"color": "white",
+		"background": "linear-gradient(0deg, rgba(215,215,215,1) 93%, rgba(255,255,255,1) 100%)",
+		"color": "black",
 		"knob": "blackface",
 		"topper": "duo",
-		"badge": "duo",
+		"invert_topper": "true",
+		"badge": "bassmaster",
 		"parameters": [{
 				"name": "GAIN",
 				"id": 0,
@@ -36,7 +37,7 @@
 				"margin": "5px"
 			},
 			{
-				"name": "MASTER",
+				"name": "VOLUME",
 				"id": 4,
 				"width": 19,
 				"diameter": 60,

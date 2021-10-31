@@ -51,6 +51,17 @@
     font-weight:900;
 }
 
+.bassmaster {    
+    padding:20px;        
+    font-family:serif;    
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: white;
+    font-size: 34px;
+    font-style:italic;
+    margin-left: -252px;
+    margin-top: -40px;
+}
+
 .british30 {
     color:black;
     font-weight:900;
@@ -158,10 +169,33 @@
     text-transform: uppercase;
 }
 
+.showmaster {    
+    padding:20px;        
+    font-family:serif;    
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black; 
+    color: white;
+    font-size: 34px;
+    font-style:italic;
+    margin-left: -212px;
+    margin-top: -40px;
+}
+
 .slo100 {
     font-size:50px;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black;
+}
+
+.sunn {
+    font-size:20px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    text-shadow: 0 0 15px black, 0 0 15px black, 0 0 15px black, 0 0 15px black;
+    text-transform: uppercase;
+    background:black;
+    border-width:1px;
+    padding:10px 20px 10px 20px;
+    margin-left:-322px;
+    margin-top:-35px;
 }
 
 .sunny3000 {
