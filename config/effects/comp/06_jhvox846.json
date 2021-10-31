@@ -1,0 +1,16 @@
+{
+    "JH.Vox846":{
+        "name":"JH Wah",    
+        "effect": "comp",
+        "background": "linear-gradient(0deg, rgba(131,131,131,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "black",        
+        "knob": "big_black",        
+        "parameters": [
+            {"name":"WAH SHAPE", "id":0, "width":32, "diameter":89, "margin":"5px"},                        
+            {"name":"BPM", "on":"ON", "off":"OFF", "id": 1, "switch": "true", "width":33, "margin":"10px"},
+            {"name":"MS", "id": 2, "width": 33, "diameter":89, "margin":"5px"},
+            {"name":"BARS", "id":3, "width":33, "diameter":89},
+            {"name":"SENSITIVITY", "id":4, "width":33, "diameter":89}
+        ]
+    }    
+}

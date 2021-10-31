@@ -10,8 +10,11 @@ class SparkComms:
             return False
 
     def read_it(self, dat_len):
-        dat = self.bt_sock.recv(dat_len)
-        return dat
+        try:
+            dat = self.bt_sock.recv(dat_len)
+            return dat
+        except:
+            return None        
 
     # helper functions to request preset and send acknowledgements
     def send_ack(self, seq, cmd):
