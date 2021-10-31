@@ -2,44 +2,43 @@
 	"JH.Vox846": {
 		"name": "JH Wah",
 		"effect": "comp",
-		"background": "linear-gradient(0deg, rgba(131,131,131,1) 89%, rgba(255,255,255,1) 100%)",
-		"color": "black",
-		"knob": "big_black",
+		"background": "#223212",
+		"color": "white",
+		"knob": "oscar",
 		"parameters": [{
 				"name": "WAH SHAPE",
 				"id": 0,
-				"width": 32,
-				"diameter": 89,
+				"width": 32,				
 				"margin": "5px",
 				"radio": "true",
 				"options": [{
 						"id": "wah-1",
-						"value": "0.0",
-						"label": "WAH1"
+						"value": 0.0,
+						"label": "^^^^"
 					},
 					{
 						"id": "wah-2",
-						"value": "0.2",
-						"label": "WAH2"
+						"value": 0.2,
+						"label": "^^"
 					},
 					{
 						"id": "wah-3",
-						"value": "0.4",
-						"label": "WAH3"
+						"value": 0.4,
+						"label": "/|"
 					},
 					{
 						"id": "wah-4",
-						"value": "0.6",
-						"label": "WAH4"
+						"value": 0.6,
+						"label": "^/|"
 					},
 					{
 						"id": "wah-5",
-						"value": "0.8",
-						"label": "WAH5"
+						"value": 0.8,
+						"label": "^^/|"
 					},
 					{
 						"id": "wah-6",
-						"value": "1.0",
+						"value": 1.0,
 						"label": "AUTO"
 					}
 				]
@@ -51,25 +50,47 @@
 				"switch": "true",
 				"width": 33,
 				"margin": "10px"
-			},
+			},		
 			{
-				"name": "MS",
-				"id": 2,
-				"width": 33,
-				"diameter": 89,
-				"margin": "5px"
-			},
-			{
-				"name": "BARS",
+				"name": "BARS (BPM On Only)",
 				"id": 3,
-				"width": 33,
-				"diameter": 89
-			},
+				"width": 33,				
+				"radio": "true",
+				"options": [{
+						"id": "bar-1",
+						"value": 0.0,
+						"label": "1/8"
+					},
+					{
+						"id": "bar-2",
+						"value": 0.25,
+						"label": "1/4"
+					},
+					{
+						"id": "bar-3",
+						"value": 0.50,
+						"label": "1/2"
+					},
+					{
+						"id": "bar-4",
+						"value": 0.75,
+						"label": "1"
+					}
+				]
+			},				
 			{
-				"name": "SENSITIVITY",
+				"name": "MS (BPM Off Only)",
+				"id": 2,
+				"width": 46,
+				"diameter": 60,
+				"margin": "5px"
+			},		
+			{
+				"name": "SENSITIVITY (AUTO Only)",
 				"id": 4,
-				"width": 33,
-				"diameter": 89
+				"width": 46,
+				"diameter": 60,
+				"margin": "5px"
 			}
 		]
 	}

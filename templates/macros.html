@@ -76,7 +76,9 @@
         {{ parameter.name }}
     </div>
         {% for option in parameter.options %}
-            <input type="radio" id="{{ option.id }}" data-id="{{ effect_id }}" name="{{ parameter.name }}" value="{{ option.value }}">
+            <input type="radio" id="{{ option.id }}" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" name="{{ parameter.name }}" 
+            {% if parameter_values[parameter.id] == option.value %} checked {% endif %}
+            value="{{ option.value }}" onchange="knobChangeEventHandler(this)">
             <label for="{{ option.id }}">{{ option.label }}</label><br>
         {% endfor %}
     {% else %}
