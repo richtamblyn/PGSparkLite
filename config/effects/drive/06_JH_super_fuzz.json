@@ -1,22 +1,22 @@
 {
     "JH.SupaFuzz": {
-        "name": "J.H.Super Fuzz",
+        "name": "J.H. Super Fuzz",
         "effect": "drive",
-        "background": "linear-gradient(0deg, rgba(255,17,65,1) 89%, rgba(255,255,255,1) 100%)",
+        "background": "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
         "color": "white",
-        "knob": "hexagon",
+        "knob": "plastic_knob",
         "parameters": [
             {
                 "name": "VOLUME",
                 "id": 0,
                 "width": 49,
-                "diameter": 89
+                "diameter": 60
             },
             {
                 "name": "FILTER",
                 "id": 1,
                 "width": 49,
-                "diameter": 89
+                "diameter": 60
             }
         ]
     }

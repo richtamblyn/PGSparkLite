@@ -2,21 +2,21 @@
     "JH.Octavia": {
         "name": "J.H. Octave Fuzz",
         "effect": "drive",
-        "background": "linear-gradient(0deg, rgba(255,17,65,1) 89%, rgba(255,255,255,1) 100%)",
+        "background": "radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%)",
         "color": "white",
-        "knob": "hexagon",
+        "knob": "chicken_head_black",
         "parameters": [
             {
                 "name": "LEVEL",
                 "id": 0,
                 "width": 49,
-                "diameter": 89
+                "diameter": 75
             },
             {
                 "name": "FUZZ",
                 "id": 1,
                 "width": 49,
-                "diameter": 89
+                "diameter": 75
             }
         ]
     }

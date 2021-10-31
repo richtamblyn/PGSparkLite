@@ -2,21 +2,21 @@
     "JH.FuzzTone": {
         "name": "J.H. Fuzz Zone",
         "effect": "drive",
-        "background": "linear-gradient(0deg, rgba(255,17,65,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "white",
-        "knob": "hexagon",
+        "background": "radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
+        "color": "black",
+        "knob": "big_black",
         "parameters": [
             {
                 "name": "VOLUME",
                 "id": 0,
                 "width": 49,
-                "diameter": 89
+                "diameter": 75
             },
             {
                 "name": "ATTACK",
                 "id": 1,
                 "width": 49,
-                "diameter": 89
+                "diameter": 75
             }
         ]
     }
