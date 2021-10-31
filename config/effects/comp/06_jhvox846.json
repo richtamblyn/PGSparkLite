@@ -4,12 +4,11 @@
 		"effect": "comp",
 		"background": "#000000",
 		"color": "white",
-		"knob": "oscar",
+		"knob": "silver_knob",
 		"parameters": [{
 				"name": "SHAPE",
 				"id": 0,
-				"width": 32,				
-				"margin": "5px",
+				"width": 32,								
 				"radio": "true",
 				"options": [{
 						"id": "wah-1",
@@ -82,14 +81,14 @@
 				"name": "MS (BPM Off Only)",
 				"id": 2,
 				"width": 46,
-				"diameter": 60,
+				"diameter": 50,
 				"margin": "5px"
 			},		
 			{
 				"name": "SENSITIVITY (AUTO Only)",
 				"id": 4,
 				"width": 46,
-				"diameter": 60,
+				"diameter": 50,
 				"margin": "5px"
 			}
 		]
