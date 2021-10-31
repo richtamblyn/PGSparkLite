@@ -1,12 +1,12 @@
 {
 	"JH.Vox846": {
-		"name": "JH Wah",
+		"name": "J.H. Legendary Wah",
 		"effect": "comp",
-		"background": "#223212",
+		"background": "#000000",
 		"color": "white",
 		"knob": "oscar",
 		"parameters": [{
-				"name": "WAH SHAPE",
+				"name": "SHAPE",
 				"id": 0,
 				"width": 32,				
 				"margin": "5px",

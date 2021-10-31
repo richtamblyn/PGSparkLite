@@ -1,0 +1,47 @@
+{
+	"JH.JTM45": {
+		"name": "J.H. 45/100",
+		"effect": "amp",
+		"background": "linear-gradient(0deg, rgba(0,0,0,1) 89%, rgba(255,255,255,1) 100%)",
+		"color": "white",
+		"knob": "blackface",
+		"topper": "duo",
+		"badge": "duo",
+		"parameters": [{
+				"name": "GAIN",
+				"id": 0,
+				"width": 19,
+				"diameter": 60,
+				"margin": "5px"
+			},
+			{
+				"name": "BASS",
+				"id": 3,
+				"width": 19,
+				"diameter": 60,
+				"margin": "5px"
+			},
+			{
+				"name": "MIDDLE",
+				"id": 2,
+				"width": 19,
+				"diameter": 60,
+				"margin": "5px"
+			},
+			{
+				"name": "TREBLE",
+				"id": 1,
+				"width": 19,
+				"diameter": 60,
+				"margin": "5px"
+			},
+			{
+				"name": "MASTER",
+				"id": 4,
+				"width": 19,
+				"diameter": 60,
+				"margin": "5px"
+			}
+		]
+	}
+}
