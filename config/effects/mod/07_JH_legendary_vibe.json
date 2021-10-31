@@ -15,19 +15,19 @@
                 "margin": "10px"
             },
             {
-                "name": "INTENSITY",                
-                "id": 1,                
-                "width": 48,
-                "diameter": 65,
-                "margin": "10px"
-            },
-            {
-                "name": "SWEEP",
+                "name": "INTENSITY",
                 "id": 2,                
                 "width": 48,
                 "diameter": 65,
                 "margin": "10px"
             },
+            {
+                "name": "SWEEP",                
+                "id": 1,                
+                "width": 48,
+                "diameter": 65,
+                "margin": "10px"
+            },            
             {
                 "name": "VIBRATO / CHORUS MIX",
                 "id": 3,                
