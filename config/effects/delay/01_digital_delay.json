@@ -43,22 +43,22 @@
                 "options":[
                     {
                         "id":"del-mode-1",
-                        "value":0.0,
+                        "value":0.3,
                         "label":"50ms"
                     },
                     {
                         "id":"del-mode-2",
-                        "value":0.25,
+                        "value":0.4,
                         "label":"200ms"
                     },
                     {
                         "id":"del-mode-3",
-                        "value":0.50,
+                        "value":0.6,
                         "label":"500ms"
                     },
                     {
                         "id":"del-mode-4",
-                        "value":0.75,
+                        "value":0.72,
                         "label":"1s"
                     }
                 ]

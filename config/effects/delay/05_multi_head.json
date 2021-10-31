@@ -10,35 +10,37 @@
             {
                 "name": "REPEAT RATE",
                 "id": 0,
-                "width": 20,
-                "diameter": 70
+                "width": 21,
+                "diameter": 70,
+                "margin": "10px"
             },
             {
                 "name": "INTENSITY",
                 "id": 1,
-                "width": 19,
-                "diameter": 55,
-                "margin": "40px"
-            },
-            {
-                "on": "BPM",
-                "off": "",
-                "id": 4,
-                "switch": "true",
-                "width": 19,
-                "margin": "25px"
+                "width": 21,
+                "diameter": 70,
+                "margin": "10px"
             },
             {
                 "name": "ECHO VOL.",
                 "id": 2,
-                "width": 19,
-                "diameter": 55,
-                "margin": "40px"
+                "width": 21,
+                "diameter": 70,
+                "margin": "10px"
             },
             {
-                "name": "MODE SELECTOR",
+                "name":"BPM",
+                "on": "ON",
+                "off": "OFF",
+                "id": 4,
+                "switch": "true",
+                "width": 23,
+                "margin": "13px"
+            },            
+            {
+                "name": "MODE",
                 "id": 3,
-                "width": 19,
+                "width": 10,
                 "radio": "true",
                 "options":[
                     {
@@ -48,17 +50,17 @@
                     },
                     {
                         "id":"mode-2",
-                        "value":0.25,
+                        "value":0.35,
                         "label":"2"
                     },
                     {
                         "id":"mode-3",
-                        "value":0.50,
+                        "value":0.62,
                         "label":"3"
                     },
                     {
                         "id":"mode-4",
-                        "value":0.75,
+                        "value":0.95,
                         "label":"4"
                     }
                 ]
