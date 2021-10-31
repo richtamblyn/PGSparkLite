@@ -1,18 +1,43 @@
 {
-    "AmericanHighGain":{
-        "name":"American High Gain",    
+    "AmericanHighGain": {
+        "name": "American High Gain",
         "effect": "amp",
-        "background":"linear-gradient(0deg, rgba(28,28,28,1) 93%, rgba(255,255,255,1) 100%)",
-        "color":"white",
-        "knob":"big_black",        
-        "topper":"tweedbass",
-        "badge":"americanhighgain",
+        "background": "linear-gradient(0deg, rgba(28,28,28,1) 93%, rgba(255,255,255,1) 100%)",
+        "color": "white",
+        "knob": "big_black",
+        "topper": "tweedbass",
+        "badge": "americanhighgain",
         "parameters": [
-            {"name":"GAIN", "id": 0, "width":19, "diameter":70},
-            {"name":"BASS", "id": 3, "width":19, "diameter":70},
-            {"name":"MIDDLE", "id": 2, "width":19, "diameter":70},
-            {"name":"TREBLE", "id": 1, "width":19, "diameter":70},
-            {"name":"MASTER", "id": 4, "width":19, "diameter":70}
+            {
+                "name": "GAIN",
+                "id": 0,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "BASS",
+                "id": 3,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "MIDDLE",
+                "id": 2,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "TREBLE",
+                "id": 1,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "MASTER",
+                "id": 4,
+                "width": 19,
+                "diameter": 70
+            }
         ]
-    }    
+    }
 }

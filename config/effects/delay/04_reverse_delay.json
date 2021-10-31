@@ -1,17 +1,46 @@
 {
-    "DelayReverse":{
-        "name":"Reverse Delay",    
+    "DelayReverse": {
+        "name": "Reverse Delay",
         "effect": "delay",
         "switch_parameter": 0,
         "background": "linear-gradient(0deg, rgba(134,42,12,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "white",        
+        "color": "white",
         "knob": "five_step",
         "parameters": [
-            {"name":"MIX", "id": 0, "width":20, "diameter":85},            
-            {"name":"DECAY", "id": 1, "width":20, "diameter":75, "margin":"40px"},
-            {"on":"BPM", "off":"", "id": 4, "switch": "true", "width":19, "margin":"32px"},
-            {"name":"FILTER", "id": 2, "width":19, "diameter":75, "margin":"40px"},
-            {"name":"TIME", "id": 3, "width":19, "diameter":85}                        
+            {
+                "name": "MIX",
+                "id": 0,
+                "width": 20,
+                "diameter": 85
+            },
+            {
+                "name": "DECAY",
+                "id": 1,
+                "width": 20,
+                "diameter": 75,
+                "margin": "40px"
+            },
+            {
+                "on": "BPM",
+                "off": "",
+                "id": 4,
+                "switch": "true",
+                "width": 19,
+                "margin": "32px"
+            },
+            {
+                "name": "FILTER",
+                "id": 2,
+                "width": 19,
+                "diameter": 75,
+                "margin": "40px"
+            },
+            {
+                "name": "TIME",
+                "id": 3,
+                "width": 19,
+                "diameter": 85
+            }
         ]
-    }    
+    }
 }

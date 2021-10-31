@@ -1,17 +1,46 @@
 {
-    "DelayMultiHead":{
-        "name":"Multi Head",    
+    "DelayMultiHead": {
+        "name": "Multi Head",
         "effect": "delay",
         "switch_parameter": 2,
         "background": "linear-gradient(0deg, rgba(77,205,44,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
+        "color": "black",
         "knob": "big_black",
         "parameters": [
-            {"name":"REPEAT RATE", "id": 0, "width":20, "diameter":70},
-            {"name":"INTENSITY", "id": 1, "width":19, "diameter":55, "margin":"40px"},
-            {"on":"BPM", "off":"", "id": 4, "switch": "true", "width":19, "margin":"25px"},
-            {"name":"ECHO VOL.", "id": 2, "width":19, "diameter":55, "margin":"40px"},
-            {"name":"MODE SELECTOR", "id": 3, "width":19, "diameter":70}            
+            {
+                "name": "REPEAT RATE",
+                "id": 0,
+                "width": 20,
+                "diameter": 70
+            },
+            {
+                "name": "INTENSITY",
+                "id": 1,
+                "width": 19,
+                "diameter": 55,
+                "margin": "40px"
+            },
+            {
+                "on": "BPM",
+                "off": "",
+                "id": 4,
+                "switch": "true",
+                "width": 19,
+                "margin": "25px"
+            },
+            {
+                "name": "ECHO VOL.",
+                "id": 2,
+                "width": 19,
+                "diameter": 55,
+                "margin": "40px"
+            },
+            {
+                "name": "MODE SELECTOR",
+                "id": 3,
+                "width": 19,
+                "diameter": 70
+            }
         ]
-    }    
+    }
 }

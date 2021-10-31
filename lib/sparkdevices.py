@@ -5,10 +5,10 @@
 #####################################################
 
 import glob
-from ast import literal_eval
 from collections import OrderedDict
 from operator import getitem
 import uuid
+import json
 
 from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_bias_noisegate, dict_bias_noisegate_safe,
@@ -147,11 +147,9 @@ class SparkDevices:
             configFiles = glob.glob(configDir + '/*.json')
 
             for configFile in configFiles:
-                with open(configFile, 'r') as f:
-                    configObject = f.read()
-
-                device = literal_eval(configObject)
-
+                with open(configFile) as f:
+                    device = json.load(f)
+                
                 for id, values in device.items():
                     if values[dict_effect] == 'amp':
                         self.amps[id] = values

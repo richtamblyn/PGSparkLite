@@ -1,20 +1,58 @@
 {
-    "3":{
-        "name":"Hall Natural",    
+    "3": {
+        "name": "Hall Natural",
         "effect": "reverb",
         "switch_parameter": 0,
         "background": "linear-gradient(0deg, rgba(112,142,49,1) 93%, rgba(255,255,255,1) 100%)",
-        "color": "white",        
+        "color": "white",
         "knob": "hexagon",
         "parameters": [
-            {"name":"LEVEL", "id": 0, "width":25, "diameter":85},
-            {"name":"LOW CUT", "id": 2, "width":24, "diameter":85},
-            {"name":"HIGH CUT", "id": 3, "width":24, "diameter":85},
-            {"name":"TIME", "id": 5, "width":24, "diameter":85},
-            {"name":"DAMPING", "id": 1, "width":52, "diameter":85, "margin":"-25px"},
-            {"name":"DWELL", "id": 4, "width":46, "diameter":85, "margin":"-25px"},
-            {"id":6, "hidden":"true"},
-            {"id":7, "hidden":"true"}         
+            {
+                "name": "LEVEL",
+                "id": 0,
+                "width": 25,
+                "diameter": 85
+            },
+            {
+                "name": "LOW CUT",
+                "id": 2,
+                "width": 24,
+                "diameter": 85
+            },
+            {
+                "name": "HIGH CUT",
+                "id": 3,
+                "width": 24,
+                "diameter": 85
+            },
+            {
+                "name": "TIME",
+                "id": 5,
+                "width": 24,
+                "diameter": 85
+            },
+            {
+                "name": "DAMPING",
+                "id": 1,
+                "width": 52,
+                "diameter": 85,
+                "margin": "-25px"
+            },
+            {
+                "name": "DWELL",
+                "id": 4,
+                "width": 46,
+                "diameter": 85,
+                "margin": "-25px"
+            },
+            {
+                "id": 6,
+                "hidden": "true"
+            },
+            {
+                "id": 7,
+                "hidden": "true"
+            }
         ]
-    }    
+    }
 }

@@ -1,14 +1,27 @@
 {
-    "BassComp":{
-        "name":"Bass Comp",    
+    "BassComp": {
+        "name": "Bass Comp",
         "effect": "comp",
         "background": "linear-gradient(0deg, rgba(62,62,62,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "white",        
-        "knob": "blue_knob",          
+        "color": "white",
+        "knob": "blue_knob",
         "parameters": [
-            {"name":"COMP", "id":0, "width":49, "diameter":60},
-            {"name":"GAIN", "id": 1, "width":49, "diameter":60},
-            {"id":2, "hidden":"true"}        
+            {
+                "name": "COMP",
+                "id": 0,
+                "width": 49,
+                "diameter": 60
+            },
+            {
+                "name": "GAIN",
+                "id": 1,
+                "width": 49,
+                "diameter": 60
+            },
+            {
+                "id": 2,
+                "hidden": "true"
+            }
         ]
-    }    
+    }
 }

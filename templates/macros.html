@@ -70,7 +70,15 @@
         <input class="input-slider" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-width="16" data-height="{{ parameter.height }}"        
         data-fgcolor="gray" id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001" onchange="knobChangeEventHandler(this)"
             value="{{ parameter_values[parameter.id] }}" />        
-    </div>    
+    </div>
+    {% elif parameter.radio == "true" %}
+    <div class="parameter_label" style="margin-bottom:10px;">
+        {{ parameter.name }}
+    </div>
+        {% for option in parameter.options %}
+            <input type="radio" id="{{ option.id }}" data-id="{{ effect_id }}" name="{{ parameter.name }}" value="{{ option.value }}">
+            <label for="{{ option.id }}">{{ option.label }}</label><br>
+        {% endfor %}
     {% else %}
     <div class="parameter_value">        
         <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="{{ parameter.diameter }}" 

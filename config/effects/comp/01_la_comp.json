@@ -1,14 +1,31 @@
 {
     "LA2AComp": {
-        "name":"LA Comp",    
+        "name": "LA Comp",
         "effect": "comp",
         "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
-        "knob": "chicken_head_black",        
+        "color": "black",
+        "knob": "chicken_head_black",
         "parameters": [
-            {"name":"GAIN", "id":1, "width": 32, "diameter":89},            
-            {"on":"LIMIT", "off":"COMPRESS", "id": 0, "switch": "true", "width": 33, "margin":"15px"},
-            {"name":"PEAK REDUCTION", "id": 2, "width": 33, "diameter":89}            
+            {
+                "name": "GAIN",
+                "id": 1,
+                "width": 32,
+                "diameter": 89
+            },
+            {
+                "on": "LIMIT",
+                "off": "COMPRESS",
+                "id": 0,
+                "switch": "true",
+                "width": 33,
+                "margin": "15px"
+            },
+            {
+                "name": "PEAK REDUCTION",
+                "id": 2,
+                "width": 33,
+                "diameter": 89
+            }
         ]
-    }    
+    }
 }

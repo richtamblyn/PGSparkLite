@@ -1,12 +1,17 @@
 {
-    "Booster":{
-        "name":"Booster",    
+    "Booster": {
+        "name": "Booster",
         "effect": "drive",
         "background": "linear-gradient(0deg, rgba(236,234,169,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
-        "knob": "darkman",        
+        "color": "black",
+        "knob": "darkman",
         "parameters": [
-            {"name":"GAIN", "id":0, "width": 99, "diameter":80}        
+            {
+                "name": "GAIN",
+                "id": 0,
+                "width": 99,
+                "diameter": 80
+            }
         ]
-    }    
+    }
 }

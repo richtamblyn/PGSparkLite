@@ -1,15 +1,31 @@
 {
-    "Flanger":{
-        "name":"Flanger",    
+    "Flanger": {
+        "name": "Flanger",
         "effect": "modulation",
         "switch_parameter": 1,
         "background": "linear-gradient(0deg, rgba(67,77,83,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "white",        
+        "color": "white",
         "knob": "white_knob",
         "parameters": [
-            {"name":"RATE", "id": 0, "width":32, "diameter": 89},
-            {"name":"MIX", "id": 1, "width":33, "diameter":69, "margin":"15px"}, 
-            {"name":"DEPTH", "id": 2, "width":33, "diameter":89}        
+            {
+                "name": "RATE",
+                "id": 0,
+                "width": 32,
+                "diameter": 89
+            },
+            {
+                "name": "MIX",
+                "id": 1,
+                "width": 33,
+                "diameter": 69,
+                "margin": "15px"
+            },
+            {
+                "name": "DEPTH",
+                "id": 2,
+                "width": 33,
+                "diameter": 89
+            }
         ]
-    }    
+    }
 }

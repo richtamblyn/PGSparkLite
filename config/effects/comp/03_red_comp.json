@@ -1,13 +1,23 @@
 {
-    "Compressor":{
-        "name":"Red Comp",    
+    "Compressor": {
+        "name": "Red Comp",
         "effect": "comp",
         "background": "linear-gradient(0deg, rgba(230,22,22,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
-        "knob": "hexagon",        
+        "color": "black",
+        "knob": "hexagon",
         "parameters": [
-            {"name":"OUTPUT", "id": 0, "width": 48, "diameter":89},
-            {"name":"SENSITIVITY", "id": 1, "width": 48, "diameter":89}       
+            {
+                "name": "OUTPUT",
+                "id": 0,
+                "width": 48,
+                "diameter": 89
+            },
+            {
+                "name": "SENSITIVITY",
+                "id": 1,
+                "width": 48,
+                "diameter": 89
+            }
         ]
-    }    
+    }
 }

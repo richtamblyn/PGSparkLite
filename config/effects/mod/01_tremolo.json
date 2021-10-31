@@ -1,15 +1,31 @@
 {
-    "Tremolo":{
-        "name":"Tremolo",    
+    "Tremolo": {
+        "name": "Tremolo",
         "effect": "modulation",
         "switch_parameter": 2,
         "background": "linear-gradient(0deg, rgba(255,216,15,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "green",        
-        "knob": "white_knob",        
+        "color": "green",
+        "knob": "white_knob",
         "parameters": [
-            {"name":"SPEED", "id": 0, "width":32, "diameter": 89},
-            {"name":"LEVEL", "id": 2, "width":33, "diameter": 69, "margin":"15px"},
-            {"name":"DEPTH", "id": 1, "width":33, "diameter": 89}            
+            {
+                "name": "SPEED",
+                "id": 0,
+                "width": 32,
+                "diameter": 89
+            },
+            {
+                "name": "LEVEL",
+                "id": 2,
+                "width": 33,
+                "diameter": 69,
+                "margin": "15px"
+            },
+            {
+                "name": "DEPTH",
+                "id": 1,
+                "width": 33,
+                "diameter": 89
+            }
         ]
-    }    
+    }
 }

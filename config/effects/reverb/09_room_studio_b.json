@@ -1,20 +1,58 @@
 {
-    "1":{
-        "name":"Room Studio B",    
+    "1": {
+        "name": "Room Studio B",
         "effect": "reverb",
         "switch_parameter": 0,
         "background": "linear-gradient(0deg, rgba(97,236,35,1) 93%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
+        "color": "black",
         "knob": "white_knob",
         "parameters": [
-            {"name":"LEVEL", "id": 0, "width":25, "diameter":80},
-            {"name":"LOW CUT", "id": 2, "width":24, "diameter":80},
-            {"name":"HIGH CUT", "id": 3, "width":24, "diameter":80},
-            {"name":"TIME", "id": 5, "width":24, "diameter":80},
-            {"name":"DAMPING", "id": 1, "width":52, "diameter":80, "margin":"-25px"},
-            {"name":"DWELL", "id": 4, "width":46, "diameter":80, "margin":"-25px"},
-            {"id":6, "hidden":"true"},
-            {"id":7, "hidden":"true"}           
+            {
+                "name": "LEVEL",
+                "id": 0,
+                "width": 25,
+                "diameter": 80
+            },
+            {
+                "name": "LOW CUT",
+                "id": 2,
+                "width": 24,
+                "diameter": 80
+            },
+            {
+                "name": "HIGH CUT",
+                "id": 3,
+                "width": 24,
+                "diameter": 80
+            },
+            {
+                "name": "TIME",
+                "id": 5,
+                "width": 24,
+                "diameter": 80
+            },
+            {
+                "name": "DAMPING",
+                "id": 1,
+                "width": 52,
+                "diameter": 80,
+                "margin": "-25px"
+            },
+            {
+                "name": "DWELL",
+                "id": 4,
+                "width": 46,
+                "diameter": 80,
+                "margin": "-25px"
+            },
+            {
+                "id": 6,
+                "hidden": "true"
+            },
+            {
+                "id": 7,
+                "hidden": "true"
+            }
         ]
-    }    
+    }
 }

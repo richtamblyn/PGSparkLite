@@ -1,19 +1,61 @@
 {
-    "JH.VoodooVibeJr":{
-        "name":"JH Voodoo Vibe Junior",    
+    "JH.VoodooVibeJr": {
+        "name": "JH Voodoo Vibe Junior",
         "effect": "modulation",
         "switch_parameter": 2,
         "background": "linear-gradient(0deg, rgba(74,74,73,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "white",        
+        "color": "white",
         "knob": "white_knob",
         "parameters": [
-            {"name":"100", "id": 1, "width":16, "height":128, "slide": "true"},
-            {"name":"200", "id": 2, "width":13, "height":128, "slide": "true"},
-            {"name":"400", "id": 3, "width":13, "height":128, "slide": "true"},
-            {"name":"800", "id": 4, "width":13, "height":128, "slide": "true"},
-            {"name":"1.6K", "id": 5, "width":13, "height":128, "slide": "true"},
-            {"name":"3.2K", "id": 6, "width":13, "height":128, "slide": "true"},
-            {"name":"LEVEL", "id": 0, "width":13, "height":128, "slide": "true"}           
+            {
+                "name": "100",
+                "id": 1,
+                "width": 16,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "200",
+                "id": 2,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "400",
+                "id": 3,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "800",
+                "id": 4,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "1.6K",
+                "id": 5,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "3.2K",
+                "id": 6,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "LEVEL",
+                "id": 0,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            }
         ]
-    }    
+    }
 }

@@ -1,18 +1,43 @@
 {
-    "Bogner":{
-        "name":"RB-101",    
+    "Bogner": {
+        "name": "RB-101",
         "effect": "amp",
-        "background":"linear-gradient(0deg, rgba(57,57,57,1) 93%, rgba(255,255,255,1) 100%)",
-        "color":"white",
-        "knob":"chicken_head_black",        
-        "topper":"rb101",
-        "badge":"rb101",
+        "background": "linear-gradient(0deg, rgba(57,57,57,1) 93%, rgba(255,255,255,1) 100%)",
+        "color": "white",
+        "knob": "chicken_head_black",
+        "topper": "rb101",
+        "badge": "rb101",
         "parameters": [
-            {"name":"GAIN", "id": 0, "width":19, "diameter":70},
-            {"name":"BASS", "id": 3, "width":19, "diameter":70},
-            {"name":"MIDDLE", "id": 2, "width":19, "diameter":70},
-            {"name":"TREBLE", "id": 1, "width":19, "diameter":70},
-            {"name":"MASTER", "id": 4, "width":19, "diameter":70}
+            {
+                "name": "GAIN",
+                "id": 0,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "BASS",
+                "id": 3,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "MIDDLE",
+                "id": 2,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "TREBLE",
+                "id": 1,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "MASTER",
+                "id": 4,
+                "width": 19,
+                "diameter": 70
+            }
         ]
-    }    
+    }
 }

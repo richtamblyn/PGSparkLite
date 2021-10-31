@@ -1,14 +1,24 @@
 {
-    "MiniVibe":{
-        "name":"Mini Vibe",    
+    "MiniVibe": {
+        "name": "Mini Vibe",
         "effect": "modulation",
         "switch_parameter": 1,
         "background": "linear-gradient(0deg, rgba(17,124,11,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "white",        
+        "color": "white",
         "knob": "chicken_head_black",
         "parameters": [
-            {"name":"SPEED", "id": 0, "width":48, "diameter":80},
-            {"name":"INTENSITY", "id": 1, "width":48, "diameter":80}        
+            {
+                "name": "SPEED",
+                "id": 0,
+                "width": 48,
+                "diameter": 80
+            },
+            {
+                "name": "INTENSITY",
+                "id": 1,
+                "width": 48,
+                "diameter": 80
+            }
         ]
-    }    
+    }
 }

@@ -1,14 +1,32 @@
 {
-    "MaestroBassmaster":{
-        "name":"Bassmaster",    
-        "effect": "drive",  
+    "MaestroBassmaster": {
+        "name": "Bassmaster",
+        "effect": "drive",
         "background": "linear-gradient(0deg, rgba(245,68,184,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "white",        
-        "knob": "oscar",  
+        "color": "white",
+        "knob": "oscar",
         "parameters": [
-            {"name":"BRASS VOL.", "id":0, "width": 32, "diameter": 80, "margin":"10px"},
-            {"name":"SENSITIVITY", "id": 1, "width": 33, "diameter": 60, "margin":"20px"},
-            {"name":"BASS VOL.", "id": 2, "width": 33, "diameter": 80, "margin":"10px"}        
+            {
+                "name": "BRASS VOL.",
+                "id": 0,
+                "width": 32,
+                "diameter": 80,
+                "margin": "10px"
+            },
+            {
+                "name": "SENSITIVITY",
+                "id": 1,
+                "width": 33,
+                "diameter": 60,
+                "margin": "20px"
+            },
+            {
+                "name": "BASS VOL.",
+                "id": 2,
+                "width": 33,
+                "diameter": 80,
+                "margin": "10px"
+            }
         ]
-    }    
+    }
 }
