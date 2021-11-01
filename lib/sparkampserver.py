@@ -12,25 +12,25 @@ import threading
 import bluetooth
 from EventNotifier import Notifier
 
-from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
-                        dict_bias_reverb, dict_BPM, dict_bpm, dict_bpm_change,
-                        dict_callback, dict_chain_preset, dict_change_effect,
-                        dict_Change_Effect_State, dict_change_parameter,
-                        dict_change_preset, dict_comp, dict_connection_lost,
-                        dict_connection_message, dict_connection_success,
-                        dict_delay, dict_drive, dict_effect, dict_Effect,
-                        dict_effect_type, dict_gate, dict_log_change_only,
-                        dict_message, dict_mod, dict_Name, dict_New_Effect,
-                        dict_new_effect, dict_New_Preset, dict_Off,
-                        dict_Old_Effect, dict_old_effect, dict_On, dict_OnOff,
-                        dict_parameter, dict_Parameter,
-                        dict_pedal_chain_preset, dict_pedal_status,
-                        dict_preset, dict_preset_corrupt, dict_Preset_Number,
-                        dict_preset_stored, dict_refresh_onoff, dict_reverb,
-                        dict_state, dict_turn_on_off, dict_update_effect,
+from lib.common import (dict_amp, dict_bias_reverb, dict_BPM, dict_bpm,
+                        dict_bpm_change, dict_callback, dict_chain_preset,
+                        dict_change_effect, dict_Change_Effect_State,
+                        dict_change_parameter, dict_change_preset, dict_comp,
+                        dict_connection_lost, dict_connection_message,
+                        dict_connection_success, dict_delay, dict_drive,
+                        dict_effect, dict_Effect, dict_effect_type, dict_gate,
+                        dict_log_change_only, dict_message, dict_mod,
+                        dict_Name, dict_New_Effect, dict_new_effect,
+                        dict_New_Preset, dict_Off, dict_Old_Effect,
+                        dict_old_effect, dict_On, dict_OnOff, dict_parameter,
+                        dict_Parameter, dict_pedal_chain_preset,
+                        dict_pedal_status, dict_preset, dict_preset_corrupt,
+                        dict_Preset_Number, dict_preset_stored,
+                        dict_refresh_onoff, dict_reverb, dict_state,
+                        dict_turn_on_off, dict_update_effect,
                         dict_update_onoff, dict_update_parameter,
                         dict_update_preset, dict_value, dict_Value,
-                        get_amp_effect_name)
+                        get_amp_effect_name, get_js_effect_name)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -213,6 +213,7 @@ class SparkAmpServer:
             effect = self.config.delay
         elif effect_type == dict_reverb:
             effect = self.config.reverb
+            effect_name = self.config.reverb[dict_Name]
         elif effect_type == dict_gate:
             effect = self.config.gate
         elif effect_type == dict_comp:
@@ -220,8 +221,8 @@ class SparkAmpServer:
         elif effect_type == dict_amp:
             effect = self.config.amp
 
-        if effect == None:
-            return
+        if effect_name == None:
+            get_js_effect_name(effect[dict_Name])            
 
         state = dict_Off
 
@@ -234,7 +235,7 @@ class SparkAmpServer:
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
         self.config.last_call = dict_turn_on_off        
 
-        return {dict_effect: self.get_js_effect_name(effect[dict_Name]),
+        return {dict_effect: effect_name,
                 dict_state: state,
                 dict_effect_type: effect_type}
 
@@ -248,15 +249,7 @@ class SparkAmpServer:
     ##################
     # Utility Methods
     ##################
-
-    def get_js_effect_name(self, effect):
-        # Modify amp IDs to make them JS friendly
-        if effect == dict_AC_Boost:
-            effect = dict_AC_Boost_safe
-        elif effect == dict_bias_reverb:
-            effect = self.config.reverb[dict_Name]
-        return effect
-
+    
     def get_pedal_status(self):
         if self.config == None:
             return {}
@@ -339,8 +332,8 @@ class SparkAmpServer:
                 self.config.last_call = ''
                 return
 
-            old_effect = self.get_js_effect_name(data[dict_Old_Effect])
-            new_effect = self.get_js_effect_name(data[dict_New_Effect])
+            old_effect = get_js_effect_name(data[dict_Old_Effect])
+            new_effect = get_js_effect_name(data[dict_New_Effect])
 
             self.socketio.emit(
                 dict_update_effect, {
@@ -375,7 +368,11 @@ class SparkAmpServer:
                 self.config.last_call = ''
                 return
 
-            effect = self.get_js_effect_name(data[dict_Effect])
+            if data[dict_Effect] == dict_bias_reverb:
+                effect = self.config.reverb[dict_Name]
+            else:
+                effect = get_js_effect_name(data[dict_Effect])
+            
             parameter = data[dict_Parameter]
             value = data[dict_Value]
 

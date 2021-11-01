@@ -30,6 +30,30 @@ dict_enabled = 'enabled'
 dict_gate = 'GATE'
 dict_GuitarEQ = 'GuitarEQ6'
 dict_id = 'id'
+dict_JH_Vox_846 = 'JH.Vox846'
+dict_JH_Vox_846_Safe = 'JHVox846'
+dict_JH_Dual_Showman = 'JH.DualShowman'
+dict_JH_Dual_Showman_Safe = 'JHDualShowman'
+dict_JH_Sunn_100 = 'JH.Sunn100'
+dict_JH_Sunn_100_Safe = 'JHSunn100'
+dict_JH_JTM45 = 'JH.JTM45'
+dict_JH_JTM45_Safe = 'JHJTM45'
+dict_JH_Bassman_Silver = 'JH.Bassman50Silver'
+dict_JH_Bassman_Silver_Safe = 'JHBassman50Silver'
+dict_JH_Super_Lead_100 = 'JH.SuperLead100'
+dict_JH_Super_Lead_100_Safe = 'JHSuperLead100'
+dict_JH_Sound_City_100 = 'JH.SoundCity100'
+dict_JH_Sound_City_100_Safe = 'JHSoundCity100'
+dict_JH_Axis_Fuzz = 'JH.AxisFuzz'
+dict_JH_Axis_Fuzz_Safe = 'JHAxisFuzz'
+dict_JH_Supa_Fuzz = 'JH.SupaFuzz'
+dict_JH_Supa_Fuzz_Safe = 'JHSupaFuzz'
+dict_JH_Octavia = 'JH.Octavia'
+dict_JH_Octavia_Safe = 'JHOctavia'
+dict_JH_Fuzz_Tone = 'JH.FuzzTone'
+dict_JH_Fuzz_Tone_Safe = 'JHFuzzTone'
+dict_JH_Voodoo_Vibe_Jr = 'JH.VoodooVibeJr'
+dict_JH_Voodoo_Vibe_Jr_Safe = 'JHVoodooVibeJr'
 dict_log_change_only = 'log_change_only'
 dict_message = 'message'
 dict_mod = 'MOD'
@@ -78,5 +102,61 @@ def get_amp_effect_name(effect):
     elif effect == dict_AC_Boost_safe:
         effect = dict_AC_Boost
     elif effect.isdigit():
-        effect = dict_bias_reverb    
+        effect = dict_bias_reverb
+    elif effect == dict_JH_Vox_846_Safe:
+        effect = dict_JH_Vox_846
+    elif effect == dict_JH_Dual_Showman_Safe:
+        effect = dict_JH_Dual_Showman
+    elif effect == dict_JH_Sunn_100_Safe:
+        effect = dict_JH_Sunn_100
+    elif effect == dict_JH_JTM45_Safe:
+        effect = dict_JH_JTM45
+    elif effect == dict_JH_Bassman_Silver_Safe:
+        effect = dict_JH_Bassman_Silver
+    elif effect == dict_JH_Super_Lead_100_Safe:
+        effect = dict_JH_Super_Lead_100
+    elif effect == dict_JH_Sound_City_100_Safe:
+        effect = dict_JH_Sound_City_100
+    elif effect == dict_JH_Axis_Fuzz_Safe:
+        effect = dict_JH_Axis_Fuzz
+    elif effect == dict_JH_Supa_Fuzz_Safe:
+        effect = dict_JH_Supa_Fuzz
+    elif effect == dict_JH_Octavia_Safe:
+        effect = dict_JH_Octavia
+    elif effect == dict_JH_Fuzz_Tone_Safe:
+        effect = dict_JH_Fuzz_Tone
+    elif effect == dict_JH_Voodoo_Vibe_Jr_Safe:
+        effect = dict_JH_Voodoo_Vibe_Jr
     return effect
+
+def get_js_effect_name(effect):
+        # Modify amp IDs to make them JS friendly
+        if effect == dict_bias_noisegate:
+            effect = dict_bias_noisegate_safe
+        elif effect == dict_AC_Boost:
+            effect = dict_AC_Boost_safe        
+        elif effect == dict_JH_Vox_846:
+            effect = dict_JH_Vox_846_Safe
+        elif effect == dict_JH_Dual_Showman:
+            effect = dict_JH_Dual_Showman_Safe
+        elif effect == dict_JH_Sunn_100:
+            effect = dict_JH_Sunn_100_Safe
+        elif effect == dict_JH_JTM45:
+            effect = dict_JH_JTM45_Safe
+        elif effect == dict_JH_Bassman_Silver:
+            effect = dict_JH_Bassman_Silver_Safe
+        elif effect == dict_JH_Super_Lead_100:
+            effect = dict_JH_Super_Lead_100_Safe
+        elif effect == dict_JH_Sound_City_100:
+            effect = dict_JH_Sound_City_100_Safe
+        elif effect == dict_JH_Axis_Fuzz:
+            effect = dict_JH_Axis_Fuzz_Safe
+        elif effect == dict_JH_Supa_Fuzz:
+            effect = dict_JH_Supa_Fuzz_Safe
+        elif effect == dict_JH_Octavia:
+            effect = dict_JH_Octavia_Safe
+        elif effect == dict_JH_Fuzz_Tone:
+            effect = dict_JH_Fuzz_Tone_Safe
+        elif effect == dict_JH_Voodoo_Vibe_Jr:
+            effect = dict_JH_Voodoo_Vibe_Jr_Safe
+        return effect
