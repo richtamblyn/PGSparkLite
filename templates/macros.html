@@ -48,7 +48,7 @@
 
 {% macro effect_parameters(effect_id, parameters, parameter_values, knob) %}
 {% for parameter in parameters %}
-<div class="parameter" style="width:{{ parameter.width }}%; {% if parameter.margin %} margin-top:{{ parameter.margin }};{% endif %}">    
+<div class="parameter" style="width:{{ parameter.width }}%; {% if parameter.margin %} margin-top:{{ parameter.margin }};{% endif %} {% if parameter.fontsize %} font-size:{{ parameter.fontsize }};{% endif %}">    
     {% if parameter.hidden == "true" %}
         <input type="hidden" id="{{ effect_id }}_{{ parameter.id }}" value="{{ parameter_values[parameter.id] }}"/>
     {% elif parameter.switch == "true" %}

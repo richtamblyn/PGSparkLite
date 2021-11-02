@@ -1,14 +1,16 @@
 {
 	"JHVox846": {
 		"name": "J.H. Legendary Wah",
-		"effect": "comp",
-		"background": "#000000",
+		"effect": "comp",		
+		"background": "linear-gradient(0deg, rgba(74,74,73,1) 94%, rgba(255,255,255,1) 100%)",
 		"color": "white",
-		"knob": "silver_knob",
+		"knob": "pultec",
 		"parameters": [{
-				"name": "SHAPE",
+				"name": "Wah Shape",
+				"fontsize": "14px",
+				"margin":"5px",
 				"id": 0,
-				"width": 32,								
+				"width": 31,								
 				"radio": "true",
 				"options": [{
 						"id": "wah-1",
@@ -43,17 +45,20 @@
 				]
 			}, {
 				"name": "BPM",
-				"on": "ON",
-				"off": "OFF",
+				"on": "On",
+				"off": "Off",
 				"id": 1,
 				"switch": "true",
 				"width": 33,
-				"margin": "10px"
+				"fontsize": "12px",
+				"margin": "15px"
 			},		
 			{
-				"name": "BARS (BPM On Only)",
+				"name": "Bars (BPM On Only)",
 				"id": 3,
-				"width": 33,				
+				"width": 33,
+				"fontsize": "14px",
+				"margin":"5px",
 				"radio": "true",
 				"options": [{
 						"id": "bar-1",
@@ -78,18 +83,20 @@
 				]
 			},				
 			{
-				"name": "MS (BPM Off Only)",
+				"name": "Milliseconds (BPM Off Only)",
 				"id": 2,
-				"width": 46,
-				"diameter": 50,
-				"margin": "5px"
+				"width": 53,
+				"fontsize": "12px",
+				"diameter": 85,
+				"margin": "-5px"
 			},		
 			{
-				"name": "SENSITIVITY (AUTO Only)",
+				"name": "Sensitivity (AUTO Only)",
 				"id": 4,
 				"width": 46,
-				"diameter": 50,
-				"margin": "5px"
+				"fontsize": "12px",
+				"diameter": 85,
+				"margin": "-5px"			
 			}
 		]
 	}
