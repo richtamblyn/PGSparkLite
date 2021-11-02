@@ -202,6 +202,7 @@ class SparkAmpServer:
 
     def toggle_effect_onoff(self, effect_type):
         effect = None
+        effect_name = None
 
         # Ordered by priority for Pedal switching
         # Gate, comp and amp are optional hardware switches
