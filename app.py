@@ -292,6 +292,11 @@ def set_expression_param(data):
 
 
 @socketio.event
+def set_expression_onoff(data):        
+    amp.update_plugin(data[dict_effect], None, data[dict_enabled])
+
+
+@socketio.event
 def show_hide_pedal(data):
     amp.config.update_config(
         data[dict_effect_type], dict_show_hide_pedal, data[dict_visible])

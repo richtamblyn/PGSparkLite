@@ -39,6 +39,7 @@ from lib.messages import (msg_amp_connected, msg_amp_preset_stored,
                           msg_retrieving_config)
 from lib.plugins.custom import CustomExpression
 from lib.plugins.volume import VolumePedal
+from lib.plugins.onoff import OnOff
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 from lib.sparkpreset import SparkPreset
@@ -147,19 +148,34 @@ class SparkAmpServer:
     
 
     def expression_pedal(self, value):                
-        params = self.plugin.calculate_params(value)
 
-        if params == None:
+        if self.plugin.type == "params":
+            params = self.plugin.calculate_params(value)
+            if params == None:
+                return
+
+            for param in params:
+                self.change_effect_parameter(get_amp_effect_name(self.plugin.name), param[0], param[1])
+
+                self.socketio.emit(dict_update_parameter, {
+                    dict_effect: self.plugin.name,
+                    dict_parameter: param[0],
+                    dict_value: param[1]
+                })
+
             return
 
-        for param in params:
-            self.change_effect_parameter(get_amp_effect_name(self.plugin.name), param[0], param[1])
+        if self.plugin.type == "onoff":
+            isOn = self.plugin.calculate_state(value)
+            if isOn:
+                state = dict_On
+            else:
+                state = dict_Off
 
-            self.socketio.emit(dict_update_parameter, {
-                dict_effect: self.plugin.name,
-                dict_parameter: param[0],
-                dict_value: param[1]
-            })
+            self.turn_effect_onoff(get_amp_effect_name(self.plugin.name), state)
+
+            self.config.update_config(self.plugin.name, dict_turn_on_off, state)
+            self.config.last_call = dict_turn_on_off
     
 
     def send_preset(self, chain_preset):
@@ -280,6 +296,9 @@ class SparkAmpServer:
             # Initialise Default Volume Pedal
             amp = self.config.get_current_effect_by_type(dict_amp)        
             self.plugin = VolumePedal(amp[dict_Name])
+        elif param == None:
+            # Use the OnOff plugin for user selected effect
+            self.plugin = OnOff(effect_name)
         else:
             # Assign user selected effect and parameter
             self.plugin = CustomExpression(str(effect_name), param)

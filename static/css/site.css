@@ -122,7 +122,8 @@ a:visited {
 .effect_onoff {
   width: 33%;
   display: inline-block;
-  text-align: right;
+  text-align: center;
+  padding-bottom: 10px;
 }
 
 .effect_selector {
@@ -150,6 +151,13 @@ a:visited {
   color: white;
   border: none;
   border-radius: 8px;
+}
+
+.expression_onoff {
+  border: black !important;
+  border-style: dashed !important;
+  border-width: 2px !important;
+  padding:5px;
 }
 
 .expression_param {
@@ -180,8 +188,7 @@ input[type="range"] {
   background-color: white;
 }
 
-.onoff_buttons {
-  padding-bottom: 10px;
+.onoff_buttons {  
 }
 
 .parameter {

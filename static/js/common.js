@@ -91,3 +91,8 @@ function updatePedalPreset(effecttype, preset_id, name) {
     notify_user("The pedal preset was saved successfully.");
   });
 }
+
+function clearExpressionStyles() {
+  $(".onoff_buttons").removeClass("expression_onoff");
+  $(".parameter_value").removeClass("expression_param");
+}
