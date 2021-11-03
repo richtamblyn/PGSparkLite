@@ -11,6 +11,6 @@ class OnOff(Plugin):
 
     def calculate_state(self, value):                
         if value < 1:
-            return True
+            return False
         else:
-            return False        
+            return True        
