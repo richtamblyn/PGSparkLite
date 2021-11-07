@@ -1,14 +1,32 @@
 {
-    "KlonCentaurSilver":{
-        "name":"Clone Drive",    
+    "KlonCentaurSilver": {
+        "name": "Clone Drive",
         "effect": "drive",
         "background": "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 48%, rgba(252,176,69,1) 100%)",
-        "color": "white",        
+        "color": "white",
         "knob": "plastic_knob",
         "parameters": [
-            {"name":"GAIN", "id": 2, "width": 33, "diameter":76, "margin":"10px"},            
-            {"name":"OUTPUT", "id":0, "width": 32, "diameter": 76, "margin":"10px"},                                    
-            {"name":"TREBLE", "id": 1, "width": 33, "diameter":75, "margin":"10px"}
+            {
+                "name": "GAIN",
+                "id": 2,
+                "width": 33,
+                "diameter": 76,
+                "margin": "10px"
+            },
+            {
+                "name": "OUTPUT",
+                "id": 0,
+                "width": 32,
+                "diameter": 76,
+                "margin": "10px"
+            },
+            {
+                "name": "TREBLE",
+                "id": 1,
+                "width": 33,
+                "diameter": 75,
+                "margin": "10px"
+            }
         ]
-    }    
+    }
 }

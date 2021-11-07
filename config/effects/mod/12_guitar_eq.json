@@ -1,0 +1,61 @@
+{
+    "GuitarEQ6": {
+        "name": "Guitar EQ",
+        "effect": "modulation",
+        "switch_parameter": 2,
+        "background": "linear-gradient(0deg, rgba(96,92,171,1) 4%, rgba(0,212,255,1) 65%)",
+        "color": "black",
+        "knob": "fader",
+        "parameters": [
+            {
+                "name": "100",
+                "id": 1,
+                "width": 16,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "200",
+                "id": 2,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "400",
+                "id": 3,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "800",
+                "id": 4,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "1.6K",
+                "id": 5,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "3.2K",
+                "id": 6,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            },
+            {
+                "name": "LEVEL",
+                "id": 0,
+                "width": 13,
+                "height": 128,
+                "slide": "true"
+            }
+        ]
+    }
+}

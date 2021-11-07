@@ -1,0 +1,37 @@
+{
+    "Tremolator": {
+        "name": "Tremolator",
+        "effect": "modulation",
+        "switch_parameter": 0,
+        "background": "linear-gradient(0deg, rgba(100,11,124,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "white",
+        "knob": "plastic_knob",
+        "parameters": [
+            {
+                "name": "Depth",
+                "id": 0,
+                "width": 32,
+                "diameter": 70
+            },
+            {
+                "name": "BPM",
+                "on": "ON",
+                "off": "OFF",
+                "id": 2,
+                "switch": "true",
+                "width": 33,
+                "margin": "5px"
+            },
+            {
+                "name": "Speed",
+                "id": 1,
+                "width": 33,
+                "diameter": 70
+            },
+            {
+                "id": 3,
+                "hidden": "true"
+            }
+        ]
+    }
+}

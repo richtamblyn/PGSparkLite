@@ -1,15 +1,37 @@
 {
-    "BBEOpticalComp":{
-        "name":"Optical Comp",    
-        "effect": "comp",
-        "background": "linear-gradient(0deg, rgba(131,131,131,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
-        "knob": "big_black",        
-        "parameters": [
-            {"name":"VOLUME", "id":0, "width":32, "diameter":89, "margin":"5px"},                        
-            {"name":"PAD", "on":"-15dB", "off":"0db", "id": 2, "switch": "true", "width":33, "margin":"10px"},
-            {"name":"COMP", "id": 1, "width": 33, "diameter":89, "margin":"5px"},
-            {"id":3, "hidden":"true"}        
-        ]
-    }    
+	"BBEOpticalComp": {
+		"name": "Optical Comp",
+		"effect": "comp",
+		"background": "linear-gradient(0deg, rgba(131,131,131,1) 89%, rgba(255,255,255,1) 100%)",
+		"color": "black",
+		"knob": "big_black",
+		"parameters": [{
+				"name": "VOLUME",
+				"id": 0,
+				"width": 32,
+				"diameter": 89,
+				"margin": "5px"
+			},
+			{
+				"name": "PAD",
+				"on": "-15dB",
+				"off": "0db",
+				"id": 2,
+				"switch": "true",
+				"width": 33,
+				"margin": "10px"
+			},
+			{
+				"name": "COMP",
+				"id": 1,
+				"width": 33,
+				"diameter": 89,
+				"margin": "5px"
+			},
+			{
+				"id": 3,
+				"hidden": "true"
+			}
+		]
+	}
 }

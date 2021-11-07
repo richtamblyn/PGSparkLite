@@ -1,0 +1,103 @@
+{
+	"JHVox846": {
+		"name": "J.H. Legendary Wah",
+		"effect": "comp",		
+		"background": "linear-gradient(0deg, rgba(74,74,73,1) 94%, rgba(255,255,255,1) 100%)",
+		"color": "white",
+		"knob": "pultec",
+		"parameters": [{
+				"name": "Wah Shape",
+				"fontsize": "14px",
+				"margin":"5px",
+				"id": 0,
+				"width": 31,								
+				"radio": "true",
+				"options": [{
+						"id": "wah-1",
+						"value": 0.0,
+						"label": "^^^^"
+					},
+					{
+						"id": "wah-2",
+						"value": 0.2,
+						"label": "^^"
+					},
+					{
+						"id": "wah-3",
+						"value": 0.4,
+						"label": "/|"
+					},
+					{
+						"id": "wah-4",
+						"value": 0.6,
+						"label": "^/|"
+					},
+					{
+						"id": "wah-5",
+						"value": 0.8,
+						"label": "^^/|"
+					},
+					{
+						"id": "wah-6",
+						"value": 1.0,
+						"label": "AUTO"
+					}
+				]
+			}, {
+				"name": "BPM",
+				"on": "On",
+				"off": "Off",
+				"id": 1,
+				"switch": "true",
+				"width": 33,
+				"fontsize": "12px",
+				"margin": "15px"
+			},		
+			{
+				"name": "Bars (BPM On Only)",
+				"id": 3,
+				"width": 33,
+				"fontsize": "14px",
+				"margin":"5px",
+				"radio": "true",
+				"options": [{
+						"id": "bar-1",
+						"value": 0.0,
+						"label": "1/8"
+					},
+					{
+						"id": "bar-2",
+						"value": 0.25,
+						"label": "1/4"
+					},
+					{
+						"id": "bar-3",
+						"value": 0.50,
+						"label": "1/2"
+					},
+					{
+						"id": "bar-4",
+						"value": 0.75,
+						"label": "1"
+					}
+				]
+			},				
+			{
+				"name": "Milliseconds (BPM Off Only)",
+				"id": 2,
+				"width": 53,
+				"fontsize": "12px",
+				"diameter": 85,
+				"margin": "-5px"
+			},		
+			{
+				"name": "Sensitivity (AUTO Only)",
+				"id": 4,
+				"width": 46,
+				"fontsize": "12px",
+				"diameter": 85,
+				"margin": "-5px"			
+			}
+		]
+	}
+}

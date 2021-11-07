@@ -1,20 +1,56 @@
 {
-    "5":{
-        "name":"Hall Ambient",    
+    "5": {
+        "name": "Hall Ambient",
         "effect": "reverb",
         "switch_parameter": 0,
         "background": "linear-gradient(0deg, rgba(47,43,41,1) 96%, rgba(255,255,255,1) 100%)",
-        "color": "orange",        
+        "color": "orange",
         "knob": "phatty",
         "parameters": [
-            {"name":"LEVEL", "id": 0, "width":25, "diameter":65},
-            {"name":"LOW CUT", "id": 2, "width":24, "diameter":65},
-            {"name":"HIGH CUT", "id": 3, "width":24, "diameter":65},
-            {"name":"TIME", "id": 5, "width":24, "diameter":65},
-            {"name":"DAMPING", "id": 1, "width":52, "diameter":65},
-            {"name":"DWELL", "id": 4, "width":46, "diameter":65},
-            {"id":6, "hidden":"true"},
-            {"id":7, "hidden":"true"}          
+            {
+                "name": "LEVEL",
+                "id": 0,
+                "width": 25,
+                "diameter": 65
+            },
+            {
+                "name": "LOW CUT",
+                "id": 2,
+                "width": 24,
+                "diameter": 65
+            },
+            {
+                "name": "HIGH CUT",
+                "id": 3,
+                "width": 24,
+                "diameter": 65
+            },
+            {
+                "name": "TIME",
+                "id": 5,
+                "width": 24,
+                "diameter": 65
+            },
+            {
+                "name": "DAMPING",
+                "id": 1,
+                "width": 52,
+                "diameter": 65
+            },
+            {
+                "name": "DWELL",
+                "id": 4,
+                "width": 46,
+                "diameter": 65
+            },
+            {
+                "id": 6,
+                "hidden": "true"
+            },
+            {
+                "id": 7,
+                "hidden": "true"
+            }
         ]
-    }    
+    }
 }

@@ -1,0 +1,43 @@
+{
+    "BE101": {
+        "name": "BE 101",
+        "effect": "amp",
+        "background": "linear-gradient(0deg, rgba(213,203,111,1) 93%, rgba(255,255,255,1) 100%)",
+        "color": "black",
+        "knob": "chicken_head_black",
+        "topper": "plexiglas",
+        "badge": "be101",
+        "parameters": [
+            {
+                "name": "GAIN",
+                "id": 0,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "BASS",
+                "id": 3,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "MIDDLE",
+                "id": 2,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "TREBLE",
+                "id": 1,
+                "width": 19,
+                "diameter": 70
+            },
+            {
+                "name": "MASTER",
+                "id": 4,
+                "width": 19,
+                "diameter": 70
+            }
+        ]
+    }
+}

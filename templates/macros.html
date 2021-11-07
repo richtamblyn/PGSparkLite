@@ -48,7 +48,7 @@
 
 {% macro effect_parameters(effect_id, parameters, parameter_values, knob) %}
 {% for parameter in parameters %}
-<div class="parameter" style="width:{{ parameter.width }}%; {% if parameter.margin %} margin-top:{{ parameter.margin }};{% endif %}">    
+<div class="parameter" style="width:{{ parameter.width }}%; {% if parameter.margin %} margin-top:{{ parameter.margin }};{% endif %} {% if parameter.fontsize %} font-size:{{ parameter.fontsize }};{% endif %}">    
     {% if parameter.hidden == "true" %}
         <input type="hidden" id="{{ effect_id }}_{{ parameter.id }}" value="{{ parameter_values[parameter.id] }}"/>
     {% elif parameter.switch == "true" %}
@@ -70,7 +70,17 @@
         <input class="input-slider" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-width="16" data-height="{{ parameter.height }}"        
         data-fgcolor="gray" id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001" onchange="knobChangeEventHandler(this)"
             value="{{ parameter_values[parameter.id] }}" />        
-    </div>    
+    </div>
+    {% elif parameter.radio == "true" %}
+    <div class="parameter_label" style="margin-bottom:10px;">
+        {{ parameter.name }}
+    </div>
+        {% for option in parameter.options %}
+            <input type="radio" id="{{ option.id }}" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" name="{{ parameter.name }}" 
+            {% if parameter_values[parameter.id] == option.value %} checked {% endif %}
+            value="{{ option.value }}" onchange="knobChangeEventHandler(this)">
+            <label for="{{ option.id }}">{{ option.label }}</label><br>
+        {% endfor %}
     {% else %}
     <div class="parameter_value">        
         <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="{{ parameter.diameter }}" 
@@ -97,6 +107,7 @@
 {% set onoff = effect["OnOff"] %}
 {% set visible = effect["visible"] %}
 {% set preset_id = effect["preset_id"] %}
+{% set invert_topper = effect_config["invert_topper"] %}
 <div class="effect_header">
     <div class="effect_title">
         <div id="{{ type }}_showhidecontent" class="showhidecontent {% if onoff =='On' and visible %} collapse_open {% else %} collapse_closed {% endif %}" data-type="{{ type }}" data-id="{{ name }}"></div> {{ type }}
@@ -111,7 +122,7 @@
     </div>    
 </div>
 <div id="{{ name }}_content" class="effect_content" {% if not visible or onoff == 'Off' %} style="display:none;" {% endif %}>
-    {% if topper|length %}
+    {% if topper|length and invert_topper != "true" %}
     <div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
         <span class="{{ badge }}">
             {{ effect_config["name"] }}
@@ -121,8 +132,16 @@
     <div class="effect_parameters" style="background:{{ background }}; color:{{ color }};" id="{{ name }}_parameters" data-num={{ effect["Parameters"]|length }}>
         {{ effect_parameters(name, effect_config["parameters"], effect["Parameters"], knob)}}
     </div>    
+    {% if topper|length and invert_topper == "true" %}
+    <div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
+        <span class="{{ badge }}">
+            {{ effect_config["name"] }}
+        </span>
+    </div>
+    {% endif %}
     <div id="{{ type }}_footer" class="effect_footer">
         {{ effect_footer(name, type, presets, preset_id)}}
     </div>
+    
 </div>
 {% endmacro %}

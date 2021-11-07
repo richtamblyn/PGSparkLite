@@ -55,16 +55,36 @@ $(document).ready(function () {
 
     if(expression === undefined || expression === false){
       $(this).data("expression", true);   
-      $(".parameter_value").removeClass("expression_param");
+      clearExpressionStyles();
       $(this).parent().addClass("expression_param");
     } else {
       $(this).data("expression", false);
-      $(this).parent().removeClass("expression_param");
+      clearExpressionStyles();
       enabled = false;
     }
 
     var data = { effect: effect, parameter: param, enabled: enabled}
     socket.emit("set_expression_param", data);
+  });
+
+  $(document).on("dblclick", ".onoff_button", function(){
+    var effect = $(this).data("id");    
+    var expression = $(this).data("expression");
+    var effect_type = $(this).data("type");
+    var enabled = true;
+
+    if(expression === undefined || expression === false){
+      $(this).data("expression", true);   
+      clearExpressionStyles();
+      $(this).parent().addClass("expression_onoff");
+    } else {
+      $(this).data("expression", false);
+      clearExpressionStyles();
+      enabled = false;
+    }
+
+    var data = { effect: effect, enabled: enabled, effect_type: effect_type }
+    socket.emit("set_expression_onoff", data);
   });
 
   $(document).on("change", "[type=checkbox]", function () {

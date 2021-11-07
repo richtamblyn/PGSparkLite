@@ -1,0 +1,43 @@
+{
+    "YJM100": {
+        "name": "Yjm 100",
+        "effect": "amp",
+        "background": "linear-gradient(0deg, rgba(213,203,111,1) 93%, rgba(255,255,255,1) 100%)",
+        "color": "black",
+        "knob": "metal_spine",
+        "topper": "plexiglas",
+        "badge": "plexiglas",
+        "parameters": [
+            {
+                "name": "GAIN",
+                "id": 0,
+                "width": 19,
+                "diameter": 50
+            },
+            {
+                "name": "BASS",
+                "id": 3,
+                "width": 19,
+                "diameter": 50
+            },
+            {
+                "name": "MIDDLE",
+                "id": 2,
+                "width": 19,
+                "diameter": 50
+            },
+            {
+                "name": "TREBLE",
+                "id": 1,
+                "width": 19,
+                "diameter": 50
+            },
+            {
+                "name": "MASTER",
+                "id": 4,
+                "width": 19,
+                "diameter": 50
+            }
+        ]
+    }
+}

@@ -1,16 +1,42 @@
 {
-    "VintageDelay":{
-        "name":"Vintage Delay",    
+    "VintageDelay": {
+        "name": "Vintage Delay",
         "effect": "delay",
         "switch_parameter": 2,
         "background": "linear-gradient(0deg, rgba(232,48,123,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "black",        
+        "color": "black",
         "knob": "plastic_knob",
         "parameters": [
-            {"name":"REPEAT RATE", "id": 0, "width":32, "diameter":70, "margin":"10px"},
-            {"name":"BPM", "on":"ON", "off":"OFF", "id": 3, "switch": "true", "width": 33, "margin":"10px"},
-            {"name":"INTENSITY", "id": 1, "width":33, "diameter":70, "margin":"10px"},        
-            {"name":"ECHO", "id": 2, "width":98, "diameter":50, "margin":"10px"}            
+            {
+                "name": "REPEAT RATE",
+                "id": 0,
+                "width": 32,
+                "diameter": 70,
+                "margin": "10px"
+            },
+            {
+                "name": "BPM",
+                "on": "ON",
+                "off": "OFF",
+                "id": 3,
+                "switch": "true",
+                "width": 33,
+                "margin": "10px"
+            },
+            {
+                "name": "INTENSITY",
+                "id": 1,
+                "width": 33,
+                "diameter": 70,
+                "margin": "10px"
+            },
+            {
+                "name": "ECHO",
+                "id": 2,
+                "width": 98,
+                "diameter": 50,
+                "margin": "10px"
+            }
         ]
-    }    
+    }
 }

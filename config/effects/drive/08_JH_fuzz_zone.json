@@ -1,0 +1,23 @@
+{
+    "JHFuzzTone": {
+        "name": "J.H. Fuzz Zone",
+        "effect": "drive",
+        "background": "radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)",
+        "color": "black",
+        "knob": "big_black",
+        "parameters": [
+            {
+                "name": "VOLUME",
+                "id": 0,
+                "width": 49,
+                "diameter": 75
+            },
+            {
+                "name": "ATTACK",
+                "id": 1,
+                "width": 49,
+                "diameter": 75
+            }
+        ]
+    }
+}

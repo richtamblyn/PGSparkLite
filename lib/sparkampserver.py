@@ -12,25 +12,25 @@ import threading
 import bluetooth
 from EventNotifier import Notifier
 
-from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
-                        dict_bias_reverb, dict_BPM, dict_bpm, dict_bpm_change,
-                        dict_callback, dict_chain_preset, dict_change_effect,
-                        dict_Change_Effect_State, dict_change_parameter,
-                        dict_change_preset, dict_comp, dict_connection_lost,
-                        dict_connection_message, dict_connection_success,
-                        dict_delay, dict_drive, dict_effect, dict_Effect,
-                        dict_effect_type, dict_gate, dict_log_change_only,
-                        dict_message, dict_mod, dict_Name, dict_New_Effect,
-                        dict_new_effect, dict_New_Preset, dict_Off,
-                        dict_Old_Effect, dict_old_effect, dict_On, dict_OnOff,
-                        dict_parameter, dict_Parameter,
-                        dict_pedal_chain_preset, dict_pedal_status,
-                        dict_preset, dict_preset_corrupt, dict_Preset_Number,
-                        dict_preset_stored, dict_refresh_onoff, dict_reverb,
-                        dict_state, dict_turn_on_off, dict_update_effect,
+from lib.common import (dict_amp, dict_bias_reverb, dict_BPM, dict_bpm,
+                        dict_bpm_change, dict_callback, dict_chain_preset,
+                        dict_change_effect, dict_Change_Effect_State,
+                        dict_change_parameter, dict_change_preset, dict_comp,
+                        dict_connection_lost, dict_connection_message,
+                        dict_connection_success, dict_delay, dict_drive,
+                        dict_effect, dict_Effect, dict_effect_type, dict_gate,
+                        dict_log_change_only, dict_message, dict_mod,
+                        dict_Name, dict_New_Effect, dict_new_effect,
+                        dict_New_Preset, dict_Off, dict_Old_Effect,
+                        dict_old_effect, dict_On, dict_OnOff, dict_parameter,
+                        dict_Parameter, dict_pedal_chain_preset,
+                        dict_pedal_status, dict_preset, dict_preset_corrupt,
+                        dict_Preset_Number, dict_preset_stored,
+                        dict_refresh_onoff, dict_reverb, dict_state,
+                        dict_turn_on_off, dict_update_effect,
                         dict_update_onoff, dict_update_parameter,
                         dict_update_preset, dict_value, dict_Value,
-                        get_amp_effect_name)
+                        get_amp_effect_name, get_js_effect_name)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -39,6 +39,7 @@ from lib.messages import (msg_amp_connected, msg_amp_preset_stored,
                           msg_retrieving_config)
 from lib.plugins.custom import CustomExpression
 from lib.plugins.volume import VolumePedal
+from lib.plugins.onoff import OnOff
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 from lib.sparkpreset import SparkPreset
@@ -147,18 +148,34 @@ class SparkAmpServer:
     
 
     def expression_pedal(self, value):                
-        params = self.plugin.calculate_params(value)
 
-        if params == None:
+        if self.plugin.type == "params":
+            params = self.plugin.calculate_params(value)
+            if params == None:
+                return
+
+            for param in params:
+                self.change_effect_parameter(get_amp_effect_name(self.plugin.name), param[0], param[1])
+
+                self.socketio.emit(dict_update_parameter, {
+                    dict_effect: self.plugin.name,
+                    dict_parameter: param[0],
+                    dict_value: param[1]
+                })
+
             return
 
-        for param in params:
-            self.change_effect_parameter(get_amp_effect_name(self.plugin.name), param[0], param[1])
-
-            self.socketio.emit(dict_update_parameter, {
+        if self.plugin.type == "onoff":
+            isOn = self.plugin.calculate_state(value)
+            if isOn:
+                state = dict_On
+            else:
+                state = dict_Off
+                        
+            self.socketio.emit(dict_update_onoff, {
+                dict_state: state,
                 dict_effect: self.plugin.name,
-                dict_parameter: param[0],
-                dict_value: param[1]
+                dict_effect_type: self.plugin.effect_type
             })
     
 
@@ -202,6 +219,7 @@ class SparkAmpServer:
 
     def toggle_effect_onoff(self, effect_type):
         effect = None
+        effect_name = None
 
         # Ordered by priority for Pedal switching
         # Gate, comp and amp are optional hardware switches
@@ -213,6 +231,7 @@ class SparkAmpServer:
             effect = self.config.delay
         elif effect_type == dict_reverb:
             effect = self.config.reverb
+            effect_name = self.config.reverb[dict_Name]
         elif effect_type == dict_gate:
             effect = self.config.gate
         elif effect_type == dict_comp:
@@ -220,8 +239,8 @@ class SparkAmpServer:
         elif effect_type == dict_amp:
             effect = self.config.amp
 
-        if effect == None:
-            return
+        if effect_name == None:
+            get_js_effect_name(effect[dict_Name])            
 
         state = dict_Off
 
@@ -234,7 +253,7 @@ class SparkAmpServer:
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
         self.config.last_call = dict_turn_on_off        
 
-        return {dict_effect: self.get_js_effect_name(effect[dict_Name]),
+        return {dict_effect: effect_name,
                 dict_state: state,
                 dict_effect_type: effect_type}
 
@@ -248,15 +267,7 @@ class SparkAmpServer:
     ##################
     # Utility Methods
     ##################
-
-    def get_js_effect_name(self, effect):
-        # Modify amp IDs to make them JS friendly
-        if effect == dict_AC_Boost:
-            effect = dict_AC_Boost_safe
-        elif effect == dict_bias_reverb:
-            effect = self.config.reverb[dict_Name]
-        return effect
-
+    
     def get_pedal_status(self):
         if self.config == None:
             return {}
@@ -281,11 +292,14 @@ class SparkAmpServer:
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})
 
-    def update_plugin(self, effect_name = None, param = None, enabled = None):                
+    def update_plugin(self, effect_name = None, param = None, enabled = None, effect_type = None):                
         if effect_name == None or enabled == False:
             # Initialise Default Volume Pedal
             amp = self.config.get_current_effect_by_type(dict_amp)        
             self.plugin = VolumePedal(amp[dict_Name])
+        elif param == None:
+            # Use the OnOff plugin for user selected effect
+            self.plugin = OnOff(effect_name, effect_type)
         else:
             # Assign user selected effect and parameter
             self.plugin = CustomExpression(str(effect_name), param)
@@ -339,8 +353,8 @@ class SparkAmpServer:
                 self.config.last_call = ''
                 return
 
-            old_effect = self.get_js_effect_name(data[dict_Old_Effect])
-            new_effect = self.get_js_effect_name(data[dict_New_Effect])
+            old_effect = get_js_effect_name(data[dict_Old_Effect])
+            new_effect = get_js_effect_name(data[dict_New_Effect])
 
             self.socketio.emit(
                 dict_update_effect, {
@@ -375,7 +389,11 @@ class SparkAmpServer:
                 self.config.last_call = ''
                 return
 
-            effect = self.get_js_effect_name(data[dict_Effect])
+            if data[dict_Effect] == dict_bias_reverb:
+                effect = self.config.reverb[dict_Name]
+            else:
+                effect = get_js_effect_name(data[dict_Effect])
+            
             parameter = data[dict_Parameter]
             value = data[dict_Value]
 

@@ -5,14 +5,13 @@
 #####################################################
 
 import glob
-from ast import literal_eval
+import json
+import uuid
 from collections import OrderedDict
 from operator import getitem
-import uuid
 
-from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
-                        dict_bias_noisegate, dict_bias_noisegate_safe,
-                        dict_BPM, dict_change_effect, dict_change_parameter,
+from lib.common import (dict_amp, dict_bias_noisegate_safe, dict_BPM,
+                        dict_change_effect, dict_change_parameter,
                         dict_change_pedal_preset, dict_comp, dict_db_id,
                         dict_delay, dict_drive, dict_effect, dict_gate,
                         dict_mod, dict_Name, dict_name, dict_Off, dict_On,
@@ -20,7 +19,7 @@ from lib.common import (dict_AC_Boost, dict_AC_Boost_safe, dict_amp,
                         dict_Pedals, dict_preset_id, dict_Preset_Number,
                         dict_reverb, dict_show_hide_pedal,
                         dict_switch_parameter, dict_turn_on_off, dict_UUID,
-                        dict_visible)
+                        dict_visible, get_js_effect_name)
 
 
 class SparkDevices:
@@ -147,11 +146,9 @@ class SparkDevices:
             configFiles = glob.glob(configDir + '/*.json')
 
             for configFile in configFiles:
-                with open(configFile, 'r') as f:
-                    configObject = f.read()
-
-                device = literal_eval(configObject)
-
+                with open(configFile) as f:
+                    device = json.load(f)
+                
                 for id, values in device.items():
                     if values[dict_effect] == 'amp':
                         self.amps[id] = values
@@ -245,22 +242,23 @@ class SparkDevices:
             self.preset = None
 
         self.chain_preset_id = 0
-        self.gate = preset[dict_Pedals][0]
-
-        # Fix the gate ID with an underscore
-        if self.gate[dict_Name] == dict_bias_noisegate:
-            self.gate[dict_Name] = dict_bias_noisegate_safe
+        
+        self.gate = preset[dict_Pedals][0]                
+        self.gate[dict_Name] = dict_bias_noisegate_safe
 
         self.comp = preset[dict_Pedals][1]
+        self.comp[dict_Name] = get_js_effect_name(self.comp[dict_Name])
+
         self.drive = preset[dict_Pedals][2]
+        self.drive[dict_Name] = get_js_effect_name(self.drive[dict_Name])
+
         self.amp = preset[dict_Pedals][3]
-
-        # Fix the AC Boost ID with an underscore
-        if self.amp[dict_Name] == dict_AC_Boost:
-            self.amp[dict_Name] = dict_AC_Boost_safe
-
+        self.amp[dict_Name] = get_js_effect_name(self.amp[dict_Name])
+        
         self.modulation = preset[dict_Pedals][4]
-        self.delay = preset[dict_Pedals][5]
+        self.modulation[dict_Name] = get_js_effect_name(self.modulation[dict_Name])
+
+        self.delay = preset[dict_Pedals][5]        
 
         self.reverb = preset[dict_Pedals][6]
         self.reverb[dict_Name] = str(self.reverb[dict_Parameters][6])[-1]
@@ -337,10 +335,10 @@ class SparkDevices:
         if switch_parameter != parameter:
             return None
 
-        if config_effect[dict_OnOff] == dict_On and value == 0.0000:
+        if config_effect[dict_OnOff] == dict_On and value < 0.0080:
             return (effect_type, dict_Off)
 
-        if config_effect[dict_OnOff] == dict_Off and value > 0.0000:
+        if config_effect[dict_OnOff] == dict_Off and value > 0:
             return (effect_type, dict_On)
 
     def update_config(self, effect, action, value, parameter=None):

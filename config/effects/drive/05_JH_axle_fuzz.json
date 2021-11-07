@@ -1,0 +1,23 @@
+{
+    "JHAxisFuzz": {
+        "name": "J.H. Axle Fuzz",
+        "effect": "drive",
+        "background": "linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(255,149,0,1) 38%, rgba(0,212,255,1) 100%)",
+        "color": "black",
+        "knob": "hexagon",
+        "parameters": [
+            {
+                "name": "VOLUME",
+                "id": 0,
+                "width": 49,
+                "diameter": 89
+            },
+            {
+                "name": "DRIVE",
+                "id": 1,
+                "width": 49,
+                "diameter": 89
+            }
+        ]
+    }
+}

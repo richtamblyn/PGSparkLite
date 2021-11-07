@@ -1,0 +1,38 @@
+{
+    "EVH": {
+        "name": "Insane",
+        "effect": "amp",
+        "background": "linear-gradient(0deg, rgba(190,190,190,1) 89%, rgba(255,255,255,1) 100%)",
+        "color": "black",
+        "knob": "chicken_head_white",
+        "topper": "black_metal",
+        "badge": "insane",
+        "parameters": [
+            {
+                "name": "GAIN",
+                "id": 0,
+                "width": 19
+            },
+            {
+                "name": "BASS",
+                "id": 3,
+                "width": 19
+            },
+            {
+                "name": "MIDDLE",
+                "id": 2,
+                "width": 19
+            },
+            {
+                "name": "TREBLE",
+                "id": 1,
+                "width": 19
+            },
+            {
+                "name": "MASTER",
+                "id": 4,
+                "width": 19
+            }
+        ]
+    }
+}

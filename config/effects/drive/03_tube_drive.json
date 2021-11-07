@@ -1,14 +1,29 @@
 {
-    "DistortionTS9":{
-        "name":"Tube Drive",    
+    "DistortionTS9": {
+        "name": "Tube Drive",
         "effect": "drive",
         "background": "linear-gradient(0deg, rgba(24,163,49,1) 89%, rgba(255,255,255,1) 100%)",
-        "color": "white",        
-        "knob": "foc_green",          
+        "color": "white",
+        "knob": "foc_green",
         "parameters": [
-            {"name":"OVERDRIVE", "id":0, "width": 33, "diameter":89},
-            {"name":"TONE", "id": 1, "width": 33, "diameter":89},
-            {"name":"LEVEL", "id": 2, "width": 32, "diameter":89}        
+            {
+                "name": "OVERDRIVE",
+                "id": 0,
+                "width": 33,
+                "diameter": 89
+            },
+            {
+                "name": "TONE",
+                "id": 1,
+                "width": 33,
+                "diameter": 89
+            },
+            {
+                "name": "LEVEL",
+                "id": 2,
+                "width": 32,
+                "diameter": 89
+            }
         ]
-    }    
+    }
 }
