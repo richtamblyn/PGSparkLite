@@ -70,6 +70,7 @@ $(document).ready(function () {
   $(document).on("dblclick", ".onoff_button", function(){
     var effect = $(this).data("id");    
     var expression = $(this).data("expression");
+    var effect_type = $(this).data("type");
     var enabled = true;
 
     if(expression === undefined || expression === false){
@@ -82,7 +83,7 @@ $(document).ready(function () {
       enabled = false;
     }
 
-    var data = { effect: effect, enabled: enabled}
+    var data = { effect: effect, enabled: enabled, effect_type: effect_type }
     socket.emit("set_expression_onoff", data);
   });
 

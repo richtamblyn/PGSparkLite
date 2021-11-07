@@ -293,7 +293,7 @@ def set_expression_param(data):
 
 @socketio.event
 def set_expression_onoff(data):        
-    amp.update_plugin(data[dict_effect], None, data[dict_enabled])
+    amp.update_plugin(data[dict_effect], None, data[dict_enabled], data[dict_effect_type])
 
 
 @socketio.event

@@ -171,11 +171,12 @@ class SparkAmpServer:
                 state = dict_On
             else:
                 state = dict_Off
-
-            self.turn_effect_onoff(get_amp_effect_name(self.plugin.name), state)
-
-            self.config.update_config(self.plugin.name, dict_turn_on_off, state)
-            self.config.last_call = dict_turn_on_off
+                        
+            self.socketio.emit(dict_update_onoff, {
+                dict_state: state,
+                dict_effect: self.plugin.name,
+                dict_effect_type: self.plugin.effect_type
+            })
     
 
     def send_preset(self, chain_preset):
@@ -291,14 +292,14 @@ class SparkAmpServer:
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})
 
-    def update_plugin(self, effect_name = None, param = None, enabled = None):                
+    def update_plugin(self, effect_name = None, param = None, enabled = None, effect_type = None):                
         if effect_name == None or enabled == False:
             # Initialise Default Volume Pedal
             amp = self.config.get_current_effect_by_type(dict_amp)        
             self.plugin = VolumePedal(amp[dict_Name])
         elif param == None:
             # Use the OnOff plugin for user selected effect
-            self.plugin = OnOff(effect_name)
+            self.plugin = OnOff(effect_name, effect_type)
         else:
             # Assign user selected effect and parameter
             self.plugin = CustomExpression(str(effect_name), param)
