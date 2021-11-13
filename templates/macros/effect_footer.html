@@ -1,0 +1,13 @@
+{% macro effect_footer(effect_name, effect_type, pedal_presets, preset_selected) %}
+    <select id="{{ effect_type }}_pedal_preset_selector" class="pedal_preset_selector" data-type="{{ effect_type }}" data-id="{{ effect_name }}">
+        <option value="0">No preset selected</option>
+        {% for preset in pedal_presets|sort(attribute='name') %}
+            <option value="{{ preset.id }}" {% if preset.id==preset_selected %} selected {% endif %}>{{ preset.name }}</option>
+        {% endfor %}
+    </select>
+    <div class="pedal_preset_buttons">
+        <button class="pedal_preset_button new_pedal_preset" data-type="{{ effect_type }}"><img title="New Preset" src="/img/icons/add-line.png" /></button>
+        <button class="pedal_preset_button save_pedal_preset" data-type="{{ effect_type }}"><img title="Save Preset" src="/img/icons/save-line.png" /></button>
+        <button class="pedal_preset_button delete_pedal_preset" data-type="{{ effect_type }}"><img title="Delete Preset" src="/img/icons/delete-bin-line.png" /></button>
+    </div>
+{% endmacro %}
