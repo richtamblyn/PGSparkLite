@@ -1,0 +1,49 @@
+{% macro effect_parameters(effect_id, parameters, parameter_values, knob) %}
+    {% for parameter in parameters %}
+    <div class="parameter" style="width:{{ parameter.width }}%; {% if parameter.margin %} margin-top:{{ parameter.margin }};{% endif %} {% if parameter.fontsize %} font-size:{{ parameter.fontsize }};{% endif %}">    
+        {% if parameter.hidden == "true" %}
+            <input type="hidden" id="{{ effect_id }}_{{ parameter.id }}" value="{{ parameter_values[parameter.id] }}"/>
+        {% elif parameter.switch == "true" %}
+            <div class="parameter_value">      
+                {% if parameter.name %}
+                    <span>{{ parameter.name }}</span><br/>
+                {% endif %}
+                <span>{{ parameter.on }}</span><br/>
+                <input id="{{ effect_id }}_{{ parameter.id }}" data-parameter="{{ parameter.id }}" class="input-switch" data-src="./img/knobs/switch_offon.png" 
+                data-diameter="50" data-id="{{ effect_id }}" type="checkbox" 
+                {% if parameter_values[parameter.id] == 1.0000 %} checked value="1.0000" {% else %} value="0.0000" {% endif %}/><br/>
+                <span>{{ parameter.off }}</span>
+            </div>
+        {% elif parameter.slide == "true" %}
+            <div class="parameter_label" style="margin-bottom:10px;">
+                {{ parameter.name }}
+            </div>
+            <div class="parameter_value" style="margin-bottom:10px;">                
+                <input class="input-slider" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-width="16" data-height="{{ parameter.height }}"        
+                data-fgcolor="gray" id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001" onchange="knobChangeEventHandler(this)"
+                    value="{{ parameter_values[parameter.id] }}" />        
+            </div>
+        {% elif parameter.radio == "true" %}
+            <div class="parameter_label" style="margin-bottom:10px;">
+                {{ parameter.name }}
+            </div>
+                {% for option in parameter.options %}
+                    <input type="radio" id="{{ option.id }}" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" name="{{ parameter.name }}" 
+                    {% if parameter_values[parameter.id] == option.value %} checked {% endif %}
+                    value="{{ option.value }}" onchange="knobChangeEventHandler(this)">
+                    <label for="{{ option.id }}">{{ option.label }}</label><br>
+                {% endfor %}
+        {% else %}
+            <div class="parameter_value">        
+                <input class="input-knob" type="range" data-parameter="{{ parameter.id }}" data-id="{{ effect_id }}" data-diameter="{{ parameter.diameter }}" 
+                data-src="./img/knobs/{{ knob }}.png" data-sprites="100"
+                    id="{{ effect_id }}_{{ parameter.id }}" min="0.0000" max="1" step="0.0001" onchange="knobChangeEventHandler(this)"
+                    value="{{ parameter_values[parameter.id] }}" />        
+            </div>
+            <div class="parameter_label">
+                {{ parameter.name }}
+            </div>    
+        {% endif %}
+    </div>
+    {% endfor %}
+{% endmacro %}

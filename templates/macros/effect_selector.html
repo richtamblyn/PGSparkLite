@@ -1,0 +1,8 @@
+{% macro effect_selector(effect_type, effects, effect_selected) %}
+    <select class="effect_selector" data-type="{{ effect_type }}" data-selected="{{ effect_selected }}"
+        id="{{ effect_type }}_selector">
+        {% for id, effect in effects.items() %}
+            <option value="{{ id }}" {% if id==effect_selected %} selected {% endif %}>{{ effect["name"] }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}

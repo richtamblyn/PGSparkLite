@@ -1,0 +1,15 @@
+{% macro chain_preset_selector(chain_presets, preset_selected) %}
+    <form id="chain_preset_form" action="/" method="POST">
+    <select name="preset_id" id="chain_preset_selector" class="chain_preset_selector">
+        <option value="0">No preset selected</option>
+        {% for preset in chain_presets|sort(attribute='name') %}
+            <option value="{{ preset.id }}" {% if preset.id==preset_selected %} selected {% endif %}>{{ preset.name }}</option>
+        {% endfor %}
+    </select>
+    <div class="chain_preset_buttons">
+        <button type="button" id="new_chain_preset" class="chain_preset_button"><img title="New Preset" src="/img/icons/add-line.png" /></button>
+        <button type="button" id="save_chain_preset" class="chain_preset_button"><img title="Save Preset" src="/img/icons/save-line.png" /></button>
+        <button type="button" id="delete_chain_preset" class="chain_preset_button"><img title="Delete Preset" src="/img/icons/delete-bin-line.png" /></button>
+    </div>
+    </form>
+{% endmacro %}

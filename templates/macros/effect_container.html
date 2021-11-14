@@ -1,0 +1,61 @@
+{% macro effect_container(type, effect, effect_list, selector, presets) %}
+
+    {% from 'macros/onoff_buttons.html' import onoff_buttons %}
+    {% from 'macros/effect_selector.html' import effect_selector %}
+    {% from 'macros/effect_parameters.html' import effect_parameters %}
+    {% from 'macros/effect_footer.html' import effect_footer %}
+
+    {% set effect_config = effect_list[effect["Name"]] %}
+    {% set topper = effect_config["topper"] %}
+    {% set badge = effect_config["badge"] %}
+    {% set background = effect_config["background"] %}
+    {% set color = effect_config["color"] %}
+    {% set knob = effect_config["knob"] %}
+    {% set name = effect["Name"] %}
+    {% set onoff = effect["OnOff"] %}
+    {% set visible = effect["visible"] %}
+    {% set preset_id = effect["preset_id"] %}
+    {% set invert_topper = effect_config["invert_topper"] %}
+
+    <div class="effect_header">
+        <div class="effect_title">
+            <div id="{{ type }}_showhidecontent" class="showhidecontent {% if onoff =='On' and visible %} collapse_open {% else %} collapse_closed {% endif %}" data-type="{{ type }}" data-id="{{ name }}"></div> {{ type }}
+        </div>    
+
+        {% if selector %}
+            {{ effect_selector(type, effect_list, name) }}
+        {% else %}
+            <div class="effect_selector_placeholder"></div>
+        {% endif %}
+
+        <div class="effect_onoff">
+            {{ onoff_buttons(type, name, onoff) }}
+        </div>    
+    </div>
+
+    <div id="{{ name }}_content" class="effect_content" {% if not visible or onoff == 'Off' %} style="display:none;" {% endif %}>
+        {% if topper|length and invert_topper != "true" %}
+            <div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
+                <span class="{{ badge }}">
+                    {{ effect_config["name"] }}
+                </span>
+            </div>
+        {% endif %}
+
+        <div class="effect_parameters" style="background:{{ background }}; color:{{ color }};" id="{{ name }}_parameters" data-num={{ effect["Parameters"]|length }}>
+            {{ effect_parameters(name, effect_config["parameters"], effect["Parameters"], knob)}}
+        </div>    
+
+        {% if topper|length and invert_topper == "true" %}
+            <div class="effect_topper" style="background-image:url('./img/toppers/{{ topper }}.jpg')">
+                <span class="{{ badge }}">
+                    {{ effect_config["name"] }}
+                </span>
+            </div>
+        {% endif %}
+
+        <div id="{{ type }}_footer" class="effect_footer">
+            {{ effect_footer(name, type, presets, preset_id)}}
+        </div>        
+    </div>
+{% endmacro %}

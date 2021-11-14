@@ -1,0 +1,8 @@
+{% macro onoff_buttons(effect_type, effect_id, state) %}
+    <div class="onoff_buttons">
+        <button data-type="{{ effect_type }}" data-id="{{ effect_id }}" id="{{ effect_id }}_on"
+            class="onoff_button {% if state == 'On' %} selected {% endif %}" value="On" type="submit">ON</button>
+        <button data-type="{{ effect_type }}" data-id="{{ effect_id }}" id="{{ effect_id }}_off"
+            class="onoff_button {% if state == 'Off' %} selected {% endif %}" value="Off" type="submit">OFF</button>
+    </div>
+{% endmacro %}
