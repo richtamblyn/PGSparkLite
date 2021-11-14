@@ -38,3 +38,7 @@ lib/plugins/__pycache__/manager.cpython-39.pyc
 lib/plugins/__pycache__/volume.cpython-39.pyc
 lib/plugins/__pycache__/custom.cpython-39.pyc
 lib/plugins/__pycache__/onoff.cpython-39.pyc
+__pycache__/app_events.cpython-39.pyc
+__pycache__/app_flask.cpython-39.pyc
+__pycache__/app_utilities.cpython-39.pyc
+__pycache__/app.cpython-39.pyc
