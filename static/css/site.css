@@ -37,6 +37,18 @@ a:visited {
   margin-left: 3px;
 }
 
+.col-left {
+  width:49%;
+  display:inline-block;
+  text-align: left;
+}
+
+.col-right {
+  width:49%;
+  display:inline-block;
+  text-align: right;
+}
+
 .collapse_open {
   background-image: url("/img/icons/arrow-down-s-line.png");
   height: 24px;
@@ -136,21 +148,6 @@ a:visited {
 .effect_selector_placeholder {
   width: 35%;
   display: inline-block;
-}
-
-.eject {
-  text-align: center;
-}
-
-.eject_button {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  font-size: large;
-  background-color: red;
-  color: white;
-  border: none;
-  border-radius: 8px;
 }
 
 .expression_onoff {
@@ -273,6 +270,17 @@ input[type="range"] {
   color: white;
 }
 
+.setting_container {  
+  background-color: #302f2f;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+.settings_header {
+  font-size: larger;
+  margin: 0px;
+}
+
 .set_bpm_button {
   padding: 10px;
   width: 23%;
@@ -284,6 +292,11 @@ input[type="range"] {
 
 .showhidecontent {
   vertical-align: bottom;
+}
+
+.tool_button {
+  padding-top:5px;
+  border-radius: 8px;
 }
 
 /* Absolute Center CSS Spinner */

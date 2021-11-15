@@ -92,15 +92,6 @@ def connect():
         return dict_ok
 
 
-@app.route('/debuglogging', methods=['POST'])
-def debug_logging():
-    if amp.debug_logging == True:
-        amp.debug_logging = False
-    else:
-        amp.debug_logging = True
-    return dict_ok
-
-
 @app.route('/chainpreset/delete', methods=['POST'])
 def delete_chain_preset():
     preset_id = int(request.form[dict_preset_id])
@@ -166,10 +157,17 @@ def index():
         config_request()
 
     return render_template('main.html',
+                           debug_logging=amp.debug_logging,
                            config=amp.config,
                            pedal_presets=get_pedal_presets(amp.config),
                            chain_presets=get_chain_presets(),
                            preset_selected=preset_id)
+
+
+@app.route('/settings', methods=['GET'])
+def settings():
+    return render_template('settings.html',
+                           debug_logging=amp.debug_logging)
 
 
 @app.route('/<path:path>')

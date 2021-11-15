@@ -19,6 +19,10 @@
     </div>
 </div>
 
+{% if debug_logging == True %}
+    <script src="/js/debug-log.js"></script>
+{% endif %}
+
 <div id="GATE_container" class="effect_container {% if config.gate["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("GATE", config.gate, config.gates, False, pedal_presets["GATE"]) }}
 </div>
@@ -40,8 +44,12 @@
 <div id="REVERB_container" class="effect_container {% if config.reverb["OnOff"] == 'Off' %} grayscale {% endif %}">
     {{ effect_container("REVERB", config.reverb, config.reverbs, True, pedal_presets["REVERB"]) }}
 </div>
-<div class="eject">
-    <button class="eject_button" id="eject">Eject</button>
-    <!-- <button id="reset-config">Reload Config</button>  -->
+<div class="system_tools">
+    <button class="tool_button" id="eject">
+        <img src="/img/icons/eject-line.png" title="Eject" />
+    </button>    
+    <button class="tool_button" id="settings" onclick="location.href='/settings'">
+        <img src="/img/icons/settings.png" title="Settings" />
+    </button>
 </div>
 {% endblock %}

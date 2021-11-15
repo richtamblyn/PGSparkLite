@@ -90,6 +90,14 @@ def store_amp_preset():
 
 
 @socketio.event
+def toggle_debug_logging(data):
+    if data[dict_state] == "True":
+        amp.debug_logging = True
+    else:
+        amp.debug_logging = False    
+
+
+@socketio.event
 def toggle_effect_onoff(data):
     effect_type = data[dict_effect_type]
     result = amp.toggle_effect_onoff(effect_type)

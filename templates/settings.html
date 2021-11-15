@@ -1,0 +1,24 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="setting_container">
+    <div class="col-left">
+        <p class="settings_header">Settings</p>
+    </div>
+    <div class="col-right">
+        <button class="tool_button" onclick="location.href='/'"><img src="/img/icons/back.png" title="Back" /></button>
+    </div>    
+</div>
+<br/>
+<div class="setting_container">
+    <div id="debug_logging">
+        <h3>Debug Logging</h3>    
+        On<input class="debug_logging" type="radio" value=True {% if debug_logging == True %} checked {% endif %}/>
+        Off<input class="debug_logging" type="radio" value=False {% if debug_logging == False %} checked {% endif %}/>
+    </div>
+    <div id="expression_pedal">
+        <h3>Disable Expression Pedal</h3>
+        On<input type="radio" name="expression_pedal" value=True />
+        Off<input type="radio" name="expression_pedal" value=False />    
+    </div>
+</div>
+{% endblock %}
