@@ -112,3 +112,10 @@ def turn_effect_onoff(data):
     amp.turn_effect_onoff(get_amp_effect_name(effect), state)
     amp.config.update_config(effect, dict_turn_on_off, state)
     amp.config.last_call = dict_turn_on_off
+
+@socketio.event
+def toggle_expression_pedal(data):
+    if data[dict_state] == "True":
+        amp.disable_expression_pedal = True
+    else:
+        amp.disable_expression_pedal = False  

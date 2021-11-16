@@ -156,18 +156,22 @@ def index():
         amp.config.last_call = dict_chain_preset
         config_request()
 
-    return render_template('main.html',
-                           debug_logging=amp.debug_logging,
-                           config=amp.config,
-                           pedal_presets=get_pedal_presets(amp.config),
+    return render_template('main.html',                           
                            chain_presets=get_chain_presets(),
+                           config=amp.config,
+                           debug_logging=amp.debug_logging,                           
+                           pedal_presets=get_pedal_presets(amp.config),                           
                            preset_selected=preset_id)
 
 
 @app.route('/settings', methods=['GET'])
 def settings():
+    if amp.connected == False:
+        return redirect(url_for('connect'))
+
     return render_template('settings.html',
-                           debug_logging=amp.debug_logging)
+                           debug_logging=amp.debug_logging,
+                           disable_expression_pedal=amp.disable_expression_pedal)
 
 
 @app.route('/<path:path>')

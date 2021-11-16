@@ -20,7 +20,7 @@ from lib.common import (dict_amp, dict_bias_reverb, dict_BPM, dict_bpm,
                         dict_connection_success, dict_delay, dict_drive,
                         dict_effect, dict_Effect, dict_effect_type, dict_gate,
                         dict_log_change_only, dict_message, dict_mod,
-                        dict_Name, dict_New_Effect, dict_new_effect,
+                        dict_Name, dict_name, dict_New_Effect, dict_new_effect,
                         dict_New_Preset, dict_Off, dict_Old_Effect,
                         dict_old_effect, dict_On, dict_OnOff, dict_parameter,
                         dict_Parameter, dict_pedal_chain_preset,
@@ -68,6 +68,9 @@ class SparkAmpServer:
 
         self.debug_logging = False
 
+        # Allow a user to disable the expression pedal temporarily via the web UI
+        self.disable_expression_pedal = False
+
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
         success = self.comms.send_it(cmd[0])
@@ -86,7 +89,8 @@ class SparkAmpServer:
         if not success:
             self.connection_lost_event()
 
-        self.log_debug_message("change_effect - old: " + old_effect + " new: " + new_effect)
+        self.log_debug_message("change_effect - old: " +
+                               old_effect + " new: " + new_effect)
 
         # Have they unloaded effect that was controlled by expression?
         if self.plugin.name == old_effect:
@@ -100,7 +104,8 @@ class SparkAmpServer:
         if not success:
             self.connection_lost_event()
 
-        self.log_debug_message("change parameter: effect: " + effect + " parameter: " + str(parameter) + " value: " + str(value))
+        self.log_debug_message("change parameter: effect: " + effect +
+                               " parameter: " + str(parameter) + " value: " + str(value))
 
     def connect(self):
         try:
@@ -144,7 +149,7 @@ class SparkAmpServer:
     def log_debug_message(self, message):
         if self.debug_logging == True:
             self.socketio.emit(dict_update_debug_log,
-                                {dict_message: message})
+                               {dict_message: message})
 
     def initialise(self):
         return self.comms.send_state_request()
@@ -163,7 +168,13 @@ class SparkAmpServer:
 
     def expression_pedal(self, value):
 
-        self.log_debug_message("expression_pedal - value received" + str(value))
+        if self.disable_expression_pedal == True:
+            self.log_debug_message(
+                "expression_pedal - value received but is disabled")
+            return
+
+        self.log_debug_message(
+            "expression_pedal - value received" + str(value))
 
         if self.plugin.type == "param":
             self.log_debug_message("expression_pedal - plugin.type = param")
@@ -171,8 +182,8 @@ class SparkAmpServer:
             if params == None:
                 self.log_debug_message("expression_pedal - No params returned")
                 return
-            
-            for param in params:                
+
+            for param in params:
                 self.change_effect_parameter(get_amp_effect_name(
                     self.plugin.name), param[0], param[1])
 
@@ -187,10 +198,10 @@ class SparkAmpServer:
         if self.plugin.type == "onoff":
             self.log_debug_message("expression_pedal - plugin.type = onoff")
             isOn = self.plugin.calculate_state(value)
-            if isOn:                
+            if isOn:
                 state = dict_On
                 self.log_debug_message("expression_pedal - isOn = True")
-            else:                
+            else:
                 state = dict_Off
                 self.log_debug_message("expression_pedal - isOn = False")
 
@@ -205,6 +216,8 @@ class SparkAmpServer:
         self.log_debug_message("expression_pedal - plugin.type not found")
 
     def send_preset(self, chain_preset):
+        self.log_debug_message("send_preset - " + chain_preset.name)
+
         chain_preset.preset = self.config.preset
         spark_preset = SparkPreset(chain_preset, type=dict_chain_preset)
         preset = self.msg.create_preset(spark_preset.json())
@@ -229,6 +242,8 @@ class SparkAmpServer:
         change_user_preset = self.msg.change_hardware_preset(0x7f)
 
         self.bt_sock.send(change_user_preset[0])
+
+        self.log_debug_message("set_bpm - value " + str(bpm))
 
     def store_amp_preset(self):
         spark_preset = SparkPreset(self.config)
@@ -278,6 +293,9 @@ class SparkAmpServer:
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
         self.config.last_call = dict_turn_on_off
 
+        self.log_debug_message(
+            "toggle_effect_onoff - effect_type: " + effect_type + " state: " + state)
+
         return {dict_effect: effect_name,
                 dict_state: state,
                 dict_effect_type: effect_type}
@@ -285,6 +303,9 @@ class SparkAmpServer:
     def turn_effect_onoff(self, effect, state):
         cmd = self.msg.turn_effect_onoff(effect, state)
         self.comms.send_it(cmd[0])
+
+        self.log_debug_message(
+            "turn_effect_onoff - effect: " + effect + " state: " + state)
 
     def request_preset(self, hw_preset):
         self.comms.send_preset_request(hw_preset)

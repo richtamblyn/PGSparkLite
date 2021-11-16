@@ -1,24 +1,33 @@
-{% extends 'layout.html' %}
-{% block content %}
+{% extends 'layout.html' %} {% block content %}
+
+<h1>Settings</h1>
+
 <div class="setting_container">
-    <div class="col-left">
-        <p class="settings_header">Settings</p>
-    </div>
-    <div class="col-right">
-        <button class="tool_button" onclick="location.href='/'"><img src="/img/icons/back.png" title="Back" /></button>
-    </div>    
+  <h3>Debug Logging</h3>
+  <p>
+    Trying to track down an awkward bug? Switch on the Debug Log window to help
+    your search.
+  </p>
+  On<input class="debug_logging" type="radio" value=True {% if debug_logging ==
+  True %} checked {% endif %}/> Off<input class="debug_logging" type="radio"
+  value=False {% if debug_logging == False %} checked {% endif %}/>
 </div>
-<br/>
+<br />
 <div class="setting_container">
-    <div id="debug_logging">
-        <h3>Debug Logging</h3>    
-        On<input class="debug_logging" type="radio" value=True {% if debug_logging == True %} checked {% endif %}/>
-        Off<input class="debug_logging" type="radio" value=False {% if debug_logging == False %} checked {% endif %}/>
-    </div>
-    <div id="expression_pedal">
-        <h3>Disable Expression Pedal</h3>
-        On<input type="radio" name="expression_pedal" value=True />
-        Off<input type="radio" name="expression_pedal" value=False />    
-    </div>
+  <h3>Disable Expression Pedal</h3>
+  <p>
+    Did you forget your expression pedal? Is the ADC making the Amp volume jump
+    all over the place because the pedal isn't plugged in? Disable the
+    expression pedal temporarily using this setting.
+  </p>
+  On<input class="disable_expression_pedal" type="radio" name="expression_pedal"
+  value=True {% if disable_expression_pedal == True %} checked {% endif %} />
+  Off<input class="disable_expression_pedal" type="radio"
+  name="expression_pedal" value=False {% if disable_expression_pedal == False %}
+  checked {% endif %}/>
 </div>
+<br />
+<button class="tool_button" onclick="location.href='/'">
+  <img src="/img/icons/back.png" title="Back" />
+</button>
 {% endblock %}

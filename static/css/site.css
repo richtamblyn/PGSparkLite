@@ -276,9 +276,8 @@ input[type="range"] {
   border-radius: 6px;
 }
 
-.settings_header {
-  font-size: larger;
-  margin: 0px;
+.setting_container h3 {  
+  margin: 5px;
 }
 
 .set_bpm_button {
