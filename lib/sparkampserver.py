@@ -165,7 +165,7 @@ class SparkAmpServer:
 
         self.log_debug_message("expression_pedal - value received" + str(value))
 
-        if self.plugin.type == "params":
+        if self.plugin.type == "param":
             self.log_debug_message("expression_pedal - plugin.type = params")
             params = self.plugin.calculate_params(value)
             if params == None:
