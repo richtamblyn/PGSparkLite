@@ -149,7 +149,7 @@ class SparkAmpServer:
 
     def expression_pedal(self, value):                
 
-        if self.plugin.type == "params":
+        if self.plugin.type == "param":
             params = self.plugin.calculate_params(value)
             if params == None:
                 return
