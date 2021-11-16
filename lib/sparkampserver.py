@@ -86,8 +86,11 @@ class SparkAmpServer:
         if not success:
             self.connection_lost_event()
 
+        self.log_debug_message("change_effect - old: " + old_effect + " new: " + new_effect)
+
         # Have they unloaded effect that was controlled by expression?
         if self.plugin.name == old_effect:
+            self.log_debug_message("change_effect - update_plugin")
             self.update_plugin(enabled=False)
 
     def change_effect_parameter(self, effect, parameter, value):
@@ -160,12 +163,18 @@ class SparkAmpServer:
 
     def expression_pedal(self, value):
 
+        self.log_debug_message("expression_pedal - value received" + str(value))
+
         if self.plugin.type == "params":
+            self.log_debug_message("expression_pedal - plugin.type = params")
             params = self.plugin.calculate_params(value)
             if params == None:
+                self.log_debug_message("expression_pedal - No params returned")
                 return
 
-            for param in params:
+            self.log_debug_message("expression_pedal - Params:" + params)
+
+            for param in params:                
                 self.change_effect_parameter(get_amp_effect_name(
                     self.plugin.name), param[0], param[1])
 
@@ -178,17 +187,24 @@ class SparkAmpServer:
             return
 
         if self.plugin.type == "onoff":
+            self.log_debug_message("expression_pedal - plugin.type = onoff")
             isOn = self.plugin.calculate_state(value)
-            if isOn:
+            if isOn:                
                 state = dict_On
-            else:
+                self.log_debug_message("expression_pedal - isOn = True")
+            else:                
                 state = dict_Off
+                self.log_debug_message("expression_pedal - isOn = False")
 
             self.socketio.emit(dict_update_onoff, {
                 dict_state: state,
                 dict_effect: self.plugin.name,
                 dict_effect_type: self.plugin.effect_type
             })
+
+            return
+
+        self.log_debug_message("expression_pedal - plugin.type not found")
 
     def send_preset(self, chain_preset):
         chain_preset.preset = self.config.preset
