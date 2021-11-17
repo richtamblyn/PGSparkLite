@@ -2,6 +2,11 @@
 $(document).ready(function () {
   var socket = io();
 
+  // Debug logging
+  socket.on("update_debug_log", function(data){
+    debug.log(data.message, 7);
+  });
+  
   // Connection state
   socket.on("connection-message", function (data) {
     $("#connection-log").html("<p>" + data.message + "</p>");

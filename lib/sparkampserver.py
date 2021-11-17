@@ -20,17 +20,17 @@ from lib.common import (dict_amp, dict_bias_reverb, dict_BPM, dict_bpm,
                         dict_connection_success, dict_delay, dict_drive,
                         dict_effect, dict_Effect, dict_effect_type, dict_gate,
                         dict_log_change_only, dict_message, dict_mod,
-                        dict_Name, dict_New_Effect, dict_new_effect,
+                        dict_Name, dict_name, dict_New_Effect, dict_new_effect,
                         dict_New_Preset, dict_Off, dict_Old_Effect,
                         dict_old_effect, dict_On, dict_OnOff, dict_parameter,
                         dict_Parameter, dict_pedal_chain_preset,
                         dict_pedal_status, dict_preset, dict_preset_corrupt,
                         dict_Preset_Number, dict_preset_stored,
                         dict_refresh_onoff, dict_reverb, dict_state,
-                        dict_turn_on_off, dict_update_effect,
-                        dict_update_onoff, dict_update_parameter,
-                        dict_update_preset, dict_value, dict_Value,
-                        get_amp_effect_name, get_js_effect_name)
+                        dict_turn_on_off, dict_update_debug_log,
+                        dict_update_effect, dict_update_onoff,
+                        dict_update_parameter, dict_update_preset, dict_value,
+                        dict_Value, get_amp_effect_name, get_js_effect_name)
 from lib.external.SparkClass import SparkMessage
 from lib.external.SparkCommsClass import SparkComms
 from lib.external.SparkReaderClass import SparkReadMessage
@@ -38,8 +38,8 @@ from lib.messages import (msg_amp_connected, msg_amp_preset_stored,
                           msg_connection_failed, msg_preset_error,
                           msg_retrieving_config)
 from lib.plugins.custom import CustomExpression
-from lib.plugins.volume import VolumePedal
 from lib.plugins.onoff import OnOff
+from lib.plugins.volume import VolumePedal
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 from lib.sparkpreset import SparkPreset
@@ -66,6 +66,11 @@ class SparkAmpServer:
 
         self.plugin = None
 
+        self.debug_logging = False
+
+        # Allow a user to disable the expression pedal temporarily via the web UI
+        self.disable_expression_pedal = False
+
     def change_to_preset(self, hw_preset):
         cmd = self.msg.change_hardware_preset(hw_preset)
         success = self.comms.send_it(cmd[0])
@@ -75,6 +80,8 @@ class SparkAmpServer:
         else:
             self.request_preset(hw_preset)
 
+        self.log_debug_message("change_to_preset - value " + str(hw_preset))
+
     def change_effect(self, old_effect, new_effect):
         cmd = self.msg.change_effect(old_effect, new_effect)
         success = self.comms.send_it(cmd[0])
@@ -82,8 +89,12 @@ class SparkAmpServer:
         if not success:
             self.connection_lost_event()
 
+        self.log_debug_message("change_effect - old: " +
+                               old_effect + " new: " + new_effect)
+
         # Have they unloaded effect that was controlled by expression?
         if self.plugin.name == old_effect:
+            self.log_debug_message("change_effect - update_plugin")
             self.update_plugin(enabled=False)
 
     def change_effect_parameter(self, effect, parameter, value):
@@ -92,6 +103,9 @@ class SparkAmpServer:
 
         if not success:
             self.connection_lost_event()
+
+        self.log_debug_message("change parameter: effect: " + effect +
+                               " parameter: " + str(parameter) + " value: " + str(value))
 
     def connect(self):
         try:
@@ -132,10 +146,16 @@ class SparkAmpServer:
             self.socketio.emit(dict_connection_message,
                                {dict_message: msg_connection_failed})
 
+    def log_debug_message(self, message):
+        if self.debug_logging == True:
+            self.socketio.emit(dict_update_debug_log,
+                               {dict_message: message})
+
     def initialise(self):
         return self.comms.send_state_request()
 
     def eject(self):
+        self.config = None
         self.listener.stop()
 
         # Send a final request to the amp for the Listener thread to realise it has to stop listening
@@ -145,17 +165,29 @@ class SparkAmpServer:
         self.bt_sock.close()
 
         self.connected = False
-    
 
-    def expression_pedal(self, value):                
+    def expression_pedal(self, value):
+
+        if self.disable_expression_pedal == True:
+            self.log_debug_message(
+                "expression_pedal - value received but is disabled")
+            return
+
+        self.log_debug_message(
+            "expression_pedal - value received: " + str(value))
 
         if self.plugin.type == "param":
+
+            self.log_debug_message("expression_pedal - plugin.type = param")
+
             params = self.plugin.calculate_params(value)
             if params == None:
+                self.log_debug_message("expression_pedal - No params returned")
                 return
 
             for param in params:
-                self.change_effect_parameter(get_amp_effect_name(self.plugin.name), param[0], param[1])
+                self.change_effect_parameter(get_amp_effect_name(
+                    self.plugin.name), param[0], param[1])
 
                 self.socketio.emit(dict_update_parameter, {
                     dict_effect: self.plugin.name,
@@ -166,20 +198,28 @@ class SparkAmpServer:
             return
 
         if self.plugin.type == "onoff":
+            self.log_debug_message("expression_pedal - plugin.type = onoff")
             isOn = self.plugin.calculate_state(value)
             if isOn:
                 state = dict_On
+                self.log_debug_message("expression_pedal - isOn = True")
             else:
                 state = dict_Off
-                        
+                self.log_debug_message("expression_pedal - isOn = False")
+
             self.socketio.emit(dict_update_onoff, {
                 dict_state: state,
                 dict_effect: self.plugin.name,
                 dict_effect_type: self.plugin.effect_type
             })
-    
+
+            return
+
+        self.log_debug_message("expression_pedal - plugin.type not found")
 
     def send_preset(self, chain_preset):
+        self.log_debug_message("send_preset - " + chain_preset.name)
+
         chain_preset.preset = self.config.preset
         spark_preset = SparkPreset(chain_preset, type=dict_chain_preset)
         preset = self.msg.create_preset(spark_preset.json())
@@ -204,6 +244,8 @@ class SparkAmpServer:
         change_user_preset = self.msg.change_hardware_preset(0x7f)
 
         self.bt_sock.send(change_user_preset[0])
+
+        self.log_debug_message("set_bpm - value " + str(bpm))
 
     def store_amp_preset(self):
         spark_preset = SparkPreset(self.config)
@@ -240,7 +282,7 @@ class SparkAmpServer:
             effect = self.config.amp
 
         if effect_name == None:
-            get_js_effect_name(effect[dict_Name])            
+            get_js_effect_name(effect[dict_Name])
 
         state = dict_Off
 
@@ -251,7 +293,10 @@ class SparkAmpServer:
             get_amp_effect_name(effect[dict_Name]), state)
 
         self.config.update_config(effect[dict_Name], dict_turn_on_off, state)
-        self.config.last_call = dict_turn_on_off        
+        self.config.last_call = dict_turn_on_off
+
+        self.log_debug_message(
+            "toggle_effect_onoff - effect_type: " + effect_type + " state: " + state)
 
         return {dict_effect: effect_name,
                 dict_state: state,
@@ -261,13 +306,16 @@ class SparkAmpServer:
         cmd = self.msg.turn_effect_onoff(effect, state)
         self.comms.send_it(cmd[0])
 
+        self.log_debug_message(
+            "turn_effect_onoff - effect: " + effect + " state: " + state)
+
     def request_preset(self, hw_preset):
         self.comms.send_preset_request(hw_preset)
 
     ##################
     # Utility Methods
     ##################
-    
+
     def get_pedal_status(self):
         if self.config == None:
             return {}
@@ -292,10 +340,10 @@ class SparkAmpServer:
         self.socketio.emit(dict_pedal_status, self.get_pedal_status())
         self.socketio.emit(dict_connection_success, {'url': '/'})
 
-    def update_plugin(self, effect_name = None, param = None, enabled = None, effect_type = None):                
+    def update_plugin(self, effect_name=None, param=None, enabled=None, effect_type=None):
         if effect_name == None or enabled == False:
             # Initialise Default Volume Pedal
-            amp = self.config.get_current_effect_by_type(dict_amp)        
+            amp = self.config.get_current_effect_by_type(dict_amp)
             self.plugin = VolumePedal(amp[dict_Name])
         elif param == None:
             # Use the OnOff plugin for user selected effect
@@ -303,7 +351,6 @@ class SparkAmpServer:
         else:
             # Assign user selected effect and parameter
             self.plugin = CustomExpression(str(effect_name), param)
-        
 
     ##################
     # Event Handling
@@ -393,7 +440,7 @@ class SparkAmpServer:
                 effect = self.config.reverb[dict_Name]
             else:
                 effect = get_js_effect_name(data[dict_Effect])
-            
+
             parameter = data[dict_Parameter]
             value = data[dict_Value]
 
