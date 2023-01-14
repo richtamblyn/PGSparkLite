@@ -51,6 +51,7 @@ class SparkAmpServer:
         self.connected = False
         self.msg = SparkMessage()
         self.bt_sock = None
+        self.listener = None
         self.comms = None
         self.config = None
 
@@ -67,6 +68,8 @@ class SparkAmpServer:
         self.plugin = None
 
         self.debug_logging = False
+
+        self.connect_in_progress = False
 
         # Allow a user to disable the expression pedal temporarily via the web UI
         self.disable_expression_pedal = False
@@ -108,6 +111,20 @@ class SparkAmpServer:
                                " parameter: " + str(parameter) + " value: " + str(value))
 
     def connect(self):
+
+        if self.connect_in_progress:
+            return
+        self.connect_in_progress = True
+
+        if self.listener:
+            self.listener.stop()
+
+        if self.bt_sock:
+            try:
+                self.bt_sock.close()
+            except:
+                print('self.bt_sock.close() failed')
+
         try:
             bt_devices = bluetooth.discover_devices(lookup_names=True)
 
@@ -142,9 +159,12 @@ class SparkAmpServer:
                                {dict_message: msg_amp_connected})
 
         except Exception as e:
-            print(e)
+            self.connect_in_progress = False
+            print('connect error',e)
             self.socketio.emit(dict_connection_message,
                                {dict_message: msg_connection_failed})
+        else:
+            self.connect_in_progress = False
 
     def log_debug_message(self, message):
         if self.debug_logging == True:
