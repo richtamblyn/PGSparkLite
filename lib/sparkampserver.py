@@ -43,7 +43,7 @@ from lib.plugins.volume import VolumePedal
 from lib.sparkdevices import SparkDevices
 from lib.sparklistener import SparkListener
 from lib.sparkpreset import SparkPreset
-
+import config
 
 class SparkAmpServer:
     def __init__(self, socketio):
@@ -126,15 +126,16 @@ class SparkAmpServer:
                 print('self.bt_sock.close() failed')
 
         try:
-            bt_devices = bluetooth.discover_devices(lookup_names=True)
+            address = config.amp_bt_address
+            if not address:
+                bt_devices = bluetooth.discover_devices(lookup_names=True)
 
-            address = None
-
-            for addr, bt_name in bt_devices:
-                if bt_name == 'Spark 40 Audio':
-                    address = addr
+                for addr, bt_name in bt_devices:
+                    if bt_name == 'Spark 40 Audio':
+                        address = addr
 
             self.bt_sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+            print('connecing to address', address)
             self.bt_sock.connect((address, 2))
 
             self.reader = SparkReadMessage()
