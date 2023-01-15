@@ -123,7 +123,7 @@ class SparkComms:
                     try:
                         num_chunks = blk[pos+7]
                         this_chunk = blk[pos+8]
-                        if this_chunk + 1 == num_chunks:
+                        if this_chunk==len(resp) and this_chunk + 1 == num_chunks:
                             last_block = True
                     except:
                         pass
