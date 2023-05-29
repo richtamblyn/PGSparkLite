@@ -2,8 +2,11 @@
     <form id="chain_preset_form" action="/" method="POST">
     <select name="preset_id" id="chain_preset_selector" class="chain_preset_selector">
         <option value="0">No preset selected</option>
-        {% for preset in chain_presets|sort(attribute='name') %}
-            <option value="{{ preset.id }}" {% if preset.id==preset_selected %} selected {% endif %}>{{ preset.name }}</option>
+        {% for preset in chain_presets %}
+            <option value="{{ preset.id }}" {% if preset.id==preset_selected %} selected {% endif %}>
+                {{ loop.index }}
+                {{ preset.name }}
+            </option>
         {% endfor %}
     </select>
     <div class="chain_preset_buttons">
