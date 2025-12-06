@@ -11,6 +11,7 @@ sudo apt-get install -y \
     libbluetooth-dev \
     bluez \
     libdbus-1-dev \
-    libglib2.0-dev
+    libglib2.0-dev \
+    git-lfs
 
 echo "System dependencies installation completed!"
