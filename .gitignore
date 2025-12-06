@@ -5,3 +5,4 @@ lib/plugins/__pycache__/*
 .vscode/settings.json
 pgsparklite.db
 __pycache__/*
+venv/*
