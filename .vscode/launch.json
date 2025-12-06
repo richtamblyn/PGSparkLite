@@ -6,11 +6,12 @@
     "configurations": [
         {
             "name": "PGSparkLite : Debug",
-            "type": "python",
+            "type": "debugpy",
             "request": "launch",
-            "program": "app.py",
+            "program": "${workspaceFolder}/app.py",
             "console": "integratedTerminal",
-            "justMyCode": false
+            "justMyCode": false,
+            "python": "${command:python.interpreterPath}"
         }
     ]
 }
